@@ -54,13 +54,13 @@
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #d77f81;
+    background: #EF0000;
     border-radius: 40px;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #d77f81;
+    background: #EF0000;
   }
 }
 

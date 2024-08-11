@@ -47,7 +47,7 @@ export default function ResetPasswordLink() {
 
                     const sessionRes = await makeRequest({
                         method: 'GET',
-                        url: API.session,
+                        url: '',
                         headers: {
                             Authorization: `Bearer ${loginData.token}`,
                         },

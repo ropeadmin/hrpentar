@@ -1,6 +1,7 @@
 "use client"
 
 import MyTextField from "@/app/components/Fields/MyTextField";
+import Stepper from "@/app/components/Steppper/Stepper";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
 import useRequest from "@/services/request.service";
@@ -118,7 +119,10 @@ export default function Step1() {
 
             <div className='bg-white flex flex-col justify-center items-center mx-auto w-full min-h-screen px-28'>
                 <form className="w-[100%]" onSubmit={handleSubmit}>
-                    <div className="mb-10">
+                    <div className="flex items-center mx-auto w-full">
+                        <Stepper />
+                    </div>
+                    <div className="my-7">
                         <h1 className="text-[#0f1625] text-[28px] text-start font-bold font-['Cabinet Grotesk'] leading-loose">Tell us about your company</h1>
                         <div><span className="text-[#313a48] text-base font-normal font-['Cabinet Grotesk'] leading-tight">Please provide details about your business below.</span></div>
                     </div>

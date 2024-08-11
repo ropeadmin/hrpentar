@@ -11,7 +11,7 @@ import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function ResetPassword() {
+export default function VerifyEmail() {
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
@@ -122,37 +122,19 @@ export default function ResetPassword() {
                 </div>
             </div>
 
-            <div className='bg-white flex flex-col justify-center items-center mx-auto w-full min-h-screen px-28'>
+            <div className='bg-white mx-auto w-full min-h-screen px-28 flex flex-col justify-center items-center'>
 
-                <form className="w-[90%]" onSubmit={handleSubmit}>
-                    <div className="mb-10">
-                        <h1 className="text-[#0f1625] text-[28px] text-start font-bold font-['Cabinet Grotesk'] leading-loose">Forgot your password</h1>
-                        <div className="text-[#0f1625] text-base font-normal font-['Cabinet Grotesk'] leading-tight">Enter your email address and we’ll send you password reset instructions.</div>
+                <div className="w-full flex flex-col justify-center items-start text-start">
+                    <img src='/icons/email.svg' width={100} height={100} />
+                    <div className="mt-7">
+                        <h1 className="text-[#0f1625] text-[32px]  font-bold font-['Cabinet Grotesk'] leading-loose">Verify email</h1>
+                        <div className=""><span className="text-[#313a48] text-base font-medium font-['Cabinet Grotesk'] leading-tight">An email has been sent to </span><span className="text-[#0f1625] text-base font-bold font-['Cabinet Grotesk'] leading-tight">kams********@mactay.com</span><span className="text-[#0f1625] text-base font-medium font-['Cabinet Grotesk'] leading-tight"> </span><span className="text-[#313a48] text-base font-medium font-['Cabinet Grotesk'] leading-tight">with a link to verify your account.</span></div>
+                        <div className="text-[#313a48] mt-7 text-base font-medium font-['Cabinet Grotesk'] leading-tight">Check your email for the verification, if you did not get the mail please check your spam.</div>
+                        <div className="text-[#313a48] mt-10 text-base font-medium font-['Cabinet Grotesk'] leading-tight">Didn’t get a mail?</div>
                     </div>
-                    <div className="space-y-5">
-                        <MyTextField
-                            id="email"
-                            name="email"
-                            label="Work Email"
-                            placeholder="Work email address"
-                            value={formData.email}
-                            type="email"
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <button type='submit' className="text-white bg-[#0f1625] w-full py-4 rounded-[8px] text-base font-medium mt-10">
-                        {isLoading ? 'Sending...' : 'Send reset link'}
-                    </button>
-                </form>
-
-                <div className="flex justify-end mt-4">
-                    <Link
-                        href={"/auth/signin"}
-                        className="text-[#ef0000] text-sm font-[500] hover:underline underline-offset-4"
-                    >
-                        Back to login
-                    </Link>
+                    <button className="text-[#0f1625] border w-fit px-7 py-3 rounded-[8px] text-base font-medium mt-7">
+                    Resend mail
+                </button>
                 </div>
             </div>
         </div>
