@@ -10,18 +10,18 @@ import SplashScreen from './components/SplashScreen/SplashScreen';
 const onest = Onest({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PentaHR | ...",
+  title: "PentaHR",
   description: "PentaHR",
   keywords: "PentaHR",
   openGraph: {
-    title: "Merch Store | Create Your Online Merch Store",
-    description: "Merch Store empowers you to create and manage your own online merchandise store with ease. Offer a wide range of customizable products to your audience, backed by fast and reliable service.",
-    url: "https://merchstore-v2.vercel.app",
-    siteName: "Merch Store",
+    title: "",
+    description: "",
+    url: "",
+    siteName: "PentaHR",
     images: [
       {
-        url: "https://res.cloudinary.com/dtuims4ku/image/upload/v1722088055/merchstore_ubwjat.png",
-        alt: "Merch Store Logo",
+        url: "",
+        alt: "",
       },
     ],
     type: "website",
