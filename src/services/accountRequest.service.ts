@@ -9,7 +9,7 @@ import {
   profileLogoutAction,
   profileUpdateAction,
 } from "../store/profile.slice";
-import API, { API_AUTH_HOST } from "@/constants/api.constant";
+import API, { API_ACCOUNT_HOST } from "@/constants/api.constant";
 import { useSnackbar } from "notistack";
 
 interface IRequestState<T> {
@@ -24,7 +24,7 @@ interface IRequestConfig extends AxiosRequestConfig {
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 }
 
-const useRequest = () => {
+const useAccountRequest = () => {
   const navigate = useRouter();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -57,7 +57,7 @@ const useRequest = () => {
       setRequestState({ isLoading: true, isSuccess: false, isError: false });
 
       const axiosInstance = axios.create({
-        baseURL: API_AUTH_HOST,
+        baseURL: API_ACCOUNT_HOST,
         cancelToken: source.token,
       });
 
@@ -172,4 +172,4 @@ const useRequest = () => {
   return { makeRequest, ...requestState };
 };
 
-export default useRequest;
+export default useAccountRequest;

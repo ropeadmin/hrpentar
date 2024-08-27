@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import * as yup from 'yup';
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-export const isEmpty = (string: string) => string === '';
+export const isEmpty = (string: string) => string === "";
 
-export const parseUrl = (link: string) => (link.endsWith('/') ? link : `${link}/`);
+export const parseUrl = (link: string) =>
+  link.endsWith("/") ? link : `${link}/`;
 
-export const isUrl = (value: string) => yup.string().url().isValidSync(value);
-export const isBaseUrl = (value: string) => value.endsWith('https://') || value.endsWith('http://');
+export const isBaseUrl = (value: string) =>
+  value.endsWith("https://") || value.endsWith("http://");
 
 export const convertImageToBase64 = async (file: File): Promise<string> =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
       const dataUrl = reader.result as string;
-      const base64String = dataUrl.split(',')[1];
+      const base64String = dataUrl.split(",")[1];
       resolve(base64String);
     };
     reader.onerror = reject;
@@ -28,7 +28,7 @@ export const convertUrlToBase64 = async (url: string): Promise<string> => {
     const reader = new FileReader();
     reader.onload = () => {
       const dataUrl = reader.result as string;
-      const base64String = dataUrl.split(',')[1];
+      const base64String = dataUrl.split(",")[1];
       resolve(base64String);
     };
     reader.onerror = reject;
@@ -36,20 +36,19 @@ export const convertUrlToBase64 = async (url: string): Promise<string> => {
   });
 };
 
-
 export const goToLink = (link: string) => {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = link;
   // a.target = '_blank';
-  a.rel = 'noopener nonreferrer';
+  a.rel = "noopener nonreferrer";
   a.click();
 };
 
 export const goToLinkNewTab = (link: string) => {
-  const a = document.createElement('a');
-  a.target = '_blank';
+  const a = document.createElement("a");
+  a.target = "_blank";
   a.href = link;
-  a.rel = 'noopener nonreferrer';
+  a.rel = "noopener nonreferrer";
   a.click();
 };
 
@@ -58,7 +57,7 @@ export const goToLinkNewTab = (link: string) => {
  * @param values An object that holds key value pairs
  * @returns an object that is sanitized.
  */
- export const sanitiseFormData = (values: { [x: string]: any }) => {
+export const sanitiseFormData = (values: { [x: string]: any }) => {
   const keys = Object.keys(values);
   const newValues: { [x: string]: any } = {}; // Define the type of newValues explicitly
   // eslint-disable-next-line no-restricted-syntax
@@ -69,20 +68,20 @@ export const goToLinkNewTab = (link: string) => {
   return newValues;
 };
 
-
 export const getEventImage = (images: string[]) => {
   const defaultImage =
-    'https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+    "https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
   return (
     images.find(
-      (image) => image.startsWith('http://res.cloudinary.com') || image.startsWith('https://res.cloudinary.com')
+      (image) =>
+        image.startsWith("http://res.cloudinary.com") ||
+        image.startsWith("https://res.cloudinary.com")
     ) || defaultImage
   );
 };
 
 export const roundToNearest10 = (num: number) => Math.ceil(num / 10) * 10;
-
 
 /**
  * This function paginates an array of data and returns a subset based on the current page and items per page.
@@ -91,7 +90,11 @@ export const roundToNearest10 = (num: number) => Math.ceil(num / 10) * 10;
  * @param perPage The number of items per page
  * @returns An array containing the subset of data for the current page
  */
- export const usePagination = (data: any[], initialPage = 0, itemsPerPage = 5) => {
+export const usePagination = (
+  data: any[],
+  initialPage = 0,
+  itemsPerPage = 5
+) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const paginateData = () => {
@@ -125,99 +128,51 @@ export const parseJson = (value: any) => {
   }
 };
 
-
 export const copyToClipboard = (text: any) => {
-    navigator.clipboard.writeText(text)
-      .then(() => {
-        toast.success(`Copied to clipboard!`);
-      })
-      .catch((err) => {
-        console.error('Failed to copy:', err);
-        toast.error('Failed to copy');
-      });
-  };
-
-
-  export const slugify = (text: any) => {
-    return text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w\-]+/g, "")
-      .replace(/\-\-+/g, "-")
-      .replace(/^-+/, "")
-      .replace(/-+$/, "");
-  };
-
-  export const formatStoreName = (fullName: string) => {
-    if (!fullName) return '';
-    const firstName = fullName.split(' ')[0];
-    return `${firstName}'s Store`;
-  };
-
-  export const sumArr = (arr: any[], key: string | number) => {
-    let sum = arr.reduce(function (prev: any, cur: { [x: string]: any; }) {
-      return Number(prev) + Number(cur[key]);
-    }, 0);
-    return sum;
-  };
-
-
-  export const toTitleCase = (str: string) => {
-    return str.replace(/\w\S*/g, function (txt: string) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      toast.success(`Copied to clipboard!`);
+    })
+    .catch((err) => {
+      console.error("Failed to copy:", err);
+      toast.error("Failed to copy");
     });
-  };
+};
 
-  export const formatAddOns = async (addOns: any, currentQuantity: number, currentCost: number, sizeArr: any) => {
-    let temp: any = {};
+export const slugify = (text: any) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+};
 
-    Object.keys(addOns).forEach((key: any, index) => {
-      if (key === "size") {
-        if (sizeArr && sizeArr.length > 0) {
-          temp = {
-            ...temp,
-            Size: sizeArr
-              .filter((s: { quantity: number; }) => s.quantity !== 0)
-              .map((a: { name: any; quantity: any; price: any; }) => {
-                return { name: a.name, quantity: a.quantity, price: a.price };
-              }),
-          };
-        } else {
-          temp = {
-            ...temp,
-            Size: [
-              {
-                name: `${addOns[key]}`,
-                quantity: currentQuantity,
-                price: currentCost,
-              },
-            ],
-          };
-        }
-      } else if (key === "print_size") {
-        temp = {
-          ...temp,
-          "Print Size": [
-            {
-              name: `${addOns[key]}`,
-              quantity: currentQuantity,
-              price: currentCost,
-            },
-          ],
-        };
-      } else {
-        if (addOns[key].join() !== "") {
-          let newKey: string = `${toTitleCase(key)}`;
-          temp[newKey] = [
-            {
-              name: `${addOns[key]}`,
-              quantity: currentQuantity,
-              price: currentCost,
-            },
-          ];
-        }
-      }
-    });
-    return temp;
-  };
+export const sumArr = (arr: any[], key: string | number) => {
+  let sum = arr.reduce(function (prev: any, cur: { [x: string]: any }) {
+    return Number(prev) + Number(cur[key]);
+  }, 0);
+  return sum;
+};
+
+export const toTitleCase = (str: string) => {
+  return str.replace(/\w\S*/g, function (txt: string) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
+
+export function obfuscateEmail(email: string) {
+  const [localPart, domain] = email.split("@");
+
+  if (localPart.length <= 4) {
+    return email; // If the local part is too short, return the email as is
+  }
+
+  const visiblePart = localPart.slice(0, 4);
+  const maskedPart = "*".repeat(localPart.length - 4);
+
+  return `${visiblePart}${maskedPart}@${domain}`;
+}

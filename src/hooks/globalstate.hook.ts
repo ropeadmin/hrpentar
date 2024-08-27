@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 interface IGlobalState {
   profile: ProfileState;
   isAuthenticated: boolean;
-  hasStore: boolean;
   logout: any;
 }
 
@@ -18,18 +17,18 @@ const useGlobalState = (): IGlobalState => {
   const { enqueueSnackbar } = useSnackbar();
   const profile = useAppSelector((state: { profile: any; }) => state.profile) as ProfileState;
   const isAuthenticated = !!profile?.token;
-  const hasStore = !!profile?.user?.merchStore?.id;
 
   const logout = () => {
     dispatch(profileLogoutAction());
-    enqueueSnackbar("You're Logged Out, But your Store isn't! 😃", {
+    router.push('/');
+
+    enqueueSnackbar("You're Logged Out! 😃", {
       variant: 'rope_snackbar',
       autoHideDuration: 5000,
     });
-    router.push('/');
   };
 
-  return { profile, isAuthenticated, logout, hasStore };
+  return { profile, isAuthenticated, logout };
 };
 
 export default useGlobalState;

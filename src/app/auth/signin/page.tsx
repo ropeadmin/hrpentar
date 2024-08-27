@@ -40,31 +40,15 @@ export default function SignIn() {
                     data: formData,
                 });
 
-                const loginData = loginRes.data;
+                const loginData = loginRes?.data?.data;
 
-                if (loginData?.token) {
-                    localStorage.setItem('auth-token', loginData.token);
-
-                    const sessionRes = await makeRequest({
-                        method: 'GET',
-                        url: '',
-                        headers: {
-                            Authorization: `Bearer ${loginData.token}`,
-                        },
-                    });
-
-                    const sessionData = sessionRes.data;
-
-                    // Combine login data and session data
+                if (loginData?.accessToken) {
                     const combinedData = {
                         ...loginData,
-                        ...sessionData,
                     };
-
-
                     dispatch(profileLoginAction(combinedData));
 
-                    enqueueSnackbar("Account Accessed Successfully!", {
+                    enqueueSnackbar("Login Successfully!", {
                         variant: 'rope_snackbar',
                         autoHideDuration: 5000,
                     });
@@ -85,7 +69,7 @@ export default function SignIn() {
             (error: any) => {
                 const response = error?.response;
                 if (response) {
-                    enqueueSnackbar(response?.data?.message || 'An error occurred during login', {
+                    enqueueSnackbar(response?.data?.data?.message || 'An error occurred during login', {
                         variant: 'rope_snackbar',
                         autoHideDuration: 5000,
                         error: true

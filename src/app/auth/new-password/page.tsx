@@ -4,83 +4,68 @@ import MyTextField from "@/app/components/Fields/MyTextField";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
 import useRequest from "@/services/request.service";
-import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useSnackbar } from "notistack";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
+import { profileLoginAction } from "@/store/profile.slice";
+import useGlobalState from "@/hooks/globalstate.hook";
 
 export default function NewPassword() {
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
+    const {profile} = useGlobalState();
+    const searchParams = useSearchParams();
+    const [decodedToken, setDecodedToken] = useState<any>(null);
+    const [token, setToken] = useState<any>('');
+    const [generatedToken, setGeneratedToken] = useState<any>('');
     const { makeRequest, isLoading } = useRequest();
     const [formData, setFormData] = useState({
-        email: '',
         password: '',
+        confirmPassword: '',
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+
+    useEffect(() => {
+        const encodedToken = searchParams.get('token');
+
+        if (encodedToken) {
+            setToken(encodedToken);
+            try {
+                // Decode the token from base64
+                const decodedTokenString = atob(encodedToken);
+
+                // Parse the decoded string as a JSON object
+                const tokenObject = JSON.parse(decodedTokenString);
+
+                // Set the token object to state
+                setDecodedToken(tokenObject);
+
+                // Generate a new token using the parsed token object
+                generateToken(tokenObject);
+            } catch (error) {
+                console.error("Failed to decode or parse the token:", error);
+            }
+        }
+    }, [searchParams]);
 
 
-    const handleSubmit = async (e: { preventDefault: () => void }) => {
-        e.preventDefault();
+    // Generate a JWT token
+    const generateToken = async (tokenObject: any) => {
         catchAsync(
             async () => {
-                const loginRes = await makeRequest({
+                const res = await makeRequest({
                     method: 'POST',
-                    url: API.login,
-                    data: formData,
+                    url: API.generateToken,
+                    data: { email: tokenObject.email, token: tokenObject.token },
                 });
 
-                const loginData = loginRes.data;
+                const { data } = res.data;
 
-                if (loginData?.token) {
-                    localStorage.setItem('auth-token', loginData.token);
-
-                    const sessionRes = await makeRequest({
-                        method: 'GET',
-                        url: '',
-                        headers: {
-                            Authorization: `Bearer ${loginData.token}`,
-                        },
-                    });
-
-                    const sessionData = sessionRes.data;
-
-                    // Combine login data and session data
-                    const combinedData = {
-                        ...loginData,
-                        ...sessionData,
-                    };
-
-
-                    dispatch(profileLoginAction(combinedData));
-
-                    enqueueSnackbar("Account Accessed Successfully!", {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                    });
-
-                    router.push('/dashboard');
-                    setFormData({
-                        email: '',
-                        password: '',
-                    });
-                } else {
-                    enqueueSnackbar('Login failed. No token received!', {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                        error: true
-                    });
-                }
+                dispatch(profileLoginAction(data));
             },
             (error: any) => {
                 const response = error?.response;
@@ -101,6 +86,66 @@ export default function NewPassword() {
         );
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+    
+        // Check if password and confirmPassword match
+        if (formData.password !== formData.confirmPassword) {
+            enqueueSnackbar('Passwords do not match!', {
+                variant: 'rope_snackbar',
+                autoHideDuration: 5000,
+                error: true,
+            });
+            return;
+        }
+    
+        const token = profile?.accessToken;
+    
+        catchAsync(
+            async () => {
+                await makeRequest({
+                    method: 'POST',
+                    url: API.changePassword,
+                    data: { password: formData.password },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+    
+                enqueueSnackbar('Password Reset Successfully!', {
+                    variant: 'rope_snackbar',
+                    autoHideDuration: 5000,
+                });
+    
+                router.push('/auth/signin');
+            },
+            (error: any) => {
+                const response = error?.response;
+                if (response) {
+                    enqueueSnackbar(response?.data?.message || 'An error occurred', {
+                        variant: 'rope_snackbar',
+                        autoHideDuration: 5000,
+                        error: true,
+                    });
+                } else {
+                    enqueueSnackbar('A network error occurred!', {
+                        variant: 'rope_snackbar',
+                        autoHideDuration: 5000,
+                        error: true,
+                    });
+                }
+            }
+        );
+    };
+    
     return (
         <div className="bg-[#fff] min-h-screen flex p-4">
             <div
@@ -144,7 +189,7 @@ export default function NewPassword() {
                             name="confirmPassword"
                             label="Confirm Password"
                             placeholder="Enter Password"
-                            value={formData.password}
+                            value={formData.confirmPassword}
                             type="password"
                             disabled={false}
                             onChange={handleChange}

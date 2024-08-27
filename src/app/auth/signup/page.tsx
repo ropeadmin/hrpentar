@@ -3,6 +3,7 @@
 import MyTextField from "@/app/components/Fields/MyTextField";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
+import useAccountRequest from "@/services/accountRequest.service";
 import useRequest from "@/services/request.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
@@ -15,12 +16,13 @@ export default function SignUp() {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
-  const { makeRequest, isLoading } = useRequest();
+  const { makeRequest, isLoading } = useAccountRequest();
   const [formData, setFormData] = useState({
     firstName: '',
-    surname: '',
+    lastName: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
+    title: '',
     password: '',
     confirmPassword: '',
   });
@@ -34,16 +36,27 @@ export default function SignUp() {
   };
 
   const payload = {
-    first_name: formData.firstName,
-    last_name: formData.surname,
+    firstName: formData.firstName,
+    lastName: formData.lastName,
     email: formData.email,
-    phone_number: formData.phone,
+    phoneNumber: formData.phoneNumber,
+    title: formData.title,
     password: formData.password,
-    retypepassword: formData.confirmPassword,
   }
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    // Check if password and confirmPassword match
+    if (formData.password !== formData.confirmPassword) {
+      enqueueSnackbar('Passwords do not match!', {
+          variant: 'rope_snackbar',
+          autoHideDuration: 5000,
+          error: true,
+      });
+      return;
+  }
+
     catchAsync(
       async () => {
         const res = await makeRequest({
@@ -53,7 +66,7 @@ export default function SignUp() {
         });
 
         const { data } = res;
-
+        localStorage.setItem('register-user-email', formData.email);
         dispatch(profileLoginAction(data));
 
         enqueueSnackbar("Account Created Successfully!", {
@@ -61,25 +74,32 @@ export default function SignUp() {
           autoHideDuration: 5000
         });
 
-        router.push('/login');
+        router.push('/auth/verify-email');
         setFormData({
           firstName: '',
-          surname: '',
+          lastName: '',
           email: '',
-          phone: '',
+          phoneNumber: '',
+          title: '',
           password: '',
           confirmPassword: '',
         });
       },
       (error: any) => {
-        const res: any = error?.response;
-        const data = res?.data;
-
-        enqueueSnackbar(data?.message, {
-          variant: 'rope_snackbar',
-          autoHideDuration: 5000,
-          error: true
-        });
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(response?.data?.data?.message || 'An error occurred during sign up', {
+            variant: 'rope_snackbar',
+            autoHideDuration: 5000,
+            error: true
+          });
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: 'rope_snackbar',
+            autoHideDuration: 5000,
+            error: true
+          });
+        }
       }
     );
   };
@@ -119,46 +139,44 @@ export default function SignUp() {
                 name="firstName"
                 label="First name"
                 placeholder="Enter first name"
-                value={formData.email}
+                value={formData.firstName}
                 type="text"
                 disabled={false}
                 onChange={handleChange}
-                autoComplete
               />
               <MyTextField
                 id="lastName"
                 name="lastName"
                 label="Last name"
                 placeholder="Enter last name"
-                value={formData.password}
-                type="password"
+                value={formData.lastName}
+                type="text"
+                disabled={false}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='flex space-x-5'>
+              <MyTextField
+                id="email"
+                name="email"
+                label="Work Email"
+                placeholder="Work email address"
+                value={formData.email}
+                type="email"
                 disabled={false}
                 onChange={handleChange}
                 autoComplete
               />
+              <MyTextField
+                id="phoneNumber"
+                name="phoneNumber"
+                label="Phone number"
+                placeholder="Enter phone number"
+                value={formData.phoneNumber}
+                type="tel"
+                onChange={handleChange}
+              />
             </div>
-            <MyTextField
-              id="email"
-              name="email"
-              label="Work Email"
-              placeholder="Work email address"
-              value={formData.email}
-              type="email"
-              disabled={false}
-              onChange={handleChange}
-              autoComplete
-            />
-            <MyTextField
-              id="phoneNumber"
-              name="phoneNumber"
-              label="Phone number"
-              placeholder="Enter phone number"
-              value={formData.email}
-              type="tel"
-              disabled={false}
-              onChange={handleChange}
-              autoComplete
-            />
             <div className="flex space-x-5">
               <MyTextField
                 id="password"
@@ -167,22 +185,27 @@ export default function SignUp() {
                 placeholder="Enter Password"
                 value={formData.password}
                 type="password"
-                disabled={false}
                 onChange={handleChange}
-                autoComplete
               />
               <MyTextField
                 id="confirmPassword"
                 name="confirmPassword"
                 label="Confirm password"
                 placeholder="Enter Password"
-                value={formData.password}
+                value={formData.confirmPassword}
                 type="password"
-                disabled={false}
                 onChange={handleChange}
-                autoComplete
               />
             </div>
+            <MyTextField
+              id="title"
+              name="title"
+              label="Title"
+              placeholder="CEO"
+              value={formData.title}
+              type="text"
+              onChange={handleChange}
+            />
           </div>
 
           <button type='submit' className="text-[#a0aec0] bg-[#f0f2f5] w-full py-4 rounded-[8px] text-base font-medium mt-10">

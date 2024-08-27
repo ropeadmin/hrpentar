@@ -18,7 +18,6 @@ export default function ResetPassword() {
     const { makeRequest, isLoading } = useRequest();
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,53 +33,16 @@ export default function ResetPassword() {
         e.preventDefault();
         catchAsync(
             async () => {
-                const loginRes = await makeRequest({
+                const res = await makeRequest({
                     method: 'POST',
-                    url: API.login,
+                    url: API.resetPassword,
                     data: formData,
                 });
 
-                const loginData = loginRes.data;
+                const {data} = res.data;
+                localStorage.setItem('user-email', formData.email);
 
-                if (loginData?.token) {
-                    localStorage.setItem('auth-token', loginData.token);
-
-                    const sessionRes = await makeRequest({
-                        method: 'GET',
-                        url: '',
-                        headers: {
-                            Authorization: `Bearer ${loginData.token}`,
-                        },
-                    });
-
-                    const sessionData = sessionRes.data;
-
-                    // Combine login data and session data
-                    const combinedData = {
-                        ...loginData,
-                        ...sessionData,
-                    };
-
-
-                    dispatch(profileLoginAction(combinedData));
-
-                    enqueueSnackbar("Account Accessed Successfully!", {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                    });
-
-                    router.push('/dashboard');
-                    setFormData({
-                        email: '',
-                        password: '',
-                    });
-                } else {
-                    enqueueSnackbar('Login failed. No token received!', {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                        error: true
-                    });
-                }
+                router.push('/auth/password-link');
             },
             (error: any) => {
                 const response = error?.response;

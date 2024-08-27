@@ -27,12 +27,12 @@ const RopeSnackBar = forwardRef<HTMLDivElement, RopeSuccessSnackBarProps>(
         <div className='snackbars_success bg-white h-[119px] w-[468px] rounded-[16px] mt-[10px]'>
           <div className='relative flex items-center w-full h-full gap-[20px] px-[20px]'>
             <div className=''>
-              <Image src={Assets.mLogo} alt='' width={50} height={50} />
+              <Image src='/pentaHR-logo-mark.svg' alt='' width={50} height={50} />
             </div>
 
             <div className='flex flex-col gap-[4px]'>
-              <span className='font-[600] text-odi'>Merchstore</span>
-              <span className='max-xs:text-[3.6vw] text-odi-lite text-base font-[500]'>
+              <span className='font-[600] text-odi'>PentaHR</span>
+              <span className='max-xs:text-[3.6vw] text-odi-lite text-base font-normal'>
                 {message}
               </span>
             </div>

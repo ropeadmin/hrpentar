@@ -18,25 +18,25 @@ export interface RopeSubscription {
 export interface ProfileState {
   id?: string;
   _id?: string;
-  first_name?: string;
-  last_name?: string;
-  full_name?: string;
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
   phone?: string;
   company?: string;
-  jobTitle?: string;
+  title?: string;
   profilePic?: string;
   email?: string;
   email_confirm_code?: string;
   username?: string;
-  token?: string;
+  accessToken?: string;
   refreshToken?: string;
-  subscription?: RopeSubscription;
+  subscription?: any;
   createdAt?: string;
   [key: string]: any;
 }
 
 interface IProfileLoginAction {
-  token?: string;
+  accessToken?: string;
   refreshToken?: string;
   [key: string]: any;
 }

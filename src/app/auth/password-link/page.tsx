@@ -1,105 +1,18 @@
 "use client"
 
-import MyTextField from "@/app/components/Fields/MyTextField";
-import API from "@/constants/api.constant";
-import { catchAsync } from "@/helpers/api.helper";
-import useRequest from "@/services/request.service";
-import { profileLoginAction } from "@/store/profile.slice";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useSnackbar } from "notistack";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { obfuscateEmail } from "@/helpers";
+import React, { useEffect, useState } from "react";
 
 export default function ResetPasswordLink() {
-    const router = useRouter();
-    const { enqueueSnackbar } = useSnackbar();
-    const dispatch = useDispatch();
-    const { makeRequest, isLoading } = useRequest();
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
+    const [email, setEmail] = useState('');
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
-
-    const handleSubmit = async (e: { preventDefault: () => void }) => {
-        e.preventDefault();
-        catchAsync(
-            async () => {
-                const loginRes = await makeRequest({
-                    method: 'POST',
-                    url: API.login,
-                    data: formData,
-                });
-
-                const loginData = loginRes.data;
-
-                if (loginData?.token) {
-                    localStorage.setItem('auth-token', loginData.token);
-
-                    const sessionRes = await makeRequest({
-                        method: 'GET',
-                        url: '',
-                        headers: {
-                            Authorization: `Bearer ${loginData.token}`,
-                        },
-                    });
-
-                    const sessionData = sessionRes.data;
-
-                    // Combine login data and session data
-                    const combinedData = {
-                        ...loginData,
-                        ...sessionData,
-                    };
-
-
-                    dispatch(profileLoginAction(combinedData));
-
-                    enqueueSnackbar("Account Accessed Successfully!", {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                    });
-
-                    router.push('/dashboard');
-                    setFormData({
-                        email: '',
-                        password: '',
-                    });
-                } else {
-                    enqueueSnackbar('Login failed. No token received!', {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                        error: true
-                    });
-                }
-            },
-            (error: any) => {
-                const response = error?.response;
-                if (response) {
-                    enqueueSnackbar(response?.data?.message || 'An error occurred during login', {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                        error: true
-                    });
-                } else {
-                    enqueueSnackbar("A network error occurred!", {
-                        variant: 'rope_snackbar',
-                        autoHideDuration: 5000,
-                        error: true
-                    });
-                }
-            }
-        );
-    };
+    useEffect(() => {
+      const storedEmail = localStorage.getItem('user-email');
+      
+      if (storedEmail) {
+        setEmail(obfuscateEmail(storedEmail));
+      }
+    }, []);
 
     return (
         <div className="bg-[#fff] min-h-screen flex p-4">
@@ -128,7 +41,7 @@ export default function ResetPasswordLink() {
                     <img src='/icons/success-icon.svg' width={70} height={70} />
                     <div className="mt-7">
                         <h1 className="text-[#0f1625] text-[28px]  font-bold font-['Cabinet Grotesk'] leading-loose">Password reset link sent</h1>
-                        <div className="text-center"><span className="text-[#0f1625] text-base font-normal font-['Cabinet Grotesk'] leading-tight">A password reset link has been sent to </span><span className="text-[#0f1625] text-base font-medium font-['Cabinet Grotesk'] leading-tight">kams*******@mactay.com. <br /></span><span className="text-[#0f1625] text-base font-normal font-['Cabinet Grotesk'] leading-tight">Please check your email to continue. </span><span className="text-[#0f1625] text-base font-medium font-['Cabinet Grotesk'] leading-tight"> </span></div>
+                        <div className="text-center"><span className="text-[#0f1625] text-base font-normal font-['Cabinet Grotesk'] leading-tight">A password reset link has been sent to </span><span className="text-[#0f1625] text-base font-medium font-['Cabinet Grotesk'] leading-tight">{email}. <br /></span><span className="text-[#0f1625] text-base font-normal font-['Cabinet Grotesk'] leading-tight">Please check your email to continue. </span><span className="text-[#0f1625] text-base font-medium font-['Cabinet Grotesk'] leading-tight"> </span></div>
                     </div>
                 </div>
             </div>
