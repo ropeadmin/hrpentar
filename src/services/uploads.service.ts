@@ -39,7 +39,7 @@ const useUploadsService = (
       const filesFormData = await getFileFormData(file);
       // upload photo
       const res = await makeImageUploadRequest({
-        url: API.upload,
+        url: '',
         method: 'POST',
         data: filesFormData,
       });
@@ -89,7 +89,7 @@ const useUploadsService = (
       const filesFormData = await getFileFormData(files);
       // upload photo
       const res = await makeImageUploadRequest({
-        url: API.upload,
+        url: '',
         method: 'POST',
         data: filesFormData,
         onUploadProgress: onProgress,

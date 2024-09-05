@@ -567,6 +567,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.12.tgz#12bb1e2be27293c1406acb6af1c3f3a1481d98c6"
   integrity sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==
 
+"@types/react-avatar-editor@^13.0.3":
+  version "13.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-avatar-editor/-/react-avatar-editor-13.0.3.tgz#98f4dc5a2413c1436b0bee7c08b43ccbc3b2d067"
+  integrity sha512-icRAOKLKjkIsExFAiFSquztByJwpyTKEgnBRYSuLG2V81bM3LtQZi7hRS+Hr+4AXreq0yNRjVZiMOVeEeh6DLg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^18":
   version "18.3.0"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.3.0.tgz#0cbc818755d87066ab6ca74fbedb2547d74a82b0"
@@ -2750,7 +2757,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2812,6 +2819,13 @@ react-is@^18.3.1:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
+
+react-paginate@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-8.2.0.tgz#947c3dcb444a6c16c1bcf8361871aa135baa3dcd"
+  integrity sha512-sJCz1PW+9PNIjUSn919nlcRVuleN2YPoFBOvL+6TPgrH/3lwphqiSOgdrLafLdyLDxsgK+oSgviqacF4hxsDIw==
+  dependencies:
+    prop-types "^15"
 
 react-redux@^9.1.2:
   version "9.1.2"
