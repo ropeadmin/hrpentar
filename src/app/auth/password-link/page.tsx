@@ -27,7 +27,7 @@ export default function ResetPasswordLink() {
                 <img src='/pentaHR.svg' width={150} height={150} />
 
                 <div className="absolute bottom-7 left-7 right-7 h-auto auth-glass p-5">
-                    <p className="text-white text-base font-medium font-['Cabinet Grotesk'] leading-tight">"PentaHR has revolutionized our HR processes. The intuitive interface and comprehensive features have significantly reduced administrative tasks, allowing us to focus more on employee engagement and development. It's a game-changer for any HR team!”</p>
+                    <p className="text-white text-base font-medium font-['Cabinet Grotesk'] leading-tight">&quot;PentaHR has revolutionized our HR processes. The intuitive interface and comprehensive features have significantly reduced administrative tasks, allowing us to focus more on employee engagement and development. It&apos;s a game-changer for any HR team!&quot;</p>
                     <div className="mt-5">
                         <div className="text-white text-sm font-medium font-['Cabinet Grotesk'] leading-[18px]">Kolawole Immanuel</div>
                         <div className="text-white text-sm font-medium font-['Cabinet Grotesk'] leading-[18px]">Payroll Specialist - Mactay Consulting</div>
