@@ -36,7 +36,7 @@ export default function Step2() {
 
             <div className="mb-7 mt-12 text-center">
                 <h1 className='text-[#0f1625] text-[32px] font-bold'>Choose the right plan for your team</h1>
-                <p className='text-[#0f1625] font-normal text-base'>Select a plan that fits your team's needs. Enjoy customization and powerful features to manage your HR processes.</p>
+                <p className='text-[#0f1625] font-normal text-base'>Select a plan that fits your team&apos;s needs. Enjoy customization and powerful features to manage your HR processes.</p>
             </div>
             <div className='grid sm:grid-cols-4 gap-5'>
                 {plan?.map((plan, i) => (
