@@ -38,7 +38,7 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/icon.ico" sizes="any" />
       </Head>
-      <body className={onest.className}>
+      <body>
         <AppSnackBarProvider>
           <ReduxProvider>
             <Suspense fallback={<SplashScreen />}>

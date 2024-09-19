@@ -107,17 +107,16 @@ export default function SignIn() {
             </div>
 
             <div className='bg-white flex flex-col justify-center items-center mx-auto w-full min-h-screen'>
-                <div className="mb-10">
-                    <h1 className="text-[#0f1625] text-[28px] text-start font-bold font-['Cabinet Grotesk'] leading-loose">Log in to your account</h1>
-                </div>
-
                 <form className="w-[65%]" onSubmit={handleSubmit}>
+                <div className="mb-7 flex justify-start text-start">
+                    <h1 className="text-[#0f1625] text-[28px] font-bold leading-tight">Log in to your account</h1>
+                </div>
                     <div className="space-y-5">
                         <MyTextField
                             id="email"
                             name="email"
                             label="Work Email"
-                            placeholder="Work email address"
+                            placeholder="Input area"
                             value={formData.email}
                             type="email"
                             disabled={false}
@@ -128,7 +127,7 @@ export default function SignIn() {
                             id="password"
                             name="password"
                             label="Password"
-                            placeholder="Enter Password"
+                            placeholder="Enter password"
                             value={formData.password}
                             type="password"
                             disabled={false}
@@ -142,16 +141,16 @@ export default function SignIn() {
                             href={"/auth/reset-password"}
                             className="text-[#ef0000] text-sm font-[500] hover:underline underline-offset-4"
                         >
-                            Forgotten password?
+                            Forgot password
                         </Link>
                     </div>
 
-                    <button type='submit' className="text-[#a0aec0] bg-[#f0f2f5] w-full py-4 rounded-[8px] text-base font-medium mt-10">
-                        {isLoading ? 'Login In...' : 'Login'}
+                    <button type='submit' className="text-[#a0aec0] bg-[#f0f2f5] w-full py-[14px] rounded-[8px] text-base font-medium mt-10">
+                        {isLoading ? 'Login In...' : 'Log in'}
                     </button>
                 </form>
 
-                <div className="font-[400] leading-tight flex justify-center items-center space-x-2 mt-7">
+                <div className="font-medium leading-tight flex justify-center items-center space-x-1 mt-5">
                     <p className="text-[#677488] text-sm">Don`t have an account?</p>
                     <span>
                         <Link className="text-[#ef0000] hover:underline underline-offset-2 text-sm" href={"/auth/signup"}>
