@@ -19,7 +19,7 @@ const StyledTextField = styled(TextField)({
     'color': '#0F1625',
     'fontSize': '14px',
     'fontWeight': '400',
-    'padding': '0px 4px',
+    // 'padding': '0px 4px',
 
     '& fieldset': {
       borderColor: '#D0D6DD',

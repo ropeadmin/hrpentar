@@ -12,20 +12,30 @@ import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { PhoneInput } from "react-international-phone";
+import PasswordToolTip from "@/app/components/ToolTip/Password";
 // import "react-international-phone/style.css";
+
+// Example password tooltip structure
+const initialPasswordTooltip = [
+  { title: "8 characters", passed: false },
+  { title: "Uppercase", passed: false },
+  { title: "Lowercase", passed: false },
+  { title: "Special character", passed: false },
+];
 
 export default function SignUp() {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const { makeRequest, isLoading } = useAccountRequest();
+  const [passwordTooltip, setPasswordTooltip] = useState(initialPasswordTooltip);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    // phoneNumber: "",
-    title: "",
+    // title: "",
     password: "",
     confirmPassword: "",
   });
@@ -36,6 +46,44 @@ export default function SignUp() {
       ...formData,
       [name]: value,
     });
+
+    // Validate password complexity
+    if (name === "password") {
+      validatePassword(value);
+    }
+  };
+
+   // Function to validate password and update the tooltip
+   const validatePassword = (password: string) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    const tooltipUpdates = [
+      { title: "8 characters", passed: password.length >= 8 },
+      { title: "Uppercase", passed: /[A-Z]/.test(password) },
+      { title: "Lowercase", passed: /[a-z]/.test(password) },
+      { title: "Special character", passed: /[!@#$%^&*(),.?":{}|<>]/.test(password) },
+    ];
+    setPasswordTooltip(tooltipUpdates);
+    setIsPasswordValid(
+      password.length >= minLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasSpecialChar
+    );
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.firstName &&
+      formData.lastName &&
+      formData.email &&
+      phoneNumber &&
+      isPasswordValid &&
+      formData.password === formData.confirmPassword
+    );
   };
 
   const payload = {
@@ -43,7 +91,7 @@ export default function SignUp() {
     lastName: formData.lastName,
     email: formData.email,
     phoneNumber: phoneNumber,
-    title: formData.title,
+    // title: formData.title,
     password: formData.password,
   };
 
@@ -83,7 +131,7 @@ export default function SignUp() {
           lastName: "",
           email: "",
           // phoneNumber: "",
-          title: "",
+          // title: "",
           password: "",
           confirmPassword: "",
         });
@@ -109,6 +157,7 @@ export default function SignUp() {
       }
     );
   };
+
 
   return (
     <div className="bg-[#fff] h-full flex p-4">
@@ -225,15 +274,26 @@ export default function SignUp() {
               /> */}
             </div>
             <div className="flex flex-col space-y-5">
-              <MyTextField
-                id="password"
-                name="password"
-                label="Password"
-                placeholder="Enter Password"
-                value={formData.password}
-                type="password"
-                onChange={handleChange}
-              />
+              <div>
+                <MyTextField
+                  id="password"
+                  name="password"
+                  label="Password"
+                  placeholder="Enter Password"
+                  value={formData.password}
+                  type="password"
+                  onChange={handleChange}
+                />
+                <div className="flex items-center gap-1.5 mt-2">
+                  {passwordTooltip.map(({ title, passed }: any, index: React.Key | null | undefined) => (
+                    <PasswordToolTip
+                      key={index}
+                      title={title}
+                      passed={passed}
+                    />
+                  ))}
+                </div>
+              </div>
               <MyTextField
                 id="confirmPassword"
                 name="confirmPassword"
@@ -257,9 +317,12 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="text-[#a0aec0] bg-[#f0f2f5] w-full py-4 rounded-[8px] text-base font-medium mt-10"
+            className={`${!isFormValid() ? 'bg-[#f0f2f5] text-[#a0aec0]' : 'bg-[#0f1625] text-white'} transition-all duration-150 w-full py-[14px] rounded-[8px] text-base font-medium mt-10 ${
+              isLoading || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={!isFormValid() || isLoading}
           >
-            {isLoading ? "Creating account..." : "Create account"}
+            {isLoading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
 
