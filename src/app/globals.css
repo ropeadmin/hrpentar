@@ -308,9 +308,9 @@ body {
 
 .react-international-phone-input-container .react-international-phone-input {
   overflow: visible;
-  height: var(--react-international-phone-height, 52px);
+  /* height: var(--react-international-phone-height, 52px); */
   box-sizing: border-box;
-  padding: 0 8px;
+  padding: 15px 8px;
   border: 1px solid var(--react-international-phone-border-color, #D0D6DD);
   border-radius: var(--react-international-phone-border-radius, 8px);
   margin: 0;
