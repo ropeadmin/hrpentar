@@ -19,7 +19,9 @@ export default function Stepper({ currentStep }: any) {
             <div className={`flex items-center w-full ${currentStep >= 2 ? 'completed' : ''}`}>
                 <div className={`w-8 h-8 shrink-0 mx-[-1px] ${currentStep >= 2 ? 'bg-[#0BA259]' : 'bg-gray-300'} p-1.5 flex items-center justify-center rounded-full`}>
                     {currentStep >= 2 ? (
-                        <span className="text-base text-white font-bold leading-none">2</span>
+                         <svg xmlns="http://www.w3.org/2000/svg" className="w-full fill-white" viewBox="0 0 24 24">
+                         <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" />
+                     </svg>
                     ) : (
                         <span className="text-base text-[#687588] font-bold leading-none">2</span>
                     )}

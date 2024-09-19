@@ -368,3 +368,52 @@ body {
 .styled-country-dropdown::placeholder {
   color: #8E8E8E;
 }
+
+/* Override dropdown background and text color */
+.react-flags-select__menu {
+  background-color: #f0f4f8 !important;
+  color: #333 !important;
+}
+
+/* Style individual options */
+.react-flags-select__option {
+  color: #444 !important;
+  padding: 10px 15px !important;
+  background-color: #fff !important;
+}
+
+/* Change border radius of the dropdown */
+.react-flags-select__menu {
+  border-radius: 8px !important;
+}
+
+/* Style the flag icon itself */
+.react-flags-select__flag {
+  border-radius: 50% !important;
+}
+
+/* Highlight selected option */
+.react-flags-select__option--selected {
+  background-color: #22c55e !important;
+  color: white !important;
+}
+
+
+.custom-flag-select {
+  border-radius: 8px;
+}
+
+.custom-flag-select .react-flags-select__option {
+  color: #1f2937;
+  background-color: #f0f0f0;
+}
+
+.custom-flag-select .react-flags-select__option--selected {
+  background-color: #22c55e;
+  color: white;
+}
+
+.ReactFlagsSelect-module_selectBtn__19wW7 {
+  border-radius: 12px;
+}
+
