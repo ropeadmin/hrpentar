@@ -13,6 +13,7 @@ import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+import ReactFlagsSelect from "react-flags-select";
 
 export default function Step1() {
   const router = useRouter();
@@ -59,12 +60,11 @@ export default function Step1() {
         });
 
         const { data } = res;
-        console.log('STEP 1:', data)
-        // Move to step 2 on success
-        if (data.success) { 
-          setCurrentStep(2);
+        console.log("STEP 1:", data);
+        // Move to step 3 on success
+        if (data.success) {
+          setCurrentStep(3);
         }
-
       },
       (error: any) => {
         const res: any = error?.response;
@@ -128,10 +128,10 @@ export default function Step1() {
         </div>
       </div>
 
-      <div className="bg-white flex flex-col justify-center items-center mx-auto w-full min-h-screen px-28">
+      <div className="bg-white flex flex-col justify-center items-center mx-auto w-full min-h-screen px-16 py-10">
         <form className="w-[100%]" onSubmit={handleSubmit}>
           <div className="flex items-center mx-auto w-full">
-          <Stepper currentStep={currentStep} />
+            <Stepper currentStep={currentStep} />
           </div>
           <div className="my-7">
             <h1 className="text-[#0f1625] text-[28px] text-start font-bold font-['Cabinet Grotesk'] leading-loose">
@@ -143,7 +143,7 @@ export default function Step1() {
               </span>
             </div>
           </div>
-          <div className="space-y-5">
+          <div className="space-y-5 overflow-auto h-[300px] remove-scroll-bar">
             <MyTextField
               id="companyName"
               name="businessName"
@@ -162,7 +162,7 @@ export default function Step1() {
               type="text"
               onChange={handleChange}
             />
-            <div className="space-x-5 flex">
+            <div className="grid grid-cols-2 gap-5">
               <MyTextField
                 id="companySize"
                 name="size"
@@ -180,21 +180,18 @@ export default function Step1() {
                   </MenuItem>
                 ))}
               </MyTextField>
-              <div className="flex flex-col justify-between py-7 sm:pr-10">
-                <p className="text-[#344054] text-[15px] font-[600] mb-2 sm:mb-0">
+              <div className="flex flex-col justify-between">
+                <h3 className="text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]">
                   Country
-                </p>
-                <div className="sm:w-[420px] w-full">
-                  <div className="border rounded-[8px] py-[14px] px-3">
-                    <CountryDropdown
-                      value={country}
-                      onChange={(val) => setCountry(val)}
-                    />
-                  </div>
+                </h3>
+                <div className="w-full">
+                  <ReactFlagsSelect
+                    selected={country}
+                    onSelect={(val) => setCountry(val)}
+                  />
                 </div>
               </div>
-            </div>
-            <div className="flex space-x-5">
+
               <MyTextField
                 id="businessType"
                 name="businessType"
