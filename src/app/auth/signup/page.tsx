@@ -279,7 +279,7 @@ export default function SignUp() {
                   id="password"
                   name="password"
                   label="Password"
-                  placeholder="Enter Password"
+                  placeholder="Enter password"
                   value={formData.password}
                   type="password"
                   onChange={handleChange}
@@ -298,7 +298,7 @@ export default function SignUp() {
                 id="confirmPassword"
                 name="confirmPassword"
                 label="Confirm password"
-                placeholder="Enter Password"
+                placeholder="Enter password"
                 value={formData.confirmPassword}
                 type="password"
                 onChange={handleChange}
