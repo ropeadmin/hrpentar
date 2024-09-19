@@ -99,12 +99,11 @@ const useAccountRequest = () => {
         const request = async () => {
           try {
             const {
-              token,
-              visitor_id,
+              accessToken,
               refreshToken: refresh,
             } = store.getState().profile;
-            axiosInstance.defaults.headers.common.Authorization = token
-              ? `Bearer ${token}`
+            axiosInstance.defaults.headers.common.Authorization = accessToken
+              ? `Bearer ${accessToken}`
               : "";
 
             const response: AxiosResponse<any> = await axiosInstance.request(

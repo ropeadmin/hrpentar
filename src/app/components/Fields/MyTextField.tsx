@@ -9,31 +9,31 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 const StyledTextField = styled(TextField)({
-  'minHeight': '48px',
+  // 'minHeight': '48px',
   '& label.Mui-focused': {},
   '& .MuiInput-underline:after': {},
   '& .MuiOutlinedInput-root': {
     'background': '#FFF',
-    'borderRadius': '12px',
+    'borderRadius': '8px',
     'transition': '.6s',
-    'color': '#384a62',
+    'color': '#0F1625',
     'fontSize': '14px',
-    'fontWeight': '500',
-    // 'fontFamily': 'Satoshi',
+    'fontWeight': '400',
+    // 'padding': '0px 4px',
 
     '& fieldset': {
-      borderColor: '#E3E3E3',
+      borderColor: '#D0D6DD',
     },
     '&:hover fieldset': {
-      borderColor: alpha('#384a62', 0.6),
+      borderColor: alpha('#D0D6DD', 0.6),
     },
     '&.Mui-focused fieldset': {
       border: '1px solid',
-      borderColor: '#384a62',
+      borderColor: '#D0D6DD',
     },
   },
   '&:placeholder': {
-    color: '#8E8E8E',
+    color: '#A0AEC0',
   },
 });
 
@@ -138,7 +138,7 @@ const MyTextField = ({
       }}
     >
       {label && (
-        <h3 className='text-[3.5vw] sm:text-[14px] font-[400] mb-[5px] text-odi'>
+        <h3 className='text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]'>
           <span>{label}</span>{' '}
           {optional && (
             <span className='text-odi-lite text-[12.5px] font-[200]'>
