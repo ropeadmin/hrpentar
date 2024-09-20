@@ -322,7 +322,7 @@ export default function SignUp() {
             }`}
             disabled={!isFormValid() || isLoading}
           >
-            {isLoading ? "Signing Up..." : "Sign Up"}
+            {isLoading ? "Loading..." : "Create account"}
           </button>
         </form>
 

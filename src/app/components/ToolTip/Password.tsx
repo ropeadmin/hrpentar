@@ -11,13 +11,13 @@ export default function PasswordToolTip({
     <div
       className={`rounded-full border-[0.5px] py-[4px] px-[10px] flex justify-center items-center gap-2 ${
         passed
-          ? "border-green-500 bg-green-50"
+          ? "border-[#86D7B0] bg-[#F3FBF7]"
           : "border-[#E4E8EC] bg-[#F9FAFB]"
       }`}
     >
       <p
         className={`text-[12px] font-normal leading-tight ${
-          passed ? "text-green-600" : "text-[#687588]"
+          passed ? "text-[#0CAF60]" : "text-[#687588]"
         }`}
       >
         {title}
@@ -31,7 +31,7 @@ export default function PasswordToolTip({
       >
         <path
           d="M0.5 5L2.25 6.75L7.5 1.25"
-          stroke={passed ? "#22C55E" : "#687588"} // change color based on passed status
+          stroke={passed ? "#0CAF60" : "#687588"} // change color based on passed status
           strokeLinecap="round"
           strokeLinejoin="round"
         />
