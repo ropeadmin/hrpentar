@@ -23,7 +23,7 @@ const SidebarItem = ({ link, active }: SideBarItemProps) => {
           <div className="flex items-center gap-[10px]">
             <Image src={icon} alt="" width={20} height={20} />
             <p
-              className={`w-full font-normal text-sm ${
+              className={`w-full font-[400] text-sm ${
                 active ? "text-white" : "text-white"
               }`}
             >
