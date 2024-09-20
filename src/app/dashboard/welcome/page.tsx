@@ -119,7 +119,7 @@ export default function Welcome() {
             {/* Steps Progress */}
             <div className="grid grid-cols-1 gap-10 mt-10">
               {steps.map((step, i) => (
-                <div className="flex justify-between items-center">
+                <div key={i} className="flex justify-between items-center">
                   <div className="flex items-center gap-4">
                     <div className="w-[32px] h-[32px] rounded-full flex justify-center items-center border border-[#D0D6DD] bg-[#FBFBFC]">
                       <span
@@ -146,7 +146,7 @@ export default function Welcome() {
           </div>
           <div className="col-span-1 w-full h-auto rounded-[12px] grid grid-cols-1 gap-5">
             {stepFeatures.map((feature, i) => (
-              <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5">
+              <div key={i} className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5">
                 <div className='w-[32px] h-[32px] rounded-[6px] bg-[#F0F2F5] flex justify-center items-center'>
                   <img src={feature.icon} width={20} height={20} />
                 </div>
