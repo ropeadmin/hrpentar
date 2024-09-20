@@ -176,3 +176,14 @@ export function obfuscateEmail(email: string) {
 
   return `${visiblePart}${maskedPart}@${domain}`;
 }
+
+
+export function formatCurrency(amount: number, currency = 'NGN') {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    currencyDisplay: 'narrowSymbol', // Use only the symbol (₦, $, €)
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}

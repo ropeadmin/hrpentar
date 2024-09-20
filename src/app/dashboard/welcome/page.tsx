@@ -146,21 +146,46 @@ export default function Welcome() {
           </div>
           <div className="col-span-1 w-full h-auto rounded-[12px] grid grid-cols-1 gap-5">
             {stepFeatures.map((feature, i) => (
-              <div key={i} className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5">
-                <div className='w-[32px] h-[32px] rounded-[6px] bg-[#F0F2F5] flex justify-center items-center'>
+              <div
+                key={i}
+                className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5"
+              >
+                <div className="w-[32px] h-[32px] rounded-[6px] bg-[#F0F2F5] flex justify-center items-center">
                   <img src={feature.icon} width={20} height={20} />
                 </div>
                 <div className="mt-2">
-                  <h1 className='text-[16px] font-[700] text-[#1F2937]'>{feature.header}</h1>
-                  <p className="text-[14px] font-[400] text-[#323B49]">{feature.title}</p>
+                  <h1 className="text-[16px] font-[700] text-[#1F2937]">
+                    {feature.header}
+                  </h1>
+                  <p className="text-[14px] font-[400] text-[#323B49]">
+                    {feature.title}
+                  </p>
                 </div>
                 <button className="px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937] mt-5 flex items-center gap-2">
-                    {feature.actionTitle}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 16 10" fill="none">
-  <path d="M13.8335 4.99976L1.3335 4.99976" stroke="#1F2937" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M10.5 0.833252L13.9596 4.29281C14.2929 4.62615 14.4596 4.79281 14.4596 4.99992C14.4596 5.20703 14.2929 5.37369 13.9596 5.70703L10.5 9.16659" stroke="#1F2937" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-                  </button>  
+                  {feature.actionTitle}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="10"
+                    viewBox="0 0 16 10"
+                    fill="none"
+                  >
+                    <path
+                      d="M13.8335 4.99976L1.3335 4.99976"
+                      stroke="#1F2937"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.5 0.833252L13.9596 4.29281C14.2929 4.62615 14.4596 4.79281 14.4596 4.99992C14.4596 5.20703 14.2929 5.37369 13.9596 5.70703L10.5 9.16659"
+                      stroke="#1F2937"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
               </div>
             ))}
           </div>
