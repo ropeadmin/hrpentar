@@ -1,13 +1,13 @@
 .sidebar-container {
-  width: 20vw;
+  width: 266px;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: width 0.2s ease-out;
+  font-family: 'Cabinet Grotesk', sans-serif;
 
   @media screen and (max-width: 820px) {
     width: 200px;
@@ -53,7 +53,6 @@
       justify-content: center;
       align-items: center;
       color: #787878 !important;
-      font-family: 'Outfit', sans-serif;
 
       &::before {
         content: '';

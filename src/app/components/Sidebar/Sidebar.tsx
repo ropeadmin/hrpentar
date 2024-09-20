@@ -24,49 +24,113 @@ const Sidebar = () => {
 
   const links: SideBarItemLink[] = [
     {
-      name: "Home",
-      icon: currentPath === "/dashboard" ? Assets.homeActive : Assets.home,
+      name: "Dashboard",
+      icon: currentPath === "/dashboard" ? '/icons/dashboard.svg' : '/icons/dashboard.svg',
       to: "/dashboard",
       paths: [""],
     },
     {
-      name: "View store",
-      icon: currentPath === "/dashboard/store" ? Assets.storeActive : Assets.store,
-      to: "/dashboard/store",
-      paths: ["store"],
+      name: "Company",
+      icon: currentPath === "/dashboard/company" ? '/icons/company.svg' : '/icons/company.svg',
+      to: "/dashboard/company",
+      paths: ["company"],
     },
     {
-      name: "Transactions",
-      icon: currentPath === "/dashboard/transactions" ? Assets.transactionActive : Assets.transaction,
-      to: "/dashboard/transactions",
-      paths: ["transactions"],
+      name: "People",
+      icon: currentPath === "/dashboard/people" ? '/icons/people.svg' : '/icons/people.svg',
+      to: "/dashboard/people",
+      paths: ["people"],
     },
     {
-      name: "Order history",
-      icon: currentPath === "/dashboard/order-history" ? Assets.historyActive : Assets.history,
-      to: "/dashboard/order-history",
-      paths: ["order-history"],
+      name: "Payroll",
+      icon: currentPath === "/dashboard/payroll" ? '/icons/payroll.svg' : '/icons/payroll.svg',
+      to: "/dashboard/payroll",
+      paths: ["payroll"],
     },
-    // {
-    //   name: "Notifications",
-    //   icon: currentPath === "/dashboard/notification" ? Assets.notificationActive : Assets.notification,
-    //   to: "/dashboard/notification",
-    //   paths: ["notification"],
-    // },
     {
-      name: "Settings",
-      icon: currentPath === "/dashboard/settings" ? Assets.settingActive : Assets.setting,
-      to: "/dashboard/settings",
-      paths: ["settings"],
+      name: "Leave",
+      icon: currentPath === "/dashboard/leave" ? '/icons/leave.svg' : '/icons/leave.svg',
+      to: "/dashboard/leave",
+      paths: ["leave"],
+    },
+    {
+      name: "Performance",
+      icon: currentPath === "/dashboard/performance" ? '/icons/performance.svg' : '/icons/performance.svg',
+      to: "/dashboard/performance",
+      paths: ["performance"],
+    },
+    {
+      name: "Time & Attendance",
+      icon: currentPath === "/dashboard/attendance" ? '/icons/attendance.svg' : '/icons/attendance.svg',
+      to: "/dashboard/attendance",
+      paths: ["attendance"],
+    },
+    {
+      name: "Benefits",
+      icon: currentPath === "/dashboard/benefits" ? '/icons/benefit.svg' : '/icons/benefit.svg',
+      to: "/dashboard/benefits",
+      paths: ["benefits"],
+    },
+    {
+      name: "Payments",
+      icon: currentPath === "/dashboard/payments" ? '/icons/payment.svg' : '/icons/payment.svg',
+      to: "/dashboard/payments",
+      paths: ["payments"],
+    },
+    {
+      name: "Recruitment",
+      icon: currentPath === "/dashboard/recruitment" ? '/icons/recruitment.svg' : '/icons/recruitment.svg',
+      to: "/dashboard/recruitment",
+      paths: ["recruitment"],
+    },
+    {
+      name: "Disciplinary",
+      icon: currentPath === "/dashboard/disciplinary" ? '/icons/disciplinary.svg' : '/icons/disciplinary.svg',
+      to: "/dashboard/disciplinary",
+      paths: ["disciplinary"],
+    },
+    {
+      name: "Documents",
+      icon: currentPath === "/dashboard/documents" ? '/icons/document.svg' : '/icons/document.svg',
+      to: "/dashboard/documents",
+      paths: ["documents"],
+    },
+    {
+      name: "Assets",
+      icon: currentPath === "/dashboard/assets" ? '/icons/asset.svg' : '/icons/asset.svg',
+      to: "/dashboard/assets",
+      paths: ["assets"],
+    },
+    {
+      name: "Reports",
+      icon: currentPath === "/dashboard/reports" ? '/icons/report.svg' : '/icons/report.svg',
+      to: "/dashboard/reports",
+      paths: ["reports"],
     },
   ];
 
+
+const links2 = [
+  {
+    name: "Settings",
+    icon: currentPath === "/dashboard/settings" ? '/icons/setting.svg' : '/icons/setting.svg',
+    to: "/dashboard/settings",
+    paths: ["settings"],
+  },
+  {
+    name: "Help",
+    icon: currentPath === "/dashboard/help" ? '/icons/help.svg' : '/icons/help.svg',
+    to: "/dashboard/help",
+    paths: ["help"],
+  },
+];
+
   return (
     <>
-      <div className="sidebar-container bg-white pb-10 px-3 z-10 border-r-[1px] border-[#F0F0F0]">
+      <div className="sidebar-container bg-[#0F1625] pb-10 px-5 pt-5 z-1 remove-scroll-bar">
         <div className="w-full">
-          <Link href="/" className="w-full flex justify-start items-center relative pb-5 pt-7">
-            <Image src={Assets.logo} alt="logo" width={150} height={150} />
+          <Link href="/" className="w-full flex justify-start items-center relative pb-5">
+            <Image src='/pentaHR.svg' alt="logo" width={100} height={100} />
           </Link>
 
           <div className="h-auto links mt-3">
@@ -74,14 +138,21 @@ const Sidebar = () => {
               <SidebarItem link={link} key={index} active={isActive(link.paths)} />
             ))}
           </div>
+
+          {/*  Settings and Help */}
+          <div className="h-auto links mt-20">
+            {links2.map((link, index) => (
+              <SidebarItem link={link} key={index} active={isActive(link.paths)} />
+            ))}
+          </div>
         </div>
 
-        <div className="sidebar-item">
+        {/* <div className="sidebar-item">
           <div className="flex items-center gap-[20px] px-3 py-4 cursor-pointer rounded-[12px] hover:bg-[#e0444415]" onClick={logout}>
             <Image src={Assets.logout} alt="" width={20} height={20} />
             <span className="w-full font-[500] text-[1vw] text-odi-lite">Logout</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
