@@ -55,7 +55,6 @@ import {
           stepSize: 1,
           font: {
             size: 12,
-            family: 'Satoshi',
           },
         },
         grid: {
@@ -70,7 +69,6 @@ import {
           callback: (value) => `${value}%`, // Add % to y-axis ticks
           font: {
             size: 14,
-            family: 'Satoshi',
           },
         },
         grid: {

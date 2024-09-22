@@ -7,7 +7,7 @@ const ActionTableTask = ({ tasks }: any) => {
     <Table
       head={
         <>
-          <th scope="col" className="bg-header">
+          <th scope="col" className="bg-header px-3 py-2">
             <Checkbox
               checked={false}
               //   onChange={handleSelectAll}
@@ -19,19 +19,19 @@ const ActionTableTask = ({ tasks }: any) => {
           </th>
           <th
             scope="col"
-            className="bg-header text-[16px] font-[700] text-[#0F1625]"
+            className="bg-header px-3 py-2 text-[16px] font-[700] text-[#0F1625]"
           >
             Task name
           </th>
           <th
             scope="col"
-            className="bg-header text-[16px] font-[700] text-[#0F1625]"
+            className="bg-header px-3 py-2 text-[16px] font-[700] text-[#0F1625]"
           >
             Due date
           </th>
           <th
             scope="col"
-            className="bg-header text-[16px] font-[700] text-[#0F1625]"
+            className="bg-header px-3 py-2 text-[16px] font-[700] text-[#0F1625]"
           >
             Priority
           </th>

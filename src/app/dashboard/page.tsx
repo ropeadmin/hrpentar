@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import ActionTableTask from "../components/Table/ActionTable";
 import { FadeIn } from "../components/Transitions/Transitions";
 import LineChart from "../components/charts/Line";
+import EmployeesTable from "../components/Table/EmployeesTable";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
@@ -93,22 +94,44 @@ export default function Dashboard() {
     },
   ];
 
-
   const dummyData = [
-    { _id: 'Jan', count: Math.floor(Math.random() * 101) }, // Random between 0 and 100
-    { _id: 'Feb', count: Math.floor(Math.random() * 101) },
-    { _id: 'Mar', count: Math.floor(Math.random() * 101) },
-    { _id: 'Apr', count: Math.floor(Math.random() * 101) },
-    { _id: 'May', count: Math.floor(Math.random() * 101) },
-    { _id: 'Jun', count: Math.floor(Math.random() * 101) },
-    { _id: 'Jul', count: Math.floor(Math.random() * 101) },
-    { _id: 'Aug', count: Math.floor(Math.random() * 101) },
-    { _id: 'Sep', count: Math.floor(Math.random() * 101) },
-    { _id: 'Oct', count: Math.floor(Math.random() * 101) },
-    { _id: 'Nov', count: Math.floor(Math.random() * 101) },
-    { _id: 'Dec', count: Math.floor(Math.random() * 101) },
+    { _id: "Jan", count: Math.floor(Math.random() * 101) }, // Random between 0 and 100
+    { _id: "Feb", count: Math.floor(Math.random() * 101) },
+    { _id: "Mar", count: Math.floor(Math.random() * 101) },
+    { _id: "Apr", count: Math.floor(Math.random() * 101) },
+    { _id: "May", count: Math.floor(Math.random() * 101) },
+    { _id: "Jun", count: Math.floor(Math.random() * 101) },
+    { _id: "Jul", count: Math.floor(Math.random() * 101) },
+    { _id: "Aug", count: Math.floor(Math.random() * 101) },
+    { _id: "Sep", count: Math.floor(Math.random() * 101) },
+    { _id: "Oct", count: Math.floor(Math.random() * 101) },
+    { _id: "Nov", count: Math.floor(Math.random() * 101) },
+    { _id: "Dec", count: Math.floor(Math.random() * 101) },
   ];
 
+  const employees = [
+    {
+      id: "MAC10121",
+      name: "Rebecca Olaniyan",
+      email: "rebeccaolaniyan@mactay.com",
+      role: "Jr. Frontend Engineer",
+      status: "Active",
+    },
+    {
+      id: "MAC10122",
+      name: "David Timipre",
+      email: "davidtimipre@mactay.com",
+      role: "Finance Office",
+      status: "On leave",
+    },
+    {
+      id: "MAC10123",
+      name: "Joshua Oyebanjo",
+      email: "joshuaoyebanjo@mactay.com",
+      role: "Project Manager",
+      status: "Onboarding",
+    },
+  ];
 
   return (
     <div>
@@ -141,32 +164,65 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex gap-5 mt-5">
-        <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5"></div>
+        <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5"></div>
 
-        <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5">
+        <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5">
           {" "}
         </div>
 
-        <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] min-w-[400px] p-5">
-          <p className="text-[16px] font-[700] text-[#1F2937] mb-2">Payroll</p>
-          <div className="mt-2">
-            <h1 className="text-[16px] font-[700] text-[#1F2937]">
-              Next payday: August 25th
-            </h1>
-            <p className="text-[14px] font-[400] text-[#323B49] mt-1.5">
-              Payroll will run automatically on payday only when all stages of
-              approval has been completed.
+        {activeTab === "tasks" && (
+          <FadeIn>
+            <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] p-5">
+            <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
+              Payroll
+            </p>
+            <div className="mt-4">
+              <h1 className="text-[16px] font-[700] text-[#1F2937]">
+                Next payday: August 25th
+              </h1>
+              <p className="text-[14px] font-[400] text-[#323B49] mt-1.5">
+                Payroll will run automatically on payday only when all stages of
+                approval has been completed.
+              </p>
+            </div>
+            <button className="px-[14px] py-[8px] rounded-[8px] border border-[#E4E8EC] leading-none text-[14px] font-[500] text-[#1F2937] mt-5 flex items-center gap-2">
+              Run late payroll
+            </button>
+          </div>
+          </FadeIn>
+        )}
+
+        {activeTab === "leave_requests" && (
+         <FadeIn>
+           <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] p-5">
+            <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
+              Employee Spotlight
+            </p>
+            <div className="mt-4 flex items-center gap-4">
+              <img
+                className="w-[100px] h-[100px] rounded-full object-cover"
+                src="https://s3-alpha-sig.figma.com/img/3b21/b312/606790d5b94aee48a8a5556e868ae95a?Expires=1727654400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AYIYxASAyFPkiAwjwR5DSxFabQorR3~zAfzLqCIdJ1W3yNFqjWeW117ClGHmKHxnrA88McG0Xdu2LGE-cz0s~8k7ueffoMfdy9nHMqEMGrV7TZcEvkmpG5dc7LVuPhzQSmZENT3JpJoHuQyAMJMgeU4Wau4d-FswhZWFvXqSTxiEgN8zg3Cwvo2jnGkXlfqTn8QAmut83htPAWIN-IzhRDuV~vOczgRFAYUx74SbW07LEG5qUfwEZAwC9sRbDIUKfxTocuOOZasZGatVZGv8n1MdWSEI3tjBTVws4A8m-ZujjO6bAzMt1~CRhOPtGnttb3AKSRdi95ivGHjmUNgtcA__"
+              />
+              <div>
+                <h1 className="text-[24px] font-[700] text-[#1F2937]">
+                  Hannah Salisu
+                </h1>
+                <p className="text-[16px] font-[400] text-[#323B49]">
+                  Senior Product Designer
+                </p>
+              </div>
+            </div>
+            <p className="text-[16px] font-[400] text-[#323B49] mt-5">
+              Top performing employee of June
             </p>
           </div>
-          <button className="px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937] mt-5 flex items-center gap-2">
-            Run late payroll
-          </button>
-        </div>
+         </FadeIn>
+        )}
       </div>
 
       {/* Action & Chart */}
       <div className="mt-5 w-full grid grid-cols-2 gap-5">
-        <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5">
+        <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5">
           <p className="text-[16px] font-[700] text-[#1F2937] leading-none">
             Actions
           </p>
@@ -241,7 +297,7 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-        <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5">
+        <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5">
           <p className="text-[16px] font-[700] text-[#1F2937] leading-none">
             Team Performance Analytics
           </p>
@@ -254,7 +310,7 @@ export default function Dashboard() {
               </span>
             </div>
 
-            <button className="px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937] flex items-center gap-2">
+            <button className="px-[14px] py-[8px] rounded-[8px] border border-[#E4E8EC] leading-none text-[14px] font-[500] text-[#1F2937] flex items-center gap-2">
               <span>Product team</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -276,8 +332,26 @@ export default function Dashboard() {
 
           {/* Chart */}
           <div className="mt-7">
-            <LineChart data={dummyData}/>
+            <LineChart data={dummyData} />
           </div>
+        </div>
+      </div>
+
+      {/* Employees Table */}
+      <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5 mt-5">
+        <div className="flex justify-between items-center">
+          <p className="text-[16px] font-[700] text-[#0F1625] leading-none">
+            Employees
+          </p>
+          <Link
+            href=""
+            className="text-[14px] font-[500] leading-none text-[#EF0000] py-2 px-3 rounded-[6px] hover:bg-[#ef000007] transform transition duration-500 ease-in-out"
+          >
+            View all
+          </Link>
+        </div>
+        <div className="mt-5">
+          <EmployeesTable employees={employees} />
         </div>
       </div>
     </div>
