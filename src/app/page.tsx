@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      isAuthenticated ? navigate.replace('/dashboard') : navigate.replace('/auth/signin');
+      isAuthenticated ? navigate.replace('/dashboard/welcome') : navigate.replace('/auth/signin');
     }, 3000);
 
     return () => {
