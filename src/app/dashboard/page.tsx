@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import ActionTableTask from "../components/Table/ActionTable";
 import { FadeIn } from "../components/Transitions/Transitions";
+import LineChart from "../components/charts/Line";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
@@ -91,6 +92,23 @@ export default function Dashboard() {
       type: "Maternity",
     },
   ];
+
+
+  const dummyData = [
+    { _id: 'Jan', count: Math.floor(Math.random() * 101) }, // Random between 0 and 100
+    { _id: 'Feb', count: Math.floor(Math.random() * 101) },
+    { _id: 'Mar', count: Math.floor(Math.random() * 101) },
+    { _id: 'Apr', count: Math.floor(Math.random() * 101) },
+    { _id: 'May', count: Math.floor(Math.random() * 101) },
+    { _id: 'Jun', count: Math.floor(Math.random() * 101) },
+    { _id: 'Jul', count: Math.floor(Math.random() * 101) },
+    { _id: 'Aug', count: Math.floor(Math.random() * 101) },
+    { _id: 'Sep', count: Math.floor(Math.random() * 101) },
+    { _id: 'Oct', count: Math.floor(Math.random() * 101) },
+    { _id: 'Nov', count: Math.floor(Math.random() * 101) },
+    { _id: 'Dec', count: Math.floor(Math.random() * 101) },
+  ];
+
 
   return (
     <div>
@@ -190,32 +208,77 @@ export default function Dashboard() {
 
           {/* Table */}
           <div className="mt-5">
-            {activeTab === "tasks" && <FadeIn><ActionTableTask tasks={tasks} /></FadeIn>}
+            {activeTab === "tasks" && (
+              <FadeIn>
+                <ActionTableTask tasks={tasks} />
+              </FadeIn>
+            )}
             {activeTab === "leave_requests" && (
               <FadeIn>
                 <div className="w-full space-y-4">
-                {leaveRequests.map((leave, i) => (
-                  <div key={i} className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={leave.avatar}
-                        alt=""
-                        className="w-[32px] h-[32px] rounded-full object-cover"
-                      />
-                      <p className="text-[#0F1625] text-[14px] font-[700]">
-                        {leave.name}{" "}
-                        <span className="font-[400]">raised a {leave.lapse}.</span>
-                      </p>
+                  {leaveRequests.map((leave, i) => (
+                    <div key={i} className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={leave.avatar}
+                          alt=""
+                          className="w-[32px] h-[32px] rounded-full object-cover"
+                        />
+                        <p className="text-[#0F1625] text-[14px] font-[700]">
+                          {leave.name}{" "}
+                          <span className="font-[400]">
+                            raised a {leave.lapse}.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="bg-[#F0F2F5] p-[8px] rounded-full leading-none text-[12px] font-[700] text-[#0F1625]">
+                        {leave.type}
+                      </div>
                     </div>
-                    <div className="bg-[#F0F2F5] p-[8px] rounded-full leading-none text-[12px] font-[700] text-[#0F1625]">{leave.type}</div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
               </FadeIn>
             )}
           </div>
         </div>
-        <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5"></div>
+        <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5">
+          <p className="text-[16px] font-[700] text-[#1F2937] leading-none">
+            Team Performance Analytics
+          </p>
+          <div className="mt-5 flex justify-between items-center">
+            <div className="text-[#1F2937] text-[28px] font-[700] leading-none">
+              78.8%{" "}
+              <span className="text-[12px] font-[400]">
+                Avg. &nbsp;&nbsp;
+                <span className="text-[#0BA259]">+6%</span>&nbsp;than last year
+              </span>
+            </div>
+
+            <button className="px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937] flex items-center gap-2">
+              <span>Product team</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="6"
+                viewBox="0 0 10 6"
+                fill="none"
+              >
+                <path
+                  d="M1 1L4.29289 4.29289C4.62623 4.62623 4.79289 4.79289 5 4.79289C5.20711 4.79289 5.37377 4.62623 5.70711 4.29289L9 1"
+                  stroke="#0F1625"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Chart */}
+          <div className="mt-7">
+            <LineChart data={dummyData}/>
+          </div>
+        </div>
       </div>
     </div>
   );
