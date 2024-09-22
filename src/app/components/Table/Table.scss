@@ -1,0 +1,10 @@
+table {
+  td {
+    @apply whitespace-nowrap;
+  }
+}
+
+.bg-header {
+  @apply bg-[#f7f6f9] whitespace-nowrap;
+  // dark:bg-gray-700 dark:text-gray-400
+}
