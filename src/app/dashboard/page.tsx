@@ -2,7 +2,10 @@
 
 import { formatCurrency } from "@/helpers";
 import { ButtonBase } from "@mui/material";
+import Link from "next/link";
 import React, { useState } from "react";
+import ActionTableTask from "../components/Table/ActionTable";
+import { FadeIn } from "../components/Transitions/Transitions";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
@@ -44,6 +47,48 @@ export default function Dashboard() {
       icon: "/icons/job.svg",
       data: 134,
       title: "Job Applicants",
+    },
+  ];
+
+  const tasks = [
+    {
+      name: "Onboard new hires",
+      dueDate: "Today",
+      priority: "High",
+    },
+    {
+      name: "Announce mid year appraisal",
+      dueDate: "Aug 20, 2024",
+      priority: "Low",
+    },
+    {
+      name: "Follow up new hires",
+      dueDate: "Aug 25, 2024",
+      priority: "Medium",
+    },
+  ];
+
+  const leaveRequests = [
+    {
+      avatar:
+        "https://s3-alpha-sig.figma.com/img/9a4a/2ff5/e782e82e9a472a15f979453db483bd46?Expires=1727654400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=icXujdj74aqTAFQQHk-gYCNp0MkWj6fubWNdPZjhoKgA0QBNhX9hWVM9uL-LtL~To48ctObeX7~hi4cZL5-nqXsCAhXY5~TUq-jWgGsGyaWHYdNa5PCuWSoax8vhEPZaQmEbTPR7dhp9vuLTzNf4FYI41z-et26gENUnyVgu5e7YJMqKhaKeCGSnOljx7sQR2TBeD1w-vAeXs2pIOXLemd23CbmqoCAfW9hofxGqsUH948SLaoetaDVYWaj25zA5CUlEJAtYTsKVT94YApnqvJH6vS2nqBEkp119P~bqmxnAszCvcjjCPDxRFE6WRkRrYdvrMHDzGkWsBA6m3F-LWw__",
+      name: "Oluwadamilare Oludare",
+      lapse: "2 weeks leave",
+      type: "Casual",
+    },
+    {
+      avatar:
+        "https://s3-alpha-sig.figma.com/img/1f57/b58c/d445363432703e3bfdc5827ba793a2ce?Expires=1727654400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jcIvQzFm53mG8hEhZNFQbQraKFOLHhLIT8SU7KMfJwkjFnvJwBBvFVRlFeH3n0BxRXNdfqvnSwbglj5ukH0rblrQh7voymQ0o1BoeA0TUTK88u6T2VrUGYMorVQxsBmCvtU1B96lEw3ABPEIhE1UPiaC98HvPngZ7K7V5CTmbH~rh0gQNzA7zThkE4JHNhnTSqbEDUEC6aen0V---YbokKvjMfWavRK14R6BfZxyXQKPrqiVu8o8KW-i~vVKJqSJyN5FN3M6sVZGT~5zqTtqWEE7u3QR12DZZU7PffMpS9Q~RRv0STpm9C208nng4knIPQDaWl3k1ttSBYsOjUMfTw__",
+      name: "David Tonbara",
+      lapse: "3 days sick leave",
+      type: "Sick",
+    },
+    {
+      avatar:
+        "https://s3-alpha-sig.figma.com/img/d25a/df46/fb73f9dcb520e182bb476bbfc07ca265?Expires=1727654400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=M~iGbXO6eJ3w2IPwHbbuKOMDf7y3x82zCQ-cHBMDsyvRbiQ1QpnGdclggrAu546lPfn6e2olWTN3BiX7kfqBynK2r2KWBnxyCg2Zbvs5-KVQGmbCKiZ195cTHUZ9jMK0NdIcUkqSJXM-oP8OdZAXYaXIBX59Js64Cpr4D8NRkNiiXV6YVPlWlOaTtK2Tr-xTd1vUmN0oN8Gt6DFmggTMCxnWhk~iNW7KqFyVo7w~NxLLhj8UFs4bNvy4eHi8v6XiDs8uquU-QSnLsljX-KcogcgU2bUQfRip5r1WzzebRUumxDvHmVU4hQELtaVrr~nRXpR-mcbcp5lIyGcNNavmIw__",
+      name: "Rebecca Ogan",
+      lapse: "3 months maternity leave",
+      type: "Maternity",
     },
   ];
 
@@ -107,31 +152,67 @@ export default function Dashboard() {
           <p className="text-[16px] font-[700] text-[#1F2937] leading-none">
             Actions
           </p>
-          <div className="text-[14px] flex items-center mt-5 gap-1 bg-[#FBFBFC] w-fit rounded-[6px]">
-            {tabs.map((tab, index) => (
-              <ButtonBase
-                key={index}
-                onClick={() => handleTabClick(tab.key)}
-                className="rounded-[6px]"
-              >
-                <div
-                  className={`py-2 px-3 cursor-pointer transform transition duration-500 ease-in-out`}
-                  style={{
-                    backgroundColor:
-                      activeTab === tab.key ? "#F0F2F5" : "#FBFBFC",
-                    color: activeTab === tab.key ? "#0F1625" : "#687588",
-                    borderRadius: tab.borderRadius,
-                    fontWeight: activeTab === tab.key ? "500" : "500",
-                    border:
-                      activeTab === tab.key
-                        ? "0.5px solid #E4E8EC"
-                        : "0.5px solid transparent",
-                  }}
+          <div className="flex items-center justify-between">
+            <div className="text-[14px] flex items-center mt-5 gap-1 bg-[#FBFBFC] w-fit rounded-[6px]">
+              {tabs.map((tab, index) => (
+                <ButtonBase
+                  key={index}
+                  onClick={() => handleTabClick(tab.key)}
+                  className="rounded-[6px]"
                 >
-                  <p className="leading-none">{tab.label}</p>
-                </div>
-              </ButtonBase>
-            ))}
+                  <div
+                    className={`py-2 px-3 cursor-pointer transform transition duration-500 ease-in-out`}
+                    style={{
+                      backgroundColor:
+                        activeTab === tab.key ? "#F0F2F5" : "#FBFBFC",
+                      color: activeTab === tab.key ? "#0F1625" : "#687588",
+                      borderRadius: tab.borderRadius,
+                      fontWeight: activeTab === tab.key ? "500" : "500",
+                      // border:
+                      //   activeTab === tab.key
+                      //     ? "0.5px solid #E4E8EC"
+                      //     : "0.5px solid transparent",
+                    }}
+                  >
+                    <p className="leading-none">{tab.label}</p>
+                  </div>
+                </ButtonBase>
+              ))}
+            </div>
+
+            <Link
+              href=""
+              className="text-[14px] font-[500] leading-none text-[#EF0000] py-2 px-3 rounded-[6px] hover:bg-[#ef000007] transform transition duration-500 ease-in-out"
+            >
+              View all
+            </Link>
+          </div>
+
+          {/* Table */}
+          <div className="mt-5">
+            {activeTab === "tasks" && <FadeIn><ActionTableTask tasks={tasks} /></FadeIn>}
+            {activeTab === "leave_requests" && (
+              <FadeIn>
+                <div className="w-full space-y-4">
+                {leaveRequests.map((leave, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={leave.avatar}
+                        alt=""
+                        className="w-[32px] h-[32px] rounded-full object-cover"
+                      />
+                      <p className="text-[#0F1625] text-[14px] font-[700]">
+                        {leave.name}{" "}
+                        <span className="font-[400]">raised a {leave.lapse}.</span>
+                      </p>
+                    </div>
+                    <div className="bg-[#F0F2F5] p-[8px] rounded-full leading-none text-[12px] font-[700] text-[#0F1625]">{leave.type}</div>
+                  </div>
+                ))}
+              </div>
+              </FadeIn>
+            )}
           </div>
         </div>
         <div className="rounded-[12px] border-[0.5px] border-[#D0D6DD] w-full p-5"></div>

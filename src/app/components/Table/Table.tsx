@@ -8,9 +8,9 @@ interface TableProps {
 
 export default function Table({ head, body }: TableProps) {
   return (
-    <div className='relative overflow-x-auto sm:rounded-[12px]'>
+    <div className='relative overflow-x-auto sm:rounded-[8px]'>
       <table className='w-full text-sm text-left text-gray-500'>
-        <thead className='text-xs text-gray-700 capitalize'>
+        <thead className='text-xs text-[#0F1625]'>
           <tr>{head}</tr>
         </thead>
         <tbody>{body}</tbody>
