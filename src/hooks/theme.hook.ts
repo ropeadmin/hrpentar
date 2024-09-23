@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useAppSelector } from '../store';
 // import { ThemeState } from '../store/theme.slice';
 
