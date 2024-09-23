@@ -73,3 +73,45 @@ export const RoundedAppModal = ({
     </Backdrop>
   );
 };
+
+export const TitleAppModal = ({
+  open,
+  children,
+  title,
+  onClose,
+}: {
+  open: boolean;
+  title: string;
+  children: React.ReactNode;
+  onClose: () => void;
+  [key: string]: any;
+}) => {
+  return (
+    <AppModal
+      open={open}
+      sx={{
+        zIndex: 999,
+      }}
+    >
+      <div className='w-full'>
+        <div className='flex justify-between items-center sm:h-[66px] w-full sm:mt-[20px]'>
+          <IconButton onClick={onClose}>
+            <img src='/icons.close-icon.svg' alt='close' />
+          </IconButton>
+          <span className='sm:text-[20px] text-[4vw] font-[700]'>{title}</span>
+          <span className='w-[50px]'>
+            {/* <IconButton>
+                <img src={Assets.TrashIcon} alt="close" />
+              </IconButton> */}
+          </span>
+        </div>
+
+        <div className='AppModal__grad' />
+      </div>
+      <div className='w-full'>
+        {children}
+        <div className='h-[30px]' />
+      </div>
+    </AppModal>
+  );
+};
