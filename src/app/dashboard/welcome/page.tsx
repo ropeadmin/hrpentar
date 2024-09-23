@@ -1,7 +1,12 @@
+"use client";
 import Banner from "@/app/components/Banner/Banner";
-import React from "react";
+import { AppModal } from "@/app/components/Modals";
+import useAppTheme from "@/hooks/theme.hook";
+import { ButtonBase } from "@mui/material";
+import React, { useState } from "react";
 
 export default function Welcome() {
+  // const { isMobile } = useAppTheme();
   const percentage = 32;
 
   // Get Started Steps
@@ -64,6 +69,53 @@ export default function Welcome() {
       action: "",
     },
   ];
+
+  const welcomeTips = [
+    {
+      image: "/icons/image-1.svg",
+      header: "Welcome onboard!",
+      title:
+        "Manage employees, optimize employee performance,  streamline recruitment, etc.",
+    },
+    {
+      image: "/icons/image-2.svg",
+      header: "AI powered productivity",
+      title:
+        "Get work done fast with AISA, Pentahr’s AI assistant tailored to your role.",
+    },
+    {
+      image: "/icons/image-3.svg",
+      header: "Integrations",
+      title:
+        "Connect all your apps, zoom, skype, jira, github, excel, slack, etc.",
+    },
+    {
+      image: "/icons/image-4.svg",
+      header: "Manage payments",
+      title:
+        "Run payroll and benefits, report an expense, raise invoices, etc...",
+    },
+  ];
+
+  const [modalIndex, setModalIndex] = useState(0);
+  const [openModal, setOpenModal] = useState(true);
+
+  const handleNext = () => {
+    if (modalIndex < welcomeTips.length - 1) {
+      setModalIndex((prev) => prev + 1);
+    } else {
+      // Close the modal on the last step
+      setOpenModal(false);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (modalIndex > 0) {
+      setModalIndex((prev) => prev - 1);
+    }
+  };
+
+  const handleClose = () => setOpenModal(false);
 
   return (
     <div>
@@ -191,6 +243,86 @@ export default function Welcome() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <AppModal
+        open={openModal}
+        handleClose={handleClose}
+        style={{
+          backgroundImage:
+            "linear-gradient(179deg, #F0F1F7 15.73%, #FFF 49.36%)",
+          padding: "30px",
+          position: "relative",
+          height: "auto",
+          width: "500px",
+        }}
+      >
+        <div className="w-full flex justify-end">
+          <ButtonBase
+            onClick={handleClose}
+            className="rounded-full w-[32px] h-[32px]"
+          >
+            <div className="rounded-full w-[32px] h-[32px] bg-[#F9FAFB] flex justify-center items-center">
+              <img src="/icons/close.svg" alt="Close" width={10} height={10} />
+            </div>
+          </ButtonBase>
+        </div>
+
+        <div className="w-full h-auto rounded-[16px]">
+          <img
+            src={welcomeTips[modalIndex].image}
+            alt=""
+            className="w-full h-[190px] rounded-[16px] object-contain"
+          />
+        </div>
+
+          {/* Navigation Dots */}
+      <div className="flex justify-center w-full mt-1 gap-2">
+        {welcomeTips.map((_, index) => (
+          <div
+            key={index}
+            className={`w-[6px] h-[6px] rounded-full ${
+              modalIndex === index ? 'bg-[#EF0000]' : 'bg-[#E4E8EC]'
+            }`}
+          ></div>
+        ))}
+      </div>
+
+        <div className="mt-3">
+          <h1 className="text-[20px] font-[700] text-[#0F1625] leading-tight">
+            {welcomeTips[modalIndex].header}
+          </h1>
+          <p className="text-[14px] font-[400] text-[#323B49]">
+            {welcomeTips[modalIndex].title}
+          </p>
+        </div>
+
+        <div className="mt-2 flex justify-end w-full gap-2">
+          {/* If modalIndex > 0, show 'Previous' button, otherwise show 'Close' */}
+          {modalIndex > 0 ? (
+            <button
+              onClick={handlePrevious}
+              className="px-[16px] py-[10px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937]"
+            >
+              Previous
+            </button>
+          ) : (
+            <button
+              onClick={handleClose}
+              className="px-[16px] py-[10px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937]"
+            >
+              Close
+            </button>
+          )}
+
+          <button
+            onClick={handleNext}
+            className="px-[16px] py-[10px] rounded-[8px] border border-transparent leading-none text-[14px] font-[500] text-white bg-[#0F1625]"
+          >
+            {modalIndex === welcomeTips.length - 1 ? "Finish" : "Continue"}
+          </button>
+        </div>
+      </AppModal>
     </div>
   );
 }

@@ -417,3 +417,7 @@ body {
   border-radius: 12px;
 }
 
+
+.modal-bg {
+  background: linear-gradient(179deg, #F0F1F7 15.73%, #FFF 49.36%);
+}
