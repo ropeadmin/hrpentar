@@ -25,7 +25,6 @@ const initialPasswordTooltip = [
 ];
 
 export default function SignUp() {
-  useAuthRedirect();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();

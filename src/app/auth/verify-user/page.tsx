@@ -20,7 +20,6 @@ interface OTPInputProps {
 }
 
 export default function VerifyUser() {
-  useAuthRedirect();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();

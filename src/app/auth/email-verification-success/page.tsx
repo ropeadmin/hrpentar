@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function EmailVerificationSuccess() {
-    useAuthRedirect();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();

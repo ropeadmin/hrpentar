@@ -5,7 +5,6 @@ import useAuthRedirect from "@/hooks/authredirect.hook";
 import React, { useEffect, useState } from "react";
 
 export default function VerifyEmail() {
-    useAuthRedirect();
     const [email, setEmail] = useState('');
 
     useEffect(() => {
