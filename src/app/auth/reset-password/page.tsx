@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function ResetPassword() {
-    useAuthRedirect();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
