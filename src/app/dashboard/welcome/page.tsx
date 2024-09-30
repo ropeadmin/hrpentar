@@ -1,11 +1,13 @@
 "use client";
 import Banner from "@/app/components/Banner/Banner";
 import { AppModal } from "@/app/components/Modals";
+import useAuthRedirect from "@/hooks/authredirect.hook";
 import useAppTheme from "@/hooks/theme.hook";
 import { ButtonBase } from "@mui/material";
 import React, { useState } from "react";
 
 export default function Welcome() {
+  useAuthRedirect();
   // const { isMobile } = useAppTheme();
   const percentage = 32;
 

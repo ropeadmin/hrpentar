@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { PhoneInput } from "react-international-phone";
 import PasswordToolTip from "@/app/components/ToolTip/Password";
+import useAuthRedirect from "@/hooks/authredirect.hook";
 // import "react-international-phone/style.css";
 
 // Example password tooltip structure
@@ -24,11 +25,12 @@ const initialPasswordTooltip = [
 ];
 
 export default function SignUp() {
+  useAuthRedirect();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const { makeRequest, isLoading } = useAccountRequest();
+  const { makeRequest, isLoading } = useRequest();
   const [passwordTooltip, setPasswordTooltip] = useState(initialPasswordTooltip);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [formData, setFormData] = useState({
@@ -125,7 +127,7 @@ export default function SignUp() {
           autoHideDuration: 5000,
         });
 
-        router.push("/auth/verify-email");
+        router.push("/auth/verify-user");
         setFormData({
           firstName: "",
           lastName: "",

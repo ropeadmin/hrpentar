@@ -1,9 +1,11 @@
 "use client"
 
 import { obfuscateEmail } from "@/helpers";
+import useAuthRedirect from "@/hooks/authredirect.hook";
 import React, { useEffect, useState } from "react";
 
 export default function ResetPasswordLink() {
+    useAuthRedirect();
     const [email, setEmail] = useState('');
 
     useEffect(() => {

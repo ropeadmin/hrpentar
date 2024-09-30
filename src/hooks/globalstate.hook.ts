@@ -16,7 +16,7 @@ const useGlobalState = (): IGlobalState => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const profile = useAppSelector((state: { profile: any; }) => state.profile) as ProfileState;
-  const isAuthenticated = !!profile?.token;
+  const isAuthenticated = !!profile?.accessToken;
 
   const logout = () => {
     dispatch(profileLogoutAction());

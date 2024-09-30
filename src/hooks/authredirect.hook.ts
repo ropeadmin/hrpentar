@@ -1,22 +1,28 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../store';
 
-interface IAuthRedirect {
+interface AuthRedirectOptions {
   watch?: boolean;
 }
 
-const useAuthRedirect = ({ watch = false }: IAuthRedirect = {}) => {
-  const navigate = useRouter();
-  const isAuth = useAppSelector((store) => store.profile.accessToken);
-  const deps = [watch ? isAuth : null];
+const useAuthRedirect = ({ watch = false }: AuthRedirectOptions = {}) => {
+  const router = useRouter();
+  const accessToken = useAppSelector((state) => state.profile.accessToken);
+  
+  // Memoize the authentication status to avoid unnecessary recalculations
+  const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
 
+  // Only watch authentication status if `watch` is true
   useEffect(() => {
-    if (isAuth) navigate.replace('/dashboard');
-  }, deps);
+    if (isAuthenticated) {
+      router.replace('/dashboard');
+    } else {
+      router.replace('/auth/signin');
+    }
+  }, [isAuthenticated, router, watch]);
 
-  return isAuth;
+  return isAuthenticated;
 };
 
 export default useAuthRedirect;
