@@ -1,5 +1,5 @@
 import MyTextField from '@/app/components/Fields/MyTextField'
-import Stepper from '@/app/components/Steppper/Stepper'
+import Stepper from '@/app/components/Stepper/Stepper'
 import { FormControlLabel, Radio } from '@mui/material'
 import React from 'react'
 

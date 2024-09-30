@@ -1,4 +1,4 @@
-import Stepper from '@/app/components/Steppper/Stepper'
+import Stepper from '@/app/components/Stepper/Stepper'
 import React from 'react'
 
 export default function Step3() {

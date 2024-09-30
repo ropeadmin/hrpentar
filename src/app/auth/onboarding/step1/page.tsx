@@ -1,7 +1,7 @@
 "use client";
 
 import MyTextField from "@/app/components/Fields/MyTextField";
-import Stepper from "@/app/components/Steppper/Stepper";
+import Stepper from "@/app/components/Stepper/Stepper";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
 import useRequest from "@/services/request.service";

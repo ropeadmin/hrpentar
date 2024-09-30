@@ -1,6 +1,6 @@
 "use client";
 import PlanCard from "@/app/components/Cards/PlanCard";
-import Stepper from "@/app/components/Steppper/Stepper";
+import Stepper from "@/app/components/Stepper/Stepper";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
 import useRequest from "@/services/subRequest.service";
