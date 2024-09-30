@@ -178,8 +178,8 @@ export default function DashboardNavbar() {
                 {openProfile && (
                   <FadeIn>
                     <div className="right-0 left-0 h-auto absolute rounded-[12px] bg-white shadow p-4">
-                      {profileDropdown.map(({ icon, title }) => (
-                        <div className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#F9FAFB] transition-all ease-in-out duration-300">
+                      {profileDropdown.map(({ icon, title }, i) => (
+                        <div key={i} className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#F9FAFB] transition-all ease-in-out duration-300">
                           <img src={icon} alt="" width={17} />
                           <p className="text-[#323B49] text-[16px] font-[500] leading-none">
                             {title}
