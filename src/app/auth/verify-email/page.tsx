@@ -1,18 +1,11 @@
 "use client"
 
-import MyTextField from "@/app/components/Fields/MyTextField";
-import API from "@/constants/api.constant";
 import { obfuscateEmail } from "@/helpers";
-import { catchAsync } from "@/helpers/api.helper";
-import useRequest from "@/services/request.service";
-import { profileLoginAction } from "@/store/profile.slice";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useSnackbar } from "notistack";
+import useAuthRedirect from "@/hooks/authredirect.hook";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
 export default function VerifyEmail() {
+    useAuthRedirect();
     const [email, setEmail] = useState('');
 
     useEffect(() => {

@@ -3,6 +3,7 @@
 import MyTextField from "@/app/components/Fields/MyTextField";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
+import useAuthRedirect from "@/hooks/authredirect.hook";
 import useRequest from "@/services/request.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function EmailVerificationSuccess() {
+    useAuthRedirect();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();

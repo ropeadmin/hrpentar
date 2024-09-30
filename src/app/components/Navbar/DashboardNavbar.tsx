@@ -5,11 +5,9 @@ import useGlobalState from "@/hooks/globalstate.hook";
 import useAppTheme from "@/hooks/theme.hook";
 import { MdClose } from "react-icons/md";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
-import { useDispatch } from "react-redux";
-import { profileLogoutAction } from "@/store/profile.slice";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { ButtonBase, IconButton } from "@mui/material";
+import { ButtonBase } from "@mui/material";
+import { getInitials } from "@/helpers";
 
 export default function DashboardNavbar() {
   const router = useRouter();
@@ -51,18 +49,18 @@ export default function DashboardNavbar() {
     },
   ];
 
-  const fullName = profile?.user?.full_name || "-------";
-  const avatar = profile?.user?.avatar;
+  const firstName = profile?.account?.firstName || "----";
+  const lastName = profile?.account?.lastName || "----";
+  const initials = getInitials(firstName, lastName);
 
   return (
     <>
-      <div className="min-h-[72px] max-h-[72px] bg-white border-b-[0.5px] border-[#d0d6dd97] sm:px-7 px-5 flex items-center justify-between relative">
-        <div className="flex justify-between items-center w-full">
-          {/* <h1>Hello</h1> */}
-          
-          <div className="divide-x divide-[#d0d6dd89] grid grid-cols-2 w-fit">
-            {/* Search Bar & Notification */}
-            <div className="flex gap-8 items-center pr-2.5 wfit">
+      <div className="min-h-[72px] max-h-[72px] bg-white border-b-[0.5px] border-[#d0d6dd97] sm:px-7 px-5 flex items-center justify-end relative">
+        {/* <div className="border w-full"></div> */}
+        <div className="h-auto">
+          {/* Search Bar & Notification */}
+          <div className="flex items-center divide-x">
+            <div className="flex gap-8 items-center pr-[12px]">
               <div className="relative">
                 <input
                   type="text"
@@ -124,19 +122,19 @@ export default function DashboardNavbar() {
             </div>
 
             {/* User Profile */}
-            <div className="flex items-center gap-3 pl-5 w-fit">
+            <div className="flex items-center gap-3 w-fit cursor-pointer pl-[12px]">
               <div className="flex gap-2 items-center">
-                <div className="w-[40px] h-[40px] bg-[#F9FAFB] rounded-full flex justify-center items-center">
+                <div className="w-[45px] h-[45px] bg-[#F9FAFB] rounded-full flex justify-center items-center">
                   <p className="text-[18px] font-[700] text-[#687588] leading-none">
-                    KB
+                    {initials}
                   </p>
                 </div>
                 <div>
                   <h1 className="text-[16px] font-[700] text-[#1F2937]">
-                    Kamsi Bentley
+                    {firstName + " " + lastName}
                   </h1>
                   <p className="text-[12px] font-[500] text-[#687588] leading-none">
-                    Super Admin
+                    {profile?.account?.role || "-----"}
                   </p>
                 </div>
               </div>
@@ -154,13 +152,6 @@ export default function DashboardNavbar() {
               </svg>
             </div>
           </div>
-        </div>
-
-        <div
-          onClick={() => setNav(!nav)}
-          className="cursor-pointer z-10 md:hidden"
-        >
-          {nav ? <MdClose size={25} /> : <HiOutlineMenuAlt3 size={25} />}
         </div>
       </div>
 

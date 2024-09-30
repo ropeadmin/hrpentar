@@ -8,9 +8,17 @@ import ActionTableTask from "../components/Table/ActionTable";
 import { FadeIn } from "../components/Transitions/Transitions";
 import LineChart from "../components/charts/Line";
 import EmployeesTable from "../components/Table/EmployeesTable";
+import useAuthRedirect from "@/hooks/authredirect.hook";
+import useGlobalState from "@/hooks/globalstate.hook";
 
 export default function Dashboard() {
+  useAuthRedirect();
+  const { profile } = useGlobalState();
   const [activeTab, setActiveTab] = useState("tasks");
+  const [payroll, setPayroll] = useState(null);
+  const [task, setTask] = useState(null);
+  const [leave, setLeave] = useState(null);
+  const [employee, setEmployee] = useState(null);
 
   const tabs = [
     {
@@ -32,22 +40,22 @@ export default function Dashboard() {
   const cards = [
     {
       icon: "/icons/employees.svg",
-      data: 3041,
+      data: 0,
       title: "Total Employees",
     },
     {
       icon: "/icons/salary.svg",
-      data: 579843120,
+      data: 0,
       title: "Total Salary",
     },
     {
       icon: "/icons/on-leave.svg",
-      data: 16,
+      data: 0,
       title: "Employees on Leave",
     },
     {
       icon: "/icons/job.svg",
-      data: 134,
+      data: 0,
       title: "Job Applicants",
     },
   ];
@@ -136,7 +144,9 @@ export default function Dashboard() {
   return (
     <div>
       <div>
-        <h1 className="text-[28px] font-[700] text-[#0F1625]">Hi Kamsi</h1>
+        <h1 className="text-[28px] font-[700] text-[#0F1625]">
+          Hi {profile?.account?.firstName || "-----"}
+        </h1>
         <p className="text-[14px] font-[400] text-[#323B49]">
           Here is your dashboard overview.
         </p>
@@ -150,10 +160,12 @@ export default function Dashboard() {
               <img src={card.icon} width={20} height={20} />
             </div>
             <div className="mt-3">
-              <h1 className="text-[24px] font-[700] text-[#0F1625]">
+              <h1 className="text-[24px] font-bold text-[#0F1625]">
                 {card.title === "Total Salary"
-                  ? formatCurrency(card.data)
-                  : card.data.toLocaleString()}
+                  ? formatCurrency(card.data || 0)
+                  : card.data
+                  ? card.data.toLocaleString()
+                  : "-"}
               </h1>
               <p className="text-[16px] font-[400] text-[#1F2937]">
                 {card.title}
@@ -172,51 +184,89 @@ export default function Dashboard() {
 
         {activeTab === "tasks" && (
           <FadeIn>
-            <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] p-5">
-            <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
-              Payroll
-            </p>
-            <div className="mt-4">
-              <h1 className="text-[16px] font-[700] text-[#1F2937]">
-                Next payday: August 25th
-              </h1>
-              <p className="text-[14px] font-[400] text-[#323B49] mt-1.5">
-                Payroll will run automatically on payday only when all stages of
-                approval has been completed.
-              </p>
-            </div>
-            <button className="px-[14px] py-[8px] rounded-[8px] border border-[#E4E8EC] leading-none text-[14px] font-[500] text-[#1F2937] mt-5 flex items-center gap-2">
-              Run late payroll
-            </button>
-          </div>
+            {payroll ? (
+              <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] p-5">
+                <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
+                  Payroll
+                </p>
+                <div className="mt-4">
+                  <h1 className="text-[16px] font-[700] text-[#1F2937]">
+                    Next payday: August 25th
+                  </h1>
+                  <p className="text-[14px] font-[400] text-[#323B49] mt-1.5">
+                    Payroll will run automatically on payday only when all
+                    stages of approval has been completed.
+                  </p>
+                </div>
+                <button className="px-[14px] py-[8px] rounded-[8px] border border-[#E4E8EC] leading-none text-[14px] font-[500] text-[#1F2937] mt-5 flex items-center gap-2">
+                  Run late payroll
+                </button>
+              </div>
+            ) : (
+              <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] px-5 pt-5 pb-10">
+                <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
+                  Payroll
+                </p>
+                <div className="mt-4 flex flex-col justify-center items-center text-center">
+                  <img src="/icons/no-payroll.svg" alt="" width={30} />
+                  <div className="mt-4">
+                    <h1 className="text-[20px] font-[700] text-[#1F2937]">
+                      No Payroll
+                    </h1>
+                    <p className="text-[16px] font-[400] text-[#323B49]">
+                      You have no payroll activity yet
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </FadeIn>
         )}
 
         {activeTab === "leave_requests" && (
-         <FadeIn>
-           <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] p-5">
-            <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
-              Employee Spotlight
-            </p>
-            <div className="mt-4 flex items-center gap-4">
-              <img
-                className="w-[100px] h-[100px] rounded-full object-cover"
-                src="https://s3-alpha-sig.figma.com/img/3b21/b312/606790d5b94aee48a8a5556e868ae95a?Expires=1727654400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AYIYxASAyFPkiAwjwR5DSxFabQorR3~zAfzLqCIdJ1W3yNFqjWeW117ClGHmKHxnrA88McG0Xdu2LGE-cz0s~8k7ueffoMfdy9nHMqEMGrV7TZcEvkmpG5dc7LVuPhzQSmZENT3JpJoHuQyAMJMgeU4Wau4d-FswhZWFvXqSTxiEgN8zg3Cwvo2jnGkXlfqTn8QAmut83htPAWIN-IzhRDuV~vOczgRFAYUx74SbW07LEG5qUfwEZAwC9sRbDIUKfxTocuOOZasZGatVZGv8n1MdWSEI3tjBTVws4A8m-ZujjO6bAzMt1~CRhOPtGnttb3AKSRdi95ivGHjmUNgtcA__"
-              />
-              <div>
-                <h1 className="text-[24px] font-[700] text-[#1F2937]">
-                  Hannah Salisu
-                </h1>
-                <p className="text-[16px] font-[400] text-[#323B49]">
-                  Senior Product Designer
+          <FadeIn>
+            {leave ? (
+              <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] p-5">
+                <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
+                  Employee Spotlight
+                </p>
+                <div className="mt-4 flex items-center gap-4">
+                  <img
+                    className="w-[100px] h-[100px] rounded-full object-cover"
+                    src="https://s3-alpha-sig.figma.com/img/3b21/b312/606790d5b94aee48a8a5556e868ae95a?Expires=1727654400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AYIYxASAyFPkiAwjwR5DSxFabQorR3~zAfzLqCIdJ1W3yNFqjWeW117ClGHmKHxnrA88McG0Xdu2LGE-cz0s~8k7ueffoMfdy9nHMqEMGrV7TZcEvkmpG5dc7LVuPhzQSmZENT3JpJoHuQyAMJMgeU4Wau4d-FswhZWFvXqSTxiEgN8zg3Cwvo2jnGkXlfqTn8QAmut83htPAWIN-IzhRDuV~vOczgRFAYUx74SbW07LEG5qUfwEZAwC9sRbDIUKfxTocuOOZasZGatVZGv8n1MdWSEI3tjBTVws4A8m-ZujjO6bAzMt1~CRhOPtGnttb3AKSRdi95ivGHjmUNgtcA__"
+                  />
+                  <div>
+                    <h1 className="text-[24px] font-[700] text-[#1F2937]">
+                      Hannah Salisu
+                    </h1>
+                    <p className="text-[16px] font-[400] text-[#323B49]">
+                      Senior Product Designer
+                    </p>
+                  </div>
+                </div>
+                <p className="text-[16px] font-[400] text-[#323B49] mt-5">
+                  Top performing employee of June
                 </p>
               </div>
-            </div>
-            <p className="text-[16px] font-[400] text-[#323B49] mt-5">
-              Top performing employee of June
-            </p>
-          </div>
-         </FadeIn>
+            ) : (
+              <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] px-5 pt-5 pb-10">
+                <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
+                  Payroll
+                </p>
+                <div className="mt-4 flex flex-col justify-center items-center text-center">
+                  <img src="/icons/no-payroll.svg" alt="" width={30} />
+                  <div className="mt-4">
+                    <h1 className="text-[20px] font-[700] text-[#1F2937]">
+                      No Payroll
+                    </h1>
+                    <p className="text-[16px] font-[400] text-[#323B49]">
+                      You have no payroll activity yet
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </FadeIn>
         )}
       </div>
 
@@ -254,45 +304,78 @@ export default function Dashboard() {
               ))}
             </div>
 
-            <Link
-              href=""
-              className="text-[14px] font-[500] leading-none text-[#EF0000] py-2 px-3 rounded-[6px] hover:bg-[#ef000007] transform transition duration-500 ease-in-out"
-            >
-              View all
-            </Link>
+            {(task || leave) && (
+              <Link
+                href=""
+                className="text-[14px] font-[500] leading-none text-[#EF0000] py-2 px-3 rounded-[6px] hover:bg-[#ef000007] transform transition duration-500 ease-in-out"
+              >
+                View all
+              </Link>
+            )}
           </div>
 
           {/* Table */}
           <div className="mt-5">
             {activeTab === "tasks" && (
               <FadeIn>
-                <ActionTableTask tasks={tasks} />
+                {task ? (
+                  <ActionTableTask tasks={tasks} />
+                ) : (
+                  <div className="flex flex-col justify-center items-center text-center h-[300px]">
+                    <img src="/icons/no-task.svg" alt="" width={30} />
+                    <div className="mt-4">
+                      <h1 className="text-[20px] font-[700] text-[#1F2937]">
+                        No tasks
+                      </h1>
+                      <p className="text-[16px] font-[400] text-[#323B49]">
+                        There are no tasks at this time
+                      </p>
+                    </div>
+                  </div>
+                )}
               </FadeIn>
             )}
             {activeTab === "leave_requests" && (
               <FadeIn>
-                <div className="w-full space-y-4">
-                  {leaveRequests.map((leave, i) => (
-                    <div key={i} className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={leave.avatar}
-                          alt=""
-                          className="w-[32px] h-[32px] rounded-full object-cover"
-                        />
-                        <p className="text-[#0F1625] text-[14px] font-[700]">
-                          {leave.name}{" "}
-                          <span className="font-[400]">
-                            raised a {leave.lapse}.
-                          </span>
-                        </p>
+                {leave ? (
+                  <div className="w-full space-y-4">
+                    {leaveRequests.map((leave, i) => (
+                      <div
+                        key={i}
+                        className="flex justify-between items-center"
+                      >
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={leave.avatar}
+                            alt=""
+                            className="w-[32px] h-[32px] rounded-full object-cover"
+                          />
+                          <p className="text-[#0F1625] text-[14px] font-[700]">
+                            {leave.name}{" "}
+                            <span className="font-[400]">
+                              raised a {leave.lapse}.
+                            </span>
+                          </p>
+                        </div>
+                        <div className="bg-[#F0F2F5] p-[8px] rounded-full leading-none text-[12px] font-[700] text-[#0F1625]">
+                          {leave.type}
+                        </div>
                       </div>
-                      <div className="bg-[#F0F2F5] p-[8px] rounded-full leading-none text-[12px] font-[700] text-[#0F1625]">
-                        {leave.type}
-                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col justify-center items-center text-center h-[300px]">
+                    <img src="/icons/no-leave.svg" alt="" width={30} />
+                    <div className="mt-4">
+                      <h1 className="text-[20px] font-[700] text-[#1F2937]">
+                        No leave requests
+                      </h1>
+                      <p className="text-[16px] font-[400] text-[#323B49]">
+                        There are no leave requests at this time
+                      </p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
               </FadeIn>
             )}
           </div>
@@ -303,10 +386,10 @@ export default function Dashboard() {
           </p>
           <div className="mt-5 flex justify-between items-center">
             <div className="text-[#1F2937] text-[28px] font-[700] leading-none">
-              78.8%{" "}
+              0%{" "}
               <span className="text-[12px] font-[400]">
                 Avg. &nbsp;&nbsp;
-                <span className="text-[#0BA259]">+6%</span>&nbsp;than last year
+                {/* <span className="text-[#0BA259]">+6%</span>&nbsp;than last year */}
               </span>
             </div>
 
@@ -332,7 +415,7 @@ export default function Dashboard() {
 
           {/* Chart */}
           <div className="mt-7">
-            <LineChart data={dummyData} />
+            <LineChart data={[]} />
           </div>
         </div>
       </div>
@@ -343,16 +426,32 @@ export default function Dashboard() {
           <p className="text-[16px] font-[700] text-[#0F1625] leading-none">
             Employees
           </p>
-          <Link
-            href=""
-            className="text-[14px] font-[500] leading-none text-[#EF0000] py-2 px-3 rounded-[6px] hover:bg-[#ef000007] transform transition duration-500 ease-in-out"
-          >
-            View all
-          </Link>
+          {employee && (
+            <Link
+              href=""
+              className="text-[14px] font-[500] leading-none text-[#EF0000] py-2 px-3 rounded-[6px] hover:bg-[#ef000007] transform transition duration-500 ease-in-out"
+            >
+              View all
+            </Link>
+          )}
         </div>
-        <div className="mt-5">
-          <EmployeesTable employees={employees} />
-        </div>
+        {employee ? (
+          <div className="mt-5">
+            <EmployeesTable employees={employees} />
+          </div>
+        ) : (
+          <div className="flex flex-col justify-center items-center text-center h-[300px]">
+            <img src="/icons/no-employee.svg" alt="" width={30} />
+            <div className="mt-4">
+              <h1 className="text-[20px] font-[700] text-[#1F2937]">
+                No employees
+              </h1>
+              <p className="text-[16px] font-[400] text-[#323B49]">
+                You have no employees onboarded yet
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

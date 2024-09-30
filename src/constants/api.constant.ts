@@ -9,6 +9,7 @@ export const API = {
   resetPassword: '/api/v1/auth/account/forgot-password',
   changePassword: '/api/v1/auth/account/change-password',
   generateToken: '/api/v1/auth/account/generate-token',
+  verifyOtp: '/api/v1/auth/account/verify-otp',
   
   // Account
   createBusiness: '/api/v1/business',

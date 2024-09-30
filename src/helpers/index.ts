@@ -187,3 +187,17 @@ export function formatCurrency(amount: number, currency = 'NGN') {
     maximumFractionDigits: 2,
   }).format(amount);
 }
+
+
+/**
+ * Extracts the first initials from first and last names.
+ * @param firstName - The first name of the user.
+ * @param lastName - The last name of the user.
+ * @returns The initials as a string (e.g., "GM"). Returns an empty string if both names are absent.
+ */
+export const getInitials = (firstName?: string, lastName?: string): string => {
+  const firstInitial = firstName?.charAt(0).toUpperCase() || '';
+  const lastInitial = lastName?.charAt(0).toUpperCase() || '';
+  
+  return `${firstInitial}${lastInitial}`;
+};
