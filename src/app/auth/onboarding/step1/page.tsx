@@ -4,7 +4,7 @@ import MyTextField from "@/app/components/Fields/MyTextField";
 import Stepper from "@/app/components/Stepper/Stepper";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
-import useRequest from "@/services/request.service";
+import useRequest from "@/services/accountRequest.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import { MenuItem } from "@mui/material";
 import Link from "next/link";
@@ -47,6 +47,21 @@ export default function Step1() {
     businessType: formData.businessType,
     subsidiary: formData.subsidiaryDetails,
     main: false,
+    address: {
+        "country": "Nigeria",
+        "state": "Osun",
+        "address": "Iwo",
+        "city": "Iwo",
+        "postalCode": "21333"
+    },
+    director: {
+        name: "Naheem",
+        email: "naheemadedokun@gmail.com",
+        country: "Nigeria",
+        idCard: ["https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png"],
+        position: "Director",
+        signature: "https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png"
+    }
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -60,21 +75,31 @@ export default function Step1() {
         });
 
         const { data } = res;
-        console.log("STEP 1:", data);
+
         // Move to step 3 on success
-        if (data.success) {
+        if (data?.status === 'SUCCESS') {
           setCurrentStep(3);
+          router.push('/auth/onboarding/step2')
         }
       },
       (error: any) => {
-        const res: any = error?.response;
-        const data = res?.data;
-
-        enqueueSnackbar(data?.message, {
-          variant: "rope_snackbar",
-          autoHideDuration: 5000,
-          error: true,
-        });
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
       }
     );
   };
@@ -98,16 +123,19 @@ export default function Step1() {
   const subsidiary = ["Yes", "No"];
 
   return (
-    <div className="bg-[#fff] min-h-screen flex p-4">
-      <div
-        className="relative rounded-[16px] flex-grow h-full w-full overflow-hidden bg-[url('/images/auth-3.jpeg')] min-h-screen p-7"
-        style={{
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+    <div className="bg-[#fff] h-screen flex p-4 overflowHidden">
+    <div
+      className="relative p-[32px] rounded-[16px] flex-grow min-h-full min-w-[47vw] max-w-[47vw] w-[47vw] overflow-hidden bg-[url('/images/auth-1.jpeg')]"
+      style={{
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="">
         <img src="/pentaHR.svg" width={150} height={150} />
+      </div>
+
 
         <div className="absolute bottom-7 left-7 right-7 h-auto auth-glass p-5">
           <p className="text-white text-base font-medium font-['Cabinet Grotesk'] leading-tight">

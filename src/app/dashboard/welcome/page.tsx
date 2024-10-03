@@ -7,7 +7,7 @@ import { ButtonBase } from "@mui/material";
 import React, { useState } from "react";
 
 export default function Welcome() {
-  useAuthRedirect();
+  // useAuthRedirect();
   // const { isMobile } = useAppTheme();
   const percentage = 32;
 

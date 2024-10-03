@@ -3,7 +3,6 @@
 import MyTextField from "@/app/components/Fields/MyTextField";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
-import useAccountRequest from "@/services/accountRequest.service";
 import useRequest from "@/services/request.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
@@ -13,8 +12,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { PhoneInput } from "react-international-phone";
 import PasswordToolTip from "@/app/components/ToolTip/Password";
-import useAuthRedirect from "@/hooks/authredirect.hook";
-import SignupStepper from "@/app/components/Stepper/SignupStepper";
 // import "react-international-phone/style.css";
 
 // Example password tooltip structure
@@ -83,24 +80,35 @@ export default function SignUp() {
     );
   };
 
+  // const isFormValid = () => {
+  //   if (currentStep === 1) {
+  //     // Validate only step 1 fields (first name, last name, email, phone number)
+  //     return (
+  //       formData.firstName && formData.lastName && formData.email && phoneNumber
+  //     );
+  //   } else if (currentStep === 2) {
+  //     // Validate step 2 fields (password and confirm password)
+  //     return (
+  //       formData.firstName &&
+  //       formData.lastName &&
+  //       formData.email &&
+  //       phoneNumber &&
+  //       isPasswordValid &&
+  //       formData.password === formData.confirmPassword
+  //     );
+  //   }
+  //   return false;
+  // };
+
   const isFormValid = () => {
-    if (currentStep === 1) {
-      // Validate only step 1 fields (first name, last name, email, phone number)
-      return (
-        formData.firstName && formData.lastName && formData.email && phoneNumber
-      );
-    } else if (currentStep === 2) {
-      // Validate step 2 fields (password and confirm password)
-      return (
-        formData.firstName &&
-        formData.lastName &&
-        formData.email &&
-        phoneNumber &&
-        isPasswordValid &&
-        formData.password === formData.confirmPassword
-      );
-    }
-    return false;
+    return (
+      formData.firstName &&
+      formData.lastName &&
+      formData.email &&
+      phoneNumber &&
+      isPasswordValid &&
+      formData.password === formData.confirmPassword
+    );
   };
 
   const payload = {
@@ -174,16 +182,18 @@ export default function SignUp() {
   };
 
   return (
-    <div className="bg-[#fff] h-full flex p-4">
+    <div className="bg-[#fff] h-screen flex p-4 overflowHidden">
       <div
-        className="relative rounded-[16px] flex-grow h-screen w-full overflow-hidden bg-[url('/images/auth-1.jpeg')] min-h-screen p-7"
+        className="relative p-[32px] rounded-[16px] flex-grow min-h-full min-w-[47vw] max-w-[47vw] w-[47vw] overflow-hidden bg-[url('/images/auth-1.jpeg')]"
         style={{
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
       >
-        <img src="/pentaHR.svg" width={150} height={150} />
+        <div className="">
+          <img src="/pentaHR.svg" width={150} height={150} />
+        </div>
 
         <div className="absolute bottom-7 left-7 right-7 h-auto auth-glass p-5">
           <p className="text-white text-base font-medium font-['Cabinet Grotesk'] leading-tight">
@@ -204,8 +214,9 @@ export default function SignUp() {
         </div>
       </div>
 
-      <div className="bg-white flex flex-col justify-center items-center mx-auto w-full h-auto py-10 px-20">
-        <form className="w-[100%]" onSubmit={handleSubmit}>
+      <div className="bg-white flex flex-col justify-center items-center mx-auto w-full min-h-full py-14">
+        {/* Fixed Header and Sub-header */}
+        <div className="w-[80%]">
           <div className="mb-7">
             <h1 className="text-[#0f1625] text-[28px] text-start font-bold leading-tight">
               Create account
@@ -227,21 +238,141 @@ export default function SignUp() {
               </span>
             </div>
           </div>
+        </div>
 
-          {/* Stepper Component */}
-          <div className="flex items-center mx-auto w-full mb-7">
+        {/* Scrollable Form Container */}
+        <div className="w-[80%] overflow-y-auto h-full max-h-[70vh] lg:max-h-[80vh] 2xl:max-h-[90vh]">
+          <form className="w-full space-y-5" onSubmit={handleSubmit}>
+            <div className="space-y-5">
+              <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-4">
+                <MyTextField
+                  id="firstName"
+                  name="firstName"
+                  label="First name"
+                  placeholder="Enter your first name"
+                  value={formData.firstName}
+                  type="text"
+                  onChange={handleChange}
+                />
+                <MyTextField
+                  id="lastName"
+                  name="lastName"
+                  label="Last name"
+                  placeholder="Enter your last name"
+                  value={formData.lastName}
+                  type="text"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <MyTextField
+                id="email"
+                name="email"
+                label="Email address"
+                placeholder="Enter your email"
+                value={formData.email}
+                type="email"
+                onChange={handleChange}
+              />
+
+              <div>
+                <h3 className="text-[12px] md:text-[14px] font-normal mb-[5px]">
+                  Phone number
+                </h3>
+                <PhoneInput
+                  defaultCountry="ng"
+                  value={phoneNumber}
+                  forceDialCode={true}
+                  onChange={(phone, country) => setPhoneNumber(phone)}
+                />
+              </div>
+
+              <MyTextField
+                id="password"
+                name="password"
+                label="Password"
+                placeholder="Enter your password"
+                value={formData.password}
+                type="password"
+                onChange={handleChange}
+              />
+              <div className="flex items-center gap-1.5 mt-2">
+                {passwordTooltip.map(({ title, passed }, index) => (
+                  <PasswordToolTip key={index} title={title} passed={passed} />
+                ))}
+              </div>
+
+              <MyTextField
+                id="confirmPassword"
+                name="confirmPassword"
+                label="Confirm password"
+                placeholder="Confirm your password"
+                value={formData.confirmPassword}
+                type="password"
+                onChange={handleChange}
+              />
+            </div>
+          </form>
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-between mt-7 gap-5 w-[80%]">
+          {currentStep === 2 && (
+            <button
+              type="button"
+              onClick={() => setCurrentStep(1)}
+              className="bg-[#f0f2f5] text-[#0f1625] transition-all duration-150 py-[10px] px-5 rounded-[8px] text-base font-medium"
+            >
+              Prev
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => {
+              handleSubmit();
+            }}
+            className={`${
+              !isFormValid()
+                ? "bg-[#f0f2f5] text-[#a0aec0]"
+                : "bg-[#0f1625] text-white"
+            } transition-all duration-150 py-[10px] px-5 rounded-[8px] text-base font-medium w-full ${
+              isLoading || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={!isFormValid() || isLoading}
+          >
+            {isLoading ? "Please wait..." : "Create account"}
+          </button>
+        </div>
+
+        {/* Fixed Footer */}
+        <div className="font-medium leading-tight flex justify-center items-center space-x-1 mt-5">
+          <p className="text-[#677488] text-sm">Already have an account?</p>
+          <span>
+            <Link
+              className="text-[#ef0000] hover:underline underline-offset-2 text-sm"
+              href={"/auth/signin"}
+            >
+              Login here
+            </Link>
+          </span>
+        </div>
+      </div>
+
+      {/* Stepper Component */}
+      {/* <div className="flex items-center mx-auto w-full mb-7">
             <SignupStepper currentStep={currentStep} />
-          </div>
+          </div> */}
 
-          <div className="space-y-5">
+      {/* <div className="space-y-5">
             {currentStep === 1 && (
               <>
-                {/* Step 1: Personal Information */}
+                {/* Step 1: Personal Information 
                 <div className="space-x-5 flex">
                   <MyTextField
                     id="firstName"
                     name="firstName"
-                    label="First Name"
+                    label="First name"
                     placeholder="Enter your first name"
                     value={formData.firstName}
                     type="text"
@@ -250,7 +381,7 @@ export default function SignUp() {
                   <MyTextField
                     id="lastName"
                     name="lastName"
-                    label="Last Name"
+                    label="Last name"
                     placeholder="Enter your last name"
                     value={formData.lastName}
                     type="text"
@@ -261,7 +392,7 @@ export default function SignUp() {
                   <MyTextField
                     id="email"
                     name="email"
-                    label="Email Address"
+                    label="Email address"
                     placeholder="Enter your email"
                     value={formData.email}
                     type="email"
@@ -277,11 +408,6 @@ export default function SignUp() {
                       forceDialCode={true}
                       onChange={(phone, country) => setPhoneNumber(phone)}
                     />
-                    {/* {errors.phoneNumber && (
-            <small className="text-[11px] text-errorColor">
-              {errors.phoneNumber}
-            </small>
-          )} */}
                   </div>
                 </div>
               </>
@@ -289,7 +415,7 @@ export default function SignUp() {
 
             {currentStep === 2 && (
               <>
-                {/* Step 2: Set Password */}
+                {/* Step 2: Set Password 
                 <div className="flex flex-col space-y-5">
                   <MyTextField
                     id="password"
@@ -315,7 +441,7 @@ export default function SignUp() {
                 <MyTextField
                   id="confirmPassword"
                   name="confirmPassword"
-                  label="Confirm Password"
+                  label="Confirm password"
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
                   type="password"
@@ -323,67 +449,7 @@ export default function SignUp() {
                 />
               </>
             )}
-          </div>
-
-          <div className="flex justify-between mt-10 gap-5">
-            {/* Back Button: Only show on Step 2 */}
-            {currentStep === 2 && (
-              <button
-                type="button"
-                onClick={() => setCurrentStep(1)}
-                className="bg-[#f0f2f5] text-[#0f1625] transition-all duration-150 py-[10px] px-5 rounded-[8px] text-base font-medium"
-              >
-                Prev
-              </button>
-            )}
-
-            {/* Next/Submit Button */}
-            <button
-              type="button"
-              onClick={() => {
-                if (currentStep === 1) {
-                  // Proceed to step 2
-                  if (isFormValid()) {
-                    setCurrentStep(2);
-                  }
-                } else {
-                  // Submit form if on step 2
-                  handleSubmit(); // Replace with your form submission function
-                }
-              }}
-              className={`${
-                !isFormValid()
-                  ? "bg-[#f0f2f5] text-[#a0aec0]"
-                  : "bg-[#0f1625] text-white"
-              } transition-all duration-150 py-[10px] px-5 rounded-[8px] text-base font-medium w-full ${
-                isLoading || !isFormValid()
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
-              disabled={!isFormValid() || isLoading}
-            >
-              {isLoading
-                ? "Please wait..."
-                : currentStep === 1
-                ? "Proceed"
-                : "Create account"}
-            </button>
-          </div>
-        </form>
-
-        <div className="font-medium leading-tight flex justify-center items-center space-x-1 mt-5">
-          <p className="text-[#677488] text-sm">Already have an account?</p>
-          <span>
-            <Link
-              className="text-[#ef0000] hover:underline underline-offset-2 text-sm"
-              href={"/auth/signin"}
-            >
-              Login here
-            </Link>
-          </span>
-        </div>
-        <div></div>
-      </div>
+          </div> */}
     </div>
   );
 }
