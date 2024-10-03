@@ -148,7 +148,7 @@ export default function SignUp() {
           autoHideDuration: 5000,
         });
 
-        router.push("/auth/verify-user");
+        router.push("/auth/verify-email");
         setFormData({
           firstName: "",
           lastName: "",

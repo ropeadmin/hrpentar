@@ -59,7 +59,7 @@ export default function VerifyUser() {
 
         if (otpData?.accessToken) {
           dispatch(profileLoginAction(otpData));
-          router.push("/auth/email-verification-success");
+          router.push("/auth/verified");
           setOtp("");
         } else {
           displaySnackbar(
