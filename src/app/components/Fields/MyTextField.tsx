@@ -9,7 +9,6 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 const StyledTextField = styled(TextField)({
-  // 'minHeight': '48px',
   '& label.Mui-focused': {},
   '& .MuiInput-underline:after': {},
   '& .MuiOutlinedInput-root': {
@@ -17,9 +16,11 @@ const StyledTextField = styled(TextField)({
     'borderRadius': '8px',
     'transition': '.6s',
     'color': '#0F1625',
-    'fontSize': '14px',
+    'fontSize': '16px',
     'fontWeight': '400',
-    // 'padding': '0px 4px',
+    'fontFamily': 'Cabinet Grotesk',
+    'padding': '2px 2px 2px 2px',
+    'lineHeight': '1',
 
     '& fieldset': {
       borderColor: '#D0D6DD',
@@ -34,36 +35,7 @@ const StyledTextField = styled(TextField)({
   },
   '&:placeholder': {
     color: '#A0AEC0',
-  },
-});
-
-export const StyledTextFieldMobile = styled(TextField)({
-  'height': '35px',
-
-  '& label.Mui-focused': {},
-  '& .MuiInput-underline:after': {},
-  '& .MuiOutlinedInput-root': {
-    'background': '#FFF',
-    'borderRadius': '8px',
-    'transition': '.6s',
-    'color': '#384a62',
-    'fontSize': '14px',
-    'fontWeight': '500',
-    'fontFamily': 'Satoshi',
-
-    '& fieldset': {
-      borderColor: '#E3E3E3',
-    },
-    '&:hover fieldset': {
-      borderColor: alpha('#F88379', 0.6),
-    },
-    '&.Mui-focused fieldset': {
-      border: '1px solid',
-      borderColor: '#F88379',
-    },
-  },
-  '&:placeholder': {
-    color: '#8E8E8E',
+    lineHeight: '1',
   },
 });
 
@@ -164,6 +136,7 @@ const MyTextField = ({
         multiline={multiline}
         {...others}
         fullWidth
+        size="small"
       />
     </div>
   );

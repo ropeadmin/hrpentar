@@ -93,16 +93,19 @@ export default function VerifyUser() {
   };
 
   return (
-    <div className="bg-[#fff] min-h-screen flex p-4">
+    <div className="bg-[#fff] h-screen flex p-4 overflowHidden">
       <div
-        className="relative rounded-[16px] flex-grow h-full w-full overflow-hidden bg-[url('/images/auth-1.jpeg')] min-h-screen p-7"
+        className="relative p-[32px] rounded-[16px] flex-grow min-h-full min-w-[47vw] max-w-[47vw] w-[47vw] overflow-hidden bg-[url('/images/auth-1.jpeg')]"
         style={{
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
       >
-        <img src="/pentaHR.svg" width={150} height={150} />
+        <div className="">
+          <img src="/pentaHR.svg" width={150} height={150} />
+        </div>
+
 
         <div className="absolute bottom-7 left-7 right-7 h-auto auth-glass p-5">
           <p className="text-white text-base font-medium font-['Cabinet Grotesk'] leading-tight">

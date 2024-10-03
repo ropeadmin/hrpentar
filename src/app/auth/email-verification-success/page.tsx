@@ -103,16 +103,19 @@ export default function EmailVerificationSuccess() {
     };
 
     return (
-        <div className="bg-[#fff] min-h-screen flex p-4">
-            <div
-                className="relative rounded-[16px] flex-grow h-full w-full overflow-hidden bg-[url('/images/auth-3.jpeg')] min-h-screen p-7"
-                style={{
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                }}
-            >
-                <img src='/pentaHR.svg' width={150} height={150} />
+        <div className="bg-[#fff] h-screen flex p-4 overflowHidden">
+      <div
+        className="relative p-[32px] rounded-[16px] flex-grow min-h-full min-w-[47vw] max-w-[47vw] w-[47vw] overflow-hidden bg-[url('/images/auth-1.jpeg')]"
+        style={{
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="">
+          <img src="/pentaHR.svg" width={150} height={150} />
+        </div>
+
 
                 <div className="absolute bottom-7 left-7 right-7 h-auto auth-glass p-5">
                     <p className="text-white text-base font-medium font-['Cabinet Grotesk'] leading-tight">&quot;PentaHR has revolutionized our HR processes. The intuitive interface and comprehensive features have significantly reduced administrative tasks, allowing us to focus more on employee engagement and development. It&apos;s a game-changer for any HR team!&quot;</p>
@@ -133,7 +136,7 @@ export default function EmailVerificationSuccess() {
                     </div>
                 </div>
 
-                <Link href='/auth/signin' className="text-[#0f1625] border w-fit px-7 py-3 rounded-[8px] text-base font-medium mt-10">
+                <Link href='/auth/onboarding/step1' className="text-[#0f1625] border w-fit px-7 py-3 rounded-[8px] text-base font-medium mt-10">
                     Continue
                 </Link>
             </div>

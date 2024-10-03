@@ -3,7 +3,7 @@
 import React from "react";
 import SidebarItem from "../SidebarItem/SidebarItem";
 import Image from "next/image";
-import "./Sidebar.scss";
+// import "./Sidebar.scss";
 import { IconButton } from "@mui/material";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Assets from "@/constants/assets.constant";
@@ -184,7 +184,7 @@ const Sidebar = () => {
           </Link>
 
           {/* Company Detail */}
-          <div className="bg-[#182434] rounded-[10px] w-full px-[10px] py-[5px] flex justify-between items-center mb-4 mt-3">
+          {/* <div className="bg-[#182434] rounded-[10px] w-full px-[10px] py-[5px] flex justify-between items-center mb-4 mt-3">
             <div className="flex gap-[7px] items-center">
               <img src="/icons/logomark.svg" alt="company-logo" width={20} height={20} />
               <div className="">
@@ -218,7 +218,7 @@ const Sidebar = () => {
                 stroke-linejoin="round"
               />
             </svg>
-          </div>
+          </div> */}
 
           <div className="h-auto links mt-3">
             {links.map((link, index) => (
