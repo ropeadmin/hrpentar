@@ -148,7 +148,7 @@ export default function SignUp() {
           autoHideDuration: 5000,
         });
 
-        router.push("/auth/verify-user");
+        router.push("/auth/verify-email");
         setFormData({
           firstName: "",
           lastName: "",
@@ -242,7 +242,7 @@ export default function SignUp() {
 
         {/* Scrollable Form Container */}
         <div className="w-[80%] overflow-y-auto h-full max-h-[70vh] lg:max-h-[80vh] 2xl:max-h-[90vh]">
-          <form className="w-full space-y-5" onSubmit={handleSubmit}>
+          <form className="w-full" onSubmit={handleSubmit}>
             <div className="space-y-5">
               <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-4">
                 <MyTextField
@@ -287,7 +287,8 @@ export default function SignUp() {
                 />
               </div>
 
-              <MyTextField
+             <div>
+             <MyTextField
                 id="password"
                 name="password"
                 label="Password"
@@ -301,6 +302,7 @@ export default function SignUp() {
                   <PasswordToolTip key={index} title={title} passed={passed} />
                 ))}
               </div>
+             </div>
 
               <MyTextField
                 id="confirmPassword"
