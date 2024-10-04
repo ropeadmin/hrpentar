@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { PhoneInput } from "react-international-phone";
 import PasswordToolTip from "@/app/components/ToolTip/Password";
+import { FadeIn } from "@/app/components/Transitions/Transitions";
 // import "react-international-phone/style.css";
 
 // Example password tooltip structure
@@ -287,22 +288,30 @@ export default function SignUp() {
                 />
               </div>
 
-             <div>
-             <MyTextField
-                id="password"
-                name="password"
-                label="Password"
-                placeholder="Enter your password"
-                value={formData.password}
-                type="password"
-                onChange={handleChange}
-              />
-              <div className="flex items-center gap-1.5 mt-2">
-                {passwordTooltip.map(({ title, passed }, index) => (
-                  <PasswordToolTip key={index} title={title} passed={passed} />
-                ))}
+              <div>
+                <MyTextField
+                  id="password"
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  type="password"
+                  onChange={handleChange}
+                />
+                {formData.password.length > 0 && (
+                  <FadeIn>
+                    <div className="flex items-center gap-1.5 mt-2">
+                      {passwordTooltip.map(({ title, passed }, index) => (
+                        <PasswordToolTip
+                          key={index}
+                          title={title}
+                          passed={passed}
+                        />
+                      ))}
+                    </div>
+                  </FadeIn>
+                )}
               </div>
-             </div>
 
               <MyTextField
                 id="confirmPassword"

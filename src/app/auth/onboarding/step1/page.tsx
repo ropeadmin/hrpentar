@@ -47,21 +47,21 @@ export default function Step1() {
     businessType: formData.businessType,
     subsidiary: formData.subsidiaryDetails,
     main: false,
-    address: {
-        "country": "Nigeria",
-        "state": "Osun",
-        "address": "Iwo",
-        "city": "Iwo",
-        "postalCode": "21333"
-    },
-    director: {
-        name: "Naheem",
-        email: "naheemadedokun@gmail.com",
-        country: "Nigeria",
-        idCard: ["https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png"],
-        position: "Director",
-        signature: "https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png"
-    }
+    // address: {
+    //     "country": "Nigeria",
+    //     "state": "Osun",
+    //     "address": "Iwo",
+    //     "city": "Iwo",
+    //     "postalCode": "21333"
+    // },
+    // director: {
+    //     name: "Naheem",
+    //     email: "naheemadedokun@gmail.com",
+    //     country: "Nigeria",
+    //     idCard: ["https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png"],
+    //     position: "Director",
+    //     signature: "https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png"
+    // }
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
