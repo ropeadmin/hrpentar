@@ -57,6 +57,11 @@ const CompanyTable = ({ companies }: any) => {
           >
             Status
           </th>
+          <th
+            scope="col"
+            className="bg-header px-3 py-4 text-[16px] font-[700] text-[#0F1625]"
+          >
+          </th>
         </>
       }
       body={companies.map((company: any, i: Key | null | undefined) => {
@@ -95,6 +100,11 @@ const CompanyTable = ({ companies }: any) => {
                 >
                   {company.status}
                 </div>
+              </td>
+              <td className="px-3 py-4">
+                <IconButton>
+                    <img src='/icons/hamburgerTable.svg' className="rounded-full w-[15px] h-[15px]"/>
+                </IconButton>
               </td>
             </tr>
           </>
