@@ -300,7 +300,7 @@ export default function SignUp() {
                 />
                 {formData.password.length > 0 && (
                   <FadeIn>
-                    <div className="flex items-center gap-1.5 mt-2">
+                    <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                       {passwordTooltip.map(({ title, passed }, index) => (
                         <PasswordToolTip
                           key={index}
