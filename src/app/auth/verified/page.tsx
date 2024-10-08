@@ -15,7 +15,11 @@ import { useDispatch } from "react-redux";
 export default function EmailVerificationSuccess() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const { makeRequest, isLoading } = useRequest();
   const [tokenData, setTokenData] = useState<any>(null);
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     const token = searchParams.get("token"); // Extract the 'token' query parameter
@@ -35,7 +39,62 @@ export default function EmailVerificationSuccess() {
     }
   }, [searchParams]);
 
-  console.log("tokenData:", tokenData);
+  useEffect(() => {
+    // Automatically trigger verifyOtp if tokenData exists and is valid
+    if (tokenData?.email && tokenData?.code) {
+      verifyOtp(); // Call the function when both email and code are available
+    }
+  }, [tokenData]);
+
+  const payload = {
+    email: tokenData?.email,
+    code: tokenData?.code,
+  };
+
+  const verifyOtp = async () => {
+    catchAsync(
+      async () => {
+        const otpRes = await makeRequest({
+          method: "POST",
+          url: API.verifyOtp,
+          data: payload,
+        });
+
+        const otpData = otpRes?.data?.data;
+
+        if (otpData?.accessToken) {
+          dispatch(profileLoginAction(otpData));
+          setVerified(true);
+        } else {
+          displaySnackbar(
+            "Email Verification failed. No token received!",
+            true
+          );
+        }
+      },
+      (error: any) => handleError(error)
+    );
+  };
+
+  const displaySnackbar = (message: string, error: boolean = false) => {
+    enqueueSnackbar(message, {
+      variant: "rope_snackbar",
+      autoHideDuration: 5000,
+      error,
+    });
+  };
+
+  const handleError = (error: any) => {
+    const response = error?.response;
+    const message =
+      response?.data?.data?.message || "An error occurred during login";
+
+    if (response) {
+      displaySnackbar(message, true);
+    } else {
+      displaySnackbar("A network error occurred!", true);
+    }
+  };
 
   return (
     <div className="bg-[#fff] h-screen flex p-4 overflowHidden">
@@ -70,9 +129,7 @@ export default function EmailVerificationSuccess() {
         </div>
       </div>
 
-      {tokenData?.code === "" ? (
-        ""
-      ) : (
+      {verified ? (
         <div className="bg-white mx-auto w-full min-h-screen px-28 flex flex-col justify-center items-center">
           <div className="w-full flex flex-col justify-center items-center text-center">
             <img src="/icons/success-icon.svg" width={70} height={70} />
@@ -96,6 +153,8 @@ export default function EmailVerificationSuccess() {
             Continue
           </Link>
         </div>
+      ) : (
+        <h1>Loading...</h1>
       )}
     </div>
   );
