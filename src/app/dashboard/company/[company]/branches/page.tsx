@@ -2,6 +2,7 @@
 import MyTextField from "@/app/components/Fields/MyTextField";
 import { AppModal } from "@/app/components/Modals";
 import CreateCompanyStepper from "@/app/components/Stepper/CreateCompanyStepper";
+import BranchTable from "@/app/components/Table/BranchTable";
 import CompanyTable from "@/app/components/Table/CompanyTable";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
@@ -14,11 +15,11 @@ import React, { useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { useDispatch } from "react-redux";
 
-export default function Company() {
+export default function Branches() {
   const { isMobile } = useAppTheme();
   const [activeTab, setActiveTab] = useState("companies");
   const [company, setCompany] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const [successModal, setSuccessModal] = useState(false);
   const [switchCompanyModal, setSwitchCompanyModal] = useState(false);
   const [switchCompanyConfirmModal, setSwitchCompanyConfirmModal] =
@@ -26,7 +27,7 @@ export default function Company() {
   const [deactivateCompanyModal, setDeactivateCompanyModal] =
     useState(false);
     const [deleteCompanyModal, setDeleteCompanyModal] =
-    useState(true)
+    useState(false)
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -51,29 +52,32 @@ export default function Company() {
     setActiveTab(key);
   };
 
-  const companies = [
+  const branches = [
     {
       prefix: "MAC",
-      companyName: "MacTay Consulting",
-      industry: "Consulting",
-      businessType: "Private",
-      branch: 16,
+      branchName: "Lekki Phase 1",
+      address: "5 Prince Adelowo Adedeji",
+      branchId: 198076,
+      department: 14,
+      member: 574,
       status: "Active",
     },
     {
       prefix: "ROP",
-      companyName: "Rope Africa",
-      industry: "Technology",
-      businessType: "Private",
-      branch: 1,
+      branchName: "Ikoyi",
+      address: "5 Prince Adelowo Adedeji",
+      branchId: 209715,
+      department: 37,
+      member: 18,
       status: "Active",
     },
     {
       prefix: "RBE",
-      companyName: "Rope Africa",
-      industry: "Energy",
-      businessType: "Private",
-      branch: 7,
+      branchName: "Victoria Island",
+      address: "5 Prince Adelowo Adedeji",
+      branchId: 100248,
+      department: 2,
+      member: 197,
       status: "Deactivated",
     },
   ];
@@ -381,7 +385,7 @@ export default function Company() {
   return (
     <div>
       <div>
-        <h1 className="text-[28px] font-[700] text-[#0F1625]">Company</h1>
+        <h1 className="text-[28px] font-[700] text-[#0F1625]">MacTay’s branches</h1>
         <p className="text-[14px] font-[400] text-[#323B49]">
           Manage companies, branches and organization chart.
         </p>
@@ -422,7 +426,7 @@ export default function Company() {
               value={""}
               onChange={undefined}
               className="text-[#687588] text-[14px] font-[500] leading-none rounded-[8px] bg-white border border-[#D0D6DD] outline-none w-[350px] pl-10 pr-4 py-[8px]"
-              placeholder="Search company name"
+              placeholder="Search branch name"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center cursor-pointer">
               <svg
@@ -498,14 +502,14 @@ export default function Company() {
             />
           </svg>
           <p className="text-white text-[16px] font-[500] leading-none">
-            Create company
+            Create branch
           </p>
         </div>
       </div>
 
       {/* table */}
       <div className="mt-7">
-        <CompanyTable companies={companies} />
+        <BranchTable branches={branches} />
       </div>
 
       {/* Modals */}

@@ -194,7 +194,7 @@ export default function Step1() {
               <MyTextField
                 id="companySize"
                 name="size"
-                label="Company Size"
+                label="Company size"
                 placeholder=""
                 type="text"
                 value={formData.size}

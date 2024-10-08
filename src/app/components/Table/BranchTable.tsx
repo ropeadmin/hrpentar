@@ -2,7 +2,7 @@ import { Checkbox, IconButton } from "@mui/material";
 import Table from "./Table";
 import { Key } from "react";
 
-const CompanyTable = ({ companies }: any) => {
+const BranchTable = ({ branches }: any) => {
   return (
     <Table
       head={
@@ -25,31 +25,31 @@ const CompanyTable = ({ companies }: any) => {
             scope="col"
             className="bg-header px-3 py-4 text-[16px] font-[700] text-[#0F1625]"
           >
-            Company name
+            Branch name
           </th>
           <th
             scope="col"
             className="bg-header px-3 py-4 text-[16px] font-[700] text-[#0F1625]"
           >
-            Company prefix
+            Address
           </th>
           <th
             scope="col"
             className="bg-header px-3 py-4 text-[16px] font-[700] text-[#0F1625]"
           >
-            Industry
+            Branch ID
           </th>
           <th
             scope="col"
             className="bg-header px-3 py-4 text-[16px] font-[700] text-[#0F1625]"
           >
-            Business type
+            Departments
           </th>
           <th
             scope="col"
             className="bg-header px-3 py-4 text-[16px] font-[700] text-[#0F1625]"
           >
-            Branches
+            Team members
           </th>
           <th
             scope="col"
@@ -63,7 +63,7 @@ const CompanyTable = ({ companies }: any) => {
           ></th>
         </>
       }
-      body={companies.map((company: any, i: Key | null | undefined) => {
+      body={branches.map((branch: any, i: Key | null | undefined) => {
         return (
           <>
             <tr key={i} className="bg-white border-b border-[#F1F5F9]">
@@ -79,23 +79,23 @@ const CompanyTable = ({ companies }: any) => {
                 </div>
               </td>
               <td className="px-3 py-4 whitespace-nowrap">
-                {company.companyName}
+                {branch.branchName}
               </td>
-              <td className="px-3 py-4">{company.prefix}</td>
-              <td className="px-3 py-4">{company.industry}</td>
-              <td className="px-3 py-4">{company.businessType}</td>
-              <td className="px-3 py-4">{company.branch}</td>
+              <td className="px-3 py-4">{branch.address}</td>
+              <td className="px-3 py-4">{branch.branchId}</td>
+              <td className="px-3 py-4">{branch.department}</td>
+              <td className="px-3 py-4">{branch.member}</td>
               <td className="px-3 py-4">
                 <div
                   className={`py-[8px] px-[8px] rounded-[8px] text-[12px] font-[700] leading-none w-fit ${
-                    company.status === "Active"
+                    branch.status === "Active"
                       ? "bg-[#F3FBF7] text-[#0BA259]"
-                      : company.status === "Deactivated"
+                      : branch.status === "Deactivated"
                       ? "bg-[#FFF3F3] text-[#EF0000]"
                       : "bg-[#F0F2F5] text-[#0F1625]"
                   }`}
                 >
-                  {company.status}
+                  {branch.status}
                 </div>
               </td>
               <td className="px-3 py-4">
@@ -114,4 +114,4 @@ const CompanyTable = ({ companies }: any) => {
   );
 };
 
-export default CompanyTable;
+export default BranchTable;
