@@ -19,15 +19,13 @@ export default function Branches() {
   const { isMobile } = useAppTheme();
   const [activeTab, setActiveTab] = useState("companies");
   const [company, setCompany] = useState(null);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
-  const [switchCompanyModal, setSwitchCompanyModal] = useState(false);
-  const [switchCompanyConfirmModal, setSwitchCompanyConfirmModal] =
-    useState(false);
-  const [deactivateCompanyModal, setDeactivateCompanyModal] =
-    useState(false);
-    const [deleteCompanyModal, setDeleteCompanyModal] =
-    useState(false)
+  const [editModal, setEditModal] = useState(false);
+  const [confirmModal, setConfirmModal] =
+    useState(true);
+  const [deactivateCompanyModal, setDeactivateCompanyModal] = useState(false);
+  const [deleteCompanyModal, setDeleteCompanyModal] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -385,7 +383,9 @@ export default function Branches() {
   return (
     <div>
       <div>
-        <h1 className="text-[28px] font-[700] text-[#0F1625]">MacTay’s branches</h1>
+        <h1 className="text-[28px] font-[700] text-[#0F1625]">
+          MacTay’s branches
+        </h1>
         <p className="text-[14px] font-[400] text-[#323B49]">
           Manage companies, branches and organization chart.
         </p>
@@ -520,8 +520,6 @@ export default function Branches() {
           backgroundColor: "#ffffff",
           padding: `${isMobile ? "20px 20px" : "20px 20px"}`,
           position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
           height: `${isMobile ? "auto" : "auto"}`,
           width: `${isMobile ? "85%" : "544px"}`,
         }}
@@ -529,10 +527,10 @@ export default function Branches() {
         <div className="flex justify-between items-start w-full">
           <div className="">
             <h1 className="text-[#0F1625] text-[4.2vw] sm:text-[20px] font-[700]">
-              Create company
+              Create branch
             </h1>
             <p className="text-[#0F1625] text-[3.5vw] sm:text-[16px] font-[400]">
-              Provide details below to add a new company to your workspace
+              Provide details below to add a new branch to MacTay
             </p>
           </div>
 
@@ -543,123 +541,31 @@ export default function Branches() {
           </div>
         </div>
 
-        {/* Stepper */}
-        <div className="w-full">
-          <CreateCompanyStepper currentStep={currentStep} />
-        </div>
-
         {/* Form */}
         <form
           className="w-[100%] overflow-auto remove-scroll-bar"
           onSubmit={handleSubmit}
         >
-          {currentStep === 1 && (
-            <div className="space-y-5 overflow-auto remove-scroll-bar h-[50vh]">
+          <div className="space-y-5">
               <MyTextField
-                id="companyName"
-                name="businessName"
-                label="Company name"
-                placeholder="Enter Company name"
+                id="branchName"
+                name="branchName"
+                label="Branch name"
+                placeholder="Surulere"
                 value={formData.businessName}
                 type="text"
                 onChange={handleChange}
               />
               <MyTextField
-                id="businessRegistrationNumber"
-                name="registrationNumber"
-                label="Business registration number"
-                placeholder="Enter business registration number"
-                value={formData.registrationNumber}
+                id="address"
+                name="address"
+                label="Address"
+                placeholder="5, Prince Adelowo Adedeji St, Peninsula, Lagos"
+                value={formData.businessName}
                 type="text"
                 onChange={handleChange}
               />
               <div className="grid grid-cols-2 gap-5">
-                <MyTextField
-                  id="companySize"
-                  name="size"
-                  label="Company size"
-                  placeholder=""
-                  type="text"
-                  value={formData.size}
-                  onChange={handleChange}
-                  select
-                  required
-                >
-                  {companySize.map((size, i) => (
-                    <MenuItem key={i} value={size}>
-                      {size}
-                    </MenuItem>
-                  ))}
-                </MyTextField>
-                <MyTextField
-                  id="companyPrefix"
-                  name="companyPrefix"
-                  label="Company prefix"
-                  placeholder="MAC"
-                  value={formData.businessName}
-                  type="text"
-                  onChange={handleChange}
-                />
-
-                <MyTextField
-                  id="businessType"
-                  name="businessType"
-                  label="Business type"
-                  placeholder=""
-                  type="text"
-                  value={formData.businessType}
-                  onChange={handleChange}
-                  select
-                  required
-                >
-                  {businessTypes.map((businessType, i) => (
-                    <MenuItem key={i} value={businessType}>
-                      {businessType}
-                    </MenuItem>
-                  ))}
-                </MyTextField>
-                <MyTextField
-                  id="industryType"
-                  name="industryType"
-                  label="Industry type"
-                  placeholder=""
-                  type="text"
-                  value={formData.subsidiary}
-                  onChange={handleChange}
-                  select
-                  required
-                >
-                  {subsidiary.map((subsidiary, i) => (
-                    <MenuItem key={i} value={subsidiary}>
-                      {subsidiary}
-                    </MenuItem>
-                  ))}
-                </MyTextField>
-              </div>
-            </div>
-          )}
-
-          {/* Step 2 */}
-          {currentStep === 2 && (
-            <div className="space-y-5 overflow-auto remove-scroll-bar">
-              <div className="flex gap-4">
-                <MyTextField
-                  id="country"
-                  name="country"
-                  label="Country"
-                  placeholder=""
-                  type="text"
-                  value={formData.size}
-                  onChange={handleChange}
-                  select
-                  required
-                >
-                  {countries.map((country, i) => (
-                    <MenuItem key={i} value={country}>
-                      {country}
-                    </MenuItem>
-                  ))}
-                </MyTextField>
                 <MyTextField
                   id="state"
                   name="state"
@@ -677,17 +583,6 @@ export default function Branches() {
                     </MenuItem>
                   ))}
                 </MyTextField>
-              </div>
-              <MyTextField
-                id="address"
-                name="address"
-                label="Address"
-                placeholder="5, Prince Adelowo Adedeji St, Peninsula, Lagos"
-                value={formData.businessName}
-                type="text"
-                onChange={handleChange}
-              />
-              <div className="grid grid-cols-2 gap-5">
                 <MyTextField
                   id="city"
                   name="city"
@@ -706,6 +601,15 @@ export default function Branches() {
                   ))}
                 </MyTextField>
                 <MyTextField
+                  id="lga"
+                  name="lga"
+                  label="LGA"
+                  placeholder="Surulere"
+                  value={formData.businessName}
+                  type="text"
+                  onChange={handleChange}
+                />
+                <MyTextField
                   id="postalCode"
                   name="postalCode"
                   label="Postal Code"
@@ -716,44 +620,74 @@ export default function Branches() {
                 />
               </div>
             </div>
-          )}
+        </form>
+        <button
+          type="button"
+          className="text-white bg-[#0f1625] min-w-full py-[14px] rounded-[8px] text-base font-medium mt-3 leading-none"
+        >
+          Create branch
+        </button>
+      </AppModal>
 
-          {/* Step 3 */}
-          {currentStep === 3 && (
-            <div className="space-y-5 overflow-auto remove-scroll-bar h-[55vh]">
+
+{/* Edit branch */}
+      <AppModal
+        open={editModal}
+        handleClose={() => setEditModal(false)}
+        style={{
+          backgroundColor: "#ffffff",
+          padding: `${isMobile ? "20px 20px" : "20px 20px"}`,
+          position: "relative",
+          height: `${isMobile ? "auto" : "auto"}`,
+          width: `${isMobile ? "85%" : "544px"}`,
+        }}
+      >
+        <div className="flex justify-between items-start w-full">
+          <div className="">
+            <h1 className="text-[#0F1625] text-[4.2vw] sm:text-[20px] font-[700]">
+              Edit Lekki branch
+            </h1>
+            <p className="text-[#0F1625] text-[3.5vw] sm:text-[16px] font-[400]">
+              Fill details below to update branch details.
+            </p>
+          </div>
+
+          <div className=" bg-[#F9FAFB] rounded-full flex justify-center items-center w-[32px] h-[32px]">
+            <IconButton>
+              <img src="/icons/cancelModal.svg" width={10} height={10} />
+            </IconButton>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form
+          className="w-[100%] overflow-auto remove-scroll-bar"
+          onSubmit={handleSubmit}
+        >
+          <div className="space-y-5">
               <MyTextField
-                id="directorName"
-                name="directorName"
-                label="Director’s name"
-                placeholder="Babatunde Rotimi"
+                id="branchName"
+                name="branchName"
+                label="Branch name"
+                placeholder="Surulere"
                 value={formData.businessName}
                 type="text"
                 onChange={handleChange}
               />
               <MyTextField
-                id="email"
-                name="email"
-                label="Email address"
-                placeholder="babatunderotimi@mactay.com"
+                id="address"
+                name="address"
+                label="Address"
+                placeholder="5, Prince Adelowo Adedeji St, Peninsula, Lagos"
                 value={formData.businessName}
-                type="email"
+                type="text"
                 onChange={handleChange}
               />
-              <div className="flex gap-4">
+              <div className="grid grid-cols-2 gap-5">
                 <MyTextField
-                  id="position"
-                  name="position"
-                  label="Position in company"
-                  placeholder=""
-                  type="text"
-                  value={formData.size}
-                  onChange={handleChange}
-                  required
-                />
-                <MyTextField
-                  id="country"
-                  name="country"
-                  label="Country"
+                  id="state"
+                  name="state"
+                  label="State"
                   placeholder=""
                   type="text"
                   value={formData.size}
@@ -761,46 +695,55 @@ export default function Branches() {
                   select
                   required
                 >
-                  {countries.map((country, i) => (
-                    <MenuItem key={i} value={country}>
-                      {country}
+                  {companySize.map((size, i) => (
+                    <MenuItem key={i} value={size}>
+                      {size}
                     </MenuItem>
                   ))}
                 </MyTextField>
-              </div>
-
-              <div>
-                <h3 className="text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]">
-                  Upload Director’s ID (National ID)
-                </h3>
-                <div className="w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer">
-                  <img src="/icons/upload.svg" width={20} height={20} />
-                  Upload file
-                </div>
-                <p className="mt-[7px] text-[12px] font-[700] text-[#1F2937]">
-                  PDF, PNG, JPG (max. 800 x 400px).
-                </p>
-              </div>
-              <div>
-                <h3 className="text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]">
-                  Upload Director’s signature
-                </h3>
-                <div className="w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer">
-                  <img src="/icons/upload.svg" width={20} height={20} />
-                  Upload file
-                </div>
-                <p className="mt-[7px] text-[12px] font-[700] text-[#1F2937]">
-                  PDF, PNG, JPG. File must not be above 125kb.
-                </p>
+                <MyTextField
+                  id="city"
+                  name="city"
+                  label="City"
+                  placeholder=""
+                  type="text"
+                  value={formData.size}
+                  onChange={handleChange}
+                  select
+                  required
+                >
+                  {companySize.map((size, i) => (
+                    <MenuItem key={i} value={size}>
+                      {size}
+                    </MenuItem>
+                  ))}
+                </MyTextField>
+                <MyTextField
+                  id="lga"
+                  name="lga"
+                  label="LGA"
+                  placeholder="Surulere"
+                  value={formData.businessName}
+                  type="text"
+                  onChange={handleChange}
+                />
+                <MyTextField
+                  id="postalCode"
+                  name="postalCode"
+                  label="Postal Code"
+                  placeholder="106104"
+                  value={formData.businessName}
+                  type="number"
+                  onChange={handleChange}
+                />
               </div>
             </div>
-          )}
         </form>
         <button
           type="button"
-          className="text-white bg-[#0f1625] min-w-full py-[14px] rounded-[8px] text-base font-medium mt-5 leading-none"
+          className="text-white bg-[#0f1625] min-w-full py-[14px] rounded-[8px] text-base font-medium mt-3 leading-none"
         >
-          {currentStep === 3 ? "Create company" : "Save & continue"}
+          Save changes
         </button>
       </AppModal>
 
@@ -833,12 +776,10 @@ export default function Branches() {
           <img src="/icons/modalSuccessIcon.svg" width={50} height={50} />
           <div className="mt-7 text-center">
             <h1 className="text-[#0F1625] text-[24px] font-[700] leading-none">
-              Company created successfully
+              Branch created successfully
             </h1>
             <p className="text-[#0F1625] text-[16px] font-[400] mt-2 leading-tight">
-              <span className="font-[700]">Rope Africa</span> has been added to
-              your list of companies. Kindly switch companies to gain access and
-              complete KYC in settings.{" "}
+            <span className="font-[700]">Surulere</span> has been added to your list of branches for <span className="font-[700]">MacTay</span>. You can now add employees to this branch.
             </p>
           </div>
         </div>
@@ -855,80 +796,15 @@ export default function Branches() {
             type="button"
             className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
           >
-            Switch company
-          </button>
-        </div>
-      </AppModal>
-
-      {/* Switch Company */}
-      <AppModal
-        open={switchCompanyModal}
-        handleClose={() => setSwitchCompanyModal(false)}
-        style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
-        }}
-      >
-        <div className="flex justify-between items-start w-full">
-          <div className="">
-            <h1 className="text-[#0F1625] text-[4.2vw] sm:text-[20px] font-[700]">
-              Switch company
-            </h1>
-            <p className="text-[#0F1625] text-[3.5vw] sm:text-[16px] font-[400]">
-              Select the company you want to switch to
-            </p>
-          </div>
-
-          <div className=" bg-[#F9FAFB] rounded-full flex justify-center items-center w-[32px] h-[32px]">
-            <IconButton>
-              <img src="/icons/cancelModal.svg" width={10} height={10} />
-            </IconButton>
-          </div>
-        </div>
-
-        <MyTextField
-          id="switchCompany"
-          name="switchCompany"
-          label="Switch company"
-          placeholder=""
-          type="text"
-          value={formData.size}
-          onChange={handleChange}
-          select
-          required
-        >
-          {countries.map((country, i) => (
-            <MenuItem key={i} value={country}>
-              {country}
-            </MenuItem>
-          ))}
-        </MyTextField>
-        <div className="flex items-center justify-end gap-3 w-full mt-3">
-          <button
-            type="button"
-            className="text-[#1F2937] border border-[#D0D6DD] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
-            onClick={() => setSuccessModal(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
-          >
-            Continue
+            Add Employees
           </button>
         </div>
       </AppModal>
 
       {/* Switch Company Confirmation */}
       <AppModal
-        open={switchCompanyConfirmModal}
-        handleClose={() => setSwitchCompanyConfirmModal(false)}
+        open={confirmModal}
+        handleClose={() => setConfirmModal(false)}
         style={{
           backgroundColor: "#ffffff",
           padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
@@ -942,7 +818,7 @@ export default function Branches() {
         <div className="flex justify-between items-start w-full">
           <div className="">
             <h1 className="text-[#0F1625] text-[4.2vw] sm:text-[20px] font-[700]">
-              Switch company
+              Make head office
             </h1>
           </div>
 
@@ -954,10 +830,7 @@ export default function Branches() {
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to make a switch from{" "}
-          <span className="font-[700]">MacTay Consulting</span> to{" "}
-          <span className="font-[700]">Rope Africa</span>. Click “Switch
-          company” to confirm this action.
+          You are about to make a <span className='font-[700]'>Lekki Phase 1</span> the head office for <span className="font-[700]">MacTay Consulting</span>. Click “Make head office” to confirm this action.
         </p>
 
         <div className="flex items-center justify-end gap-3 w-full mt-3">
@@ -972,108 +845,7 @@ export default function Branches() {
             type="button"
             className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
           >
-            Switch company
-          </button>
-        </div>
-      </AppModal>
-
-      {/* Deactivate Company */}
-      <AppModal
-        open={deactivateCompanyModal}
-        handleClose={() => setDeactivateCompanyModal(false)}
-        style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
-        }}
-      >
-        <div className="flex justify-between items-start w-full">
-          <div className="">
-            <h1 className="text-[#0F1625] text-[4.2vw] sm:text-[20px] font-[700]">
-              Deactivate company
-            </h1>
-          </div>
-
-          <div className=" bg-[#F9FAFB] rounded-full flex justify-center items-center w-[32px] h-[32px]">
-            <IconButton>
-              <img src="/icons/cancelModal.svg" width={10} height={10} />
-            </IconButton>
-          </div>
-        </div>
-
-        <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to deactivate <span className="font-[700]">Robertson Energy</span> from
-          your companies. Once deactivated, this company would no longer be
-          active
-        </p>
-
-        <div className="flex items-center justify-end gap-3 w-full mt-3">
-          <button
-            type="button"
-            className="text-[#1F2937] border border-[#D0D6DD] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
-            onClick={() => setSuccessModal(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="text-white bg-[#EF0000] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
-          >
-            Deactivate company
-          </button>
-        </div>
-      </AppModal>
-
-
-       {/* Delete Company */}
-       <AppModal
-        open={deleteCompanyModal}
-        handleClose={() => setDeleteCompanyModal(false)}
-        style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
-        }}
-      >
-        <div className="flex justify-between items-start w-full">
-          <div className="">
-            <h1 className="text-[#0F1625] text-[4.2vw] sm:text-[20px] font-[700]">
-              Delete company
-            </h1>
-          </div>
-
-          <div className=" bg-[#F9FAFB] rounded-full flex justify-center items-center w-[32px] h-[32px]">
-            <IconButton>
-              <img src="/icons/cancelModal.svg" width={10} height={10} />
-            </IconButton>
-          </div>
-        </div>
-
-        <p className="text-[16px] font-[400] text-[#0F1625]">
-        You are about to delete <span className="font-[700]">Robertson Energy</span> from your companies. Once deleted, all data would be wiped and no longer accessible. This action cannot be undone.
-        </p>
-
-        <div className="flex items-center justify-end gap-3 w-full mt-3">
-          <button
-            type="button"
-            className="text-[#1F2937] border border-[#D0D6DD] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
-            onClick={() => setSuccessModal(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="text-white bg-[#EF0000] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
-          >
-            Delete company
+            Make head office
           </button>
         </div>
       </AppModal>
