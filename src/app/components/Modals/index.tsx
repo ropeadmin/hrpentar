@@ -35,7 +35,7 @@ export const AppModal = ({
         className='fixed h-full top-0 left-0 w-full flex justify-center items-center'
       >
         <div
-          className={`bg-white w-[85%] h-fit rounded-[20px] sm:w-[500px] md:w-[711px] md:px-[28px] px-5 sm:px-[40px] flex flex-col gap-[23px] shadow-lg text-black2 justify-start items-start ${className}`}
+          className={`bg-white w-[85%] h-fit rounded-[12px] sm:w-[500px] md:w-[711px] md:px-[28px] px-5 sm:px-[40px] flex flex-col gap-[23px] shadow-lg text-black2 justify-start items-start ${className}`}
           {...others}
           onClick={handleContentClick}
         >

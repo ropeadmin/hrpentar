@@ -19,13 +19,8 @@ const useGlobalState = (): IGlobalState => {
   const isAuthenticated = !!profile?.accessToken;
 
   const logout = () => {
+    router.push('/auth/signin');
     dispatch(profileLogoutAction());
-    router.push('/');
-
-    enqueueSnackbar("You're Logged Out! 😃", {
-      variant: 'rope_snackbar',
-      autoHideDuration: 5000,
-    });
   };
 
   return { profile, isAuthenticated, logout };
