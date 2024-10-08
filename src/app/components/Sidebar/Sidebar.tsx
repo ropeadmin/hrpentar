@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { profileLogoutAction } from "@/store/profile.slice";
 import Link from "next/link";
 import useGlobalState from "@/hooks/globalstate.hook";
+import useCompanyState from "@/hooks/companystate.hook";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Sidebar = () => {
   const currentPath = pathname;
   const subpath = currentPath?.split("/")[2];
   const isActive = (paths: string[]) => paths.includes(subpath ?? "");
-  const { logout } = useGlobalState();
+  const { company } = useCompanyState();
 
   const links: SideBarItemLink[] = [
     {
@@ -184,15 +185,20 @@ const Sidebar = () => {
           </Link>
 
           {/* Company Detail */}
-          {/* <div className="bg-[#182434] rounded-[10px] w-full px-[10px] py-[5px] flex justify-between items-center mb-4 mt-3">
+          <div className="bg-[#182434] rounded-[10px] w-full px-[10px] py-[5px] flex justify-between items-center mb-4 mt-3">
             <div className="flex gap-[7px] items-center">
-              <img src="/icons/logomark.svg" alt="company-logo" width={20} height={20} />
+              <img
+                src="/icons/logomark.svg"
+                alt="company-logo"
+                width={20}
+                height={20}
+              />
               <div className="">
                 <h1 className="font-[500] text-[13px] text-white">
-                  MacTay Consulting
+                  {company.data.businessName}
                 </h1>
                 <p className="text-[11px] font-[400] text-white">
-                  Victoria Island
+                  {company.data.address.city}
                 </p>
               </div>
             </div>
@@ -218,7 +224,7 @@ const Sidebar = () => {
                 stroke-linejoin="round"
               />
             </svg>
-          </div> */}
+          </div>
 
           <div className="h-auto links mt-3">
             {links.map((link, index) => (

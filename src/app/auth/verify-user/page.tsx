@@ -7,7 +7,7 @@ import { catchAsync } from "@/helpers/api.helper";
 import useRequest from "@/services/request.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -21,10 +21,33 @@ interface OTPInputProps {
 
 export default function VerifyUser() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { makeRequest, isLoading } = useRequest();
   const [email, setEmail] = useState("");
+
+  const [tokenData, setTokenData] = useState<any>(null);
+
+  useEffect(() => {
+    const token = searchParams.get("token"); // Extract the 'token' query parameter
+
+    if (token) {
+      try {
+        // Decode Base64 encoded token
+        const decodedToken = atob(token);
+
+        // Parse the decoded token as JSON
+        const parsedToken = JSON.parse(decodedToken);
+
+        setTokenData(parsedToken);
+      } catch (error) {
+        console.error("Invalid token format", error);
+      }
+    }
+  }, [searchParams]);
+
+  console.log("tokenData:", tokenData);
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("register-user-email");
