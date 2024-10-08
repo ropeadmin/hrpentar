@@ -195,10 +195,10 @@ const Sidebar = () => {
               />
               <div className="">
                 <h1 className="font-[500] text-[13px] text-white">
-                  {company.data.businessName}
+                  {company?.data?.businessName}
                 </h1>
                 <p className="text-[11px] font-[400] text-white">
-                  {company.data.address.city}
+                  {company?.data?.address.city}
                 </p>
               </div>
             </div>

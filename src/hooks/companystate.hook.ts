@@ -7,7 +7,7 @@ interface ICompanyState {
 }
 
 const useCompanyState = (): ICompanyState => {
-  const company = useAppSelector((state: { company: any; }) => state.company) as companyState;
+  const company = useAppSelector((state: { company: any; }) => state.company) as any;
 
   return { company };
 };
