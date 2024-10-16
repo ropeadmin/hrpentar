@@ -6,6 +6,8 @@ import AppSnackBarProvider from './components/SnackBars/SnackBars';
 import './globals.css'
 import { Suspense } from 'react'; // Import Suspense from React
 import SplashScreen from './components/SplashScreen/SplashScreen';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const onest = Onest({ subsets: ["latin"] });
 
@@ -44,6 +46,7 @@ export default function RootLayout({
             <Suspense fallback={<SplashScreen />}>
               {children}
             </Suspense>
+            <ToastContainer />
           </ReduxProvider>
         </AppSnackBarProvider>
       </body>

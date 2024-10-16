@@ -34,11 +34,11 @@ export const getFileMetadata = (file: Blob) =>
  * @param {string | Blob[]} files the file values
  * @returns {Promise<FormData>}
  */
-export const getFileFormData = (file: any, name = 'file'): Promise<FormData> =>
-  new Promise((res, rej) => {
+export const getFileFormData = (file: File, name = "file"): Promise<FormData> =>
+  new Promise((resolve) => {
     const formData = new FormData();
-    formData.append(name, file);
-    res(formData);
+    formData.append(name, file); // Append only a single file
+    resolve(formData);
   });
 
 function generateRandomFileName(extension: string) {
