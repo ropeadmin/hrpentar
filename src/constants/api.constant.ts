@@ -15,7 +15,13 @@ export const API = {
   createBusiness: '/api/v1/business',
 
   // Subscription
-  getSubscription: '/api/v1/subscription'
+  getSubscription: '/api/v1/subscription',
+
+  // Upload
+  upload: '/api/v1/file/upload',
+
+  // Branch
+  branch: '/api/v1/branch',
 };
 
 export default API;

@@ -1,8 +1,24 @@
-import { Checkbox, IconButton } from "@mui/material";
+import { Checkbox, IconButton, Menu, MenuItem } from "@mui/material";
 import Table from "./Table";
-import { Key } from "react";
+import { Key, useState } from "react";
 
-const CompanyTable = ({ companies }: any) => {
+const CompanyTable = ({
+  companies,
+  onSwitch,
+  onView,
+  onDeactivate,
+  onActivate,
+  onDelete,
+  anchorEl,
+  selectedCompany,
+  setSelectedCompany,
+  setAnchorEl,
+  businessMenuOpen,
+  handleOpen,
+  handleClose,
+}: any) => {
+
+
   return (
     <Table
       head={
@@ -63,7 +79,7 @@ const CompanyTable = ({ companies }: any) => {
           ></th>
         </>
       }
-      body={companies.map((company: any, i: Key | null | undefined) => {
+      body={companies.map((company: any, i: any) => {
         return (
           <>
             <tr key={i} className="bg-white border-b border-[#F1F5F9]">
@@ -79,12 +95,12 @@ const CompanyTable = ({ companies }: any) => {
                 </div>
               </td>
               <td className="px-3 py-4 whitespace-nowrap">
-                {company.companyName}
+                {company.businessName}
               </td>
               <td className="px-3 py-4">{company.prefix}</td>
-              <td className="px-3 py-4">{company.industry}</td>
+              <td className="px-3 py-4">{company.industryType}</td>
               <td className="px-3 py-4">{company.businessType}</td>
-              <td className="px-3 py-4">{company.branch}</td>
+              <td className="px-3 py-4">{company.branch || "---"}</td>
               <td className="px-3 py-4">
                 <div
                   className={`py-[8px] px-[8px] rounded-[8px] text-[12px] font-[700] leading-none w-fit ${
@@ -99,7 +115,9 @@ const CompanyTable = ({ companies }: any) => {
                 </div>
               </td>
               <td className="px-3 py-4">
-                <IconButton>
+                <IconButton
+                  onClick={(event) => handleOpen(event, i)}
+                >
                   <img
                     src="/icons/hamburgerTable.svg"
                     className="rounded-full w-[15px] h-[15px]"
@@ -107,10 +125,109 @@ const CompanyTable = ({ companies }: any) => {
                 </IconButton>
               </td>
             </tr>
+
+            {/* Menu Dropdown */}
+            <CompanyMenu
+              open={businessMenuOpen[i]}
+              anchorEl={anchorEl}
+              handleClose={handleClose}
+              status={company?.status}
+              company={companies[selectedCompany]} // Pass the selected company data
+              onSwitch={onSwitch}
+              onView={() => onView(company)}
+              onDeactivate={() => onDeactivate(company)}
+              onActivate={() => onActivate(company)}
+              onDelete={() => onDelete(company)} // Use arrow function to pass it as a reference
+            />
           </>
         );
       })}
     />
+  );
+};
+
+export const CompanyMenu = ({
+  anchorEl,
+  open,
+  handleClose,
+  onSwitch,
+  onView,
+  onDeactivate,
+  onActivate,
+  onDelete,
+  company,
+  status
+}: {
+  anchorEl: any;
+  open: boolean;
+  handleClose: () => void;
+  onSwitch: () => void | any;
+  onView: () => void | any;
+  onDeactivate: () => void | any;
+  onActivate: () => void | any;
+  onDelete: () => void | any;
+  company?: any;
+  status?: any;
+}) => {
+  return (
+    <Menu
+      anchorEl={anchorEl}
+      id="company-menu"
+      open={open}
+      onClose={handleClose}
+      onClick={handleClose}
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          borderRadius: "12px",
+          overflow: "visible",
+          boxShadow: "0px 12px 12px 0px rgba(0, 0, 0, 0.05)",
+          mt: 1.5,
+          ml: 2.2,
+          width: "auto", // Ensure the width adjusts to content
+          maxWidth: "300px", // Optional: to limit how wide the menu can grow
+          padding: "8px 12px", // Adjust padding for better content fitting
+          whiteSpace: "nowrap", // Prevent content from wrapping to the next line
+        },
+      }}
+      transformOrigin={{ horizontal: "right", vertical: "top" }}
+    >
+      <CompanyMenuItem onClick={onSwitch} title="Switch to" />
+      <CompanyMenuItem onClick={onView} title="View branches" />
+      <CompanyMenuItem onClick={status === 'Deactivated' ? onActivate : onDeactivate} title={status === 'Deactivated' ? 'Activate company' : 'Deactivate company'} />
+      <CompanyMenuItem onClick={onDelete} title="Delete company" color="red" />
+    </Menu>
+  );
+};
+
+export const CompanyMenuItem = ({
+  onClick,
+  icon,
+  title,
+  color,
+}: {
+  color?: string;
+  title?: string;
+  icon?: React.ReactNode;
+  onClick?: any;
+}) => {
+  return (
+    <MenuItem sx={{ borderRadius: "10px" }} onClick={onClick}>
+      <div className="w-full h-[31px] flex justify-start items-center gap-[8px]">
+        {/* {icon} */}
+        <span
+          className={"font-[500] text-sm text-[#323B49]"}
+          style={{
+            color,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {title}
+        </span>
+      </div>
+    </MenuItem>
   );
 };
 

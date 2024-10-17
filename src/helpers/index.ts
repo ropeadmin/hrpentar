@@ -201,3 +201,7 @@ export const getInitials = (firstName?: string, lastName?: string): string => {
   
   return `${firstInitial}${lastInitial}`;
 };
+
+ // Helper function to check if a string includes the search query
+export const matchesQuery = (value: string | undefined, query: string) =>
+  value?.toLowerCase().includes(query.toLowerCase());

@@ -138,7 +138,9 @@ const useAccountRequest = () => {
               // Authentication Checker...
               const authTokenErrors = [401, 403];
               const data = error.response;
-              if (authTokenErrors.includes(error.response)) {
+
+              // Unauthorized or Forbidden error
+              if (authTokenErrors.includes(data.status)) {
                 enqueueSnackbar(
                   "You are not authorized to make this request!",
                   {
