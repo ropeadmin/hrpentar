@@ -1639,7 +1639,7 @@ export default function Company() {
             className="text-white bg-[#EF0000] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             onClick={deactivateBusiness}
           >
-            {isLoadingBusinessDeactivate ? "Loading..." : "Deactivate company"}
+            {isLoadingBusinessDeactivate ? "Please wait..." : "Deactivate company"}
           </button>
         </div>
       </AppModal>
@@ -1696,7 +1696,7 @@ export default function Company() {
             className="text-white bg-[#0BA259] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             onClick={activateBusiness}
           >
-            {isLoadingBusinessDeactivate ? "Loading..." : "Activate company"}
+            {isLoadingBusinessActivate ? "Please wait..." : "Activate company"}
           </button>
         </div>
       </AppModal>
@@ -1754,7 +1754,7 @@ export default function Company() {
             className="text-white bg-[#EF0000] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             onClick={deleteBusiness}
           >
-            {isLoadingBusinessDelete ? "Loading..." : "Delete company"}
+            {isLoadingBusinessDelete ? "Please wait..." : "Delete company"}
           </button>
         </div>
       </AppModal>
