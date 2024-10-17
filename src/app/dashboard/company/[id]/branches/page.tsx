@@ -1,19 +1,15 @@
 "use client";
 import MyTextField from "@/app/components/Fields/MyTextField";
 import { AppModal } from "@/app/components/Modals";
-import CreateCompanyStepper from "@/app/components/Stepper/CreateCompanyStepper";
 import BranchTable from "@/app/components/Table/BranchTable";
-import CompanyTable from "@/app/components/Table/CompanyTable";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
 import useAppTheme from "@/hooks/theme.hook";
-import useRequest from "@/services/request.service";
 import useAccountRequest from "@/services/accountRequest.service";
-import { ButtonBase, IconButton, MenuItem, Stepper } from "@mui/material";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ButtonBase, IconButton, MenuItem } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import ReactFlagsSelect from "react-flags-select";
 import { useDispatch } from "react-redux";
 import { matchesQuery } from "@/helpers";
 import { Bounce, toast } from "react-toastify";
@@ -26,6 +22,7 @@ export default function Branches() {
   const [successModal, setSuccessModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -72,9 +69,50 @@ export default function Branches() {
     });
   };
 
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    state: "",
+    country: "",
+    lga: "",
+    postalCode: "",
+  });
+
   const handleClose = () => {
     setBranchMenuOpen(Array(branches.length).fill(false));
     setAnchorEl(null);
+  };
+
+  const handleBranchDeleteModal = (branch: any) => {
+    setSelectedBranch2(branch);
+    setDeleteBranchModal(true); // Open the delete modal
+  };
+
+  const handleCloseDeleteModal = () => {
+    setSelectedBranch(null);
+    setDeleteBranchModal(false);
+  };
+
+  // Deactivate Modal
+  const handleBranchDeactivateModal = (branch: any) => {
+    setSelectedBranch2(branch);
+    setDeactivateBranchModal(true); // Open the Deactivate modal
+  };
+
+  const handleCloseDeactivateModal = () => {
+    setSelectedBranch(null);
+    setDeactivateBranchModal(false);
+  };
+
+  // Activate Modal
+  const handleBranchActivateModal = (branch: any) => {
+    setSelectedBranch2(branch);
+    setActivateBranchModal(true); // Open the Deactivate modal
+  };
+
+  const handleCloseActivateModal = () => {
+    setSelectedBranch(null);
+    setActivateBranchModal(false);
   };
 
   useEffect(() => {
@@ -94,11 +132,18 @@ export default function Branches() {
   // Extract the ID from the pathname
   const businessId = pathname.split("/").slice(-2)[0];
 
-  // Check if the ID is present and valid (optional)
+  // Ensure hooks are called before any early returns
+  useEffect(() => {
+    if (businessId) {
+      getBranches();
+    }
+  }, [businessId]);
+
+  // You can still handle the invalid `businessId` scenario after hooks
   if (!businessId) {
-    // Handle the case where the ID is missing
     console.error("ID is missing from the URL.");
-    return null; // Or redirect to a default page
+    // Optionally, redirect or show an error message instead of returning null
+    return <div>Error: Business ID is missing</div>; // Or a redirect to another page
   }
 
   const tabs = [
@@ -117,15 +162,6 @@ export default function Branches() {
   const handleTabClick = (key: React.SetStateAction<string>) => {
     setActiveTab(key);
   };
-
-  const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    state: "",
-    country: "",
-    lga: "",
-    postalCode: "",
-  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -196,7 +232,7 @@ export default function Branches() {
 
   // Update Branch
   const handleEditBranch = (branch: any) => {
-    setBranchId(branch?._id)
+    setBranchId(branch?._id);
     setFormData({
       name: branch.name,
       address: branch.address,
@@ -208,7 +244,7 @@ export default function Branches() {
     setEditModal(true);
   };
 
-  const updateBranch = async (e: { preventDefault: () => void; }) => {
+  const updateBranch = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     catchAsync(
       async () => {
@@ -292,12 +328,6 @@ export default function Branches() {
       }
     );
   };
-
-  useEffect(() => {
-    if (businessId) {
-      getBranches();
-    }
-  }, [businessId]);
 
   // Delete Branch
   const deleteBranch = async () => {
@@ -402,40 +432,6 @@ export default function Branches() {
   const subsidiary = ["Yes", "No"];
 
   const countries = ["Afghanistan", "Albania"];
-
-  const handleBranchDeleteModal = (branch: any) => {
-    setSelectedBranch2(branch);
-    setDeleteBranchModal(true); // Open the delete modal
-  };
-
-  const handleCloseDeleteModal = () => {
-    setSelectedBranch(null);
-    setDeleteBranchModal(false);
-  };
-
-  // Deactivate Modal
-  const handleBranchDeactivateModal = (branch: any) => {
-    setSelectedBranch2(branch);
-    setDeactivateBranchModal(true); // Open the Deactivate modal
-  };
-
-  const handleCloseDeactivateModal = () => {
-    setSelectedBranch(null);
-    setDeactivateBranchModal(false);
-  };
-
-  // Activate Modal
-  const handleBranchActivateModal = (branch: any) => {
-    setSelectedBranch2(branch);
-    setActivateBranchModal(true); // Open the Deactivate modal
-  };
-
-  const handleCloseActivateModal = () => {
-    setSelectedBranch(null);
-    setActivateBranchModal(false);
-  };
-
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchInputChange = (event: {
     target: { value: React.SetStateAction<string> };

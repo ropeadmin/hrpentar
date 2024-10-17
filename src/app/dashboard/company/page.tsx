@@ -409,7 +409,7 @@ export default function Company() {
       async () => {
         const res = await businessDeactivateRequest({
           method: "PATCH",
-          url: `${API.createBusiness}/activation?id=${selectedCompany2?._id}`,
+          url: `${API.createBusiness}/deactivate?id=${selectedCompany2?._id}`,
         });
 
         const { data } = res?.data;
