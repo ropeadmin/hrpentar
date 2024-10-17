@@ -18,7 +18,10 @@ export const API = {
   getSubscription: '/api/v1/subscription',
 
   // Upload
-  upload: 'api/v1/file/upload',
+  upload: '/api/v1/file/upload',
+
+  // Branch
+  branch: '/api/v1/branch',
 };
 
 export default API;

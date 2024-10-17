@@ -134,7 +134,7 @@ const CompanyTable = ({
               status={company?.status}
               company={companies[selectedCompany]} // Pass the selected company data
               onSwitch={onSwitch}
-              onView={onView}
+              onView={() => onView(company)}
               onDeactivate={() => onDeactivate(company)}
               onActivate={() => onActivate(company)}
               onDelete={() => onDelete(company)} // Use arrow function to pass it as a reference

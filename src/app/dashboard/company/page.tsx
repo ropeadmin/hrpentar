@@ -101,6 +101,17 @@ export default function Company() {
     setActivateCompanyModal(false);
   };
 
+  // On Branch View
+  const handleBranchNavigation = (company: any) => {
+    localStorage.setItem('company-details', JSON.stringify(company)); // Store as string
+    const formattedBusinessName = company?.businessName
+      .toLowerCase() // Convert to lowercase
+      .replace(/\s+/g, "-"); // Replace spaces with dashes
+  
+    router.push(`/dashboard/company/${company?._id}/branches`);
+  };
+  
+
   // Close Success Modal
   const handleCloseSuccessModal = () => {
     setSuccessModal(false);
@@ -131,7 +142,6 @@ export default function Company() {
       },
     });
   };
-
 
   // Switch business after creation
   const handleOpenSwitch = () => {
@@ -399,7 +409,7 @@ export default function Company() {
       async () => {
         const res = await businessDeactivateRequest({
           method: "PATCH",
-          url: `${API.createBusiness}/deactivate?id=${selectedCompany2?._id}`,
+          url: `${API.createBusiness}/activation?id=${selectedCompany2?._id}`,
         });
 
         const { data } = res?.data;
@@ -445,7 +455,7 @@ export default function Company() {
       async () => {
         const res = await businessActivateRequest({
           method: "PATCH",
-          url: `${API.createBusiness}/activate?id=${selectedCompany2?._id}`,
+          url: `${API.createBusiness}/activation?id=${selectedCompany2?._id}`,
         });
 
         const { data } = res?.data;
@@ -1046,7 +1056,7 @@ export default function Company() {
           setSelectedCompany={setSelectedCompany}
           companies={filteredCompanies}
           onSwitch={() => setSwitchCompanyModal(true)}
-          onView={() => {}}
+          onView={handleBranchNavigation}
           onDeactivate={handleCompanyDeactivateModal}
           onActivate={handleCompanyActivateModal}
           onDelete={handleCompanyDeleteModal}
