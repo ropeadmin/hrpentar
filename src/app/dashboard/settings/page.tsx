@@ -1,5 +1,6 @@
 "use client";
 import MyTextField from "@/app/components/Fields/MyTextField";
+import CacModal from "@/app/components/Modals/Document/CacModal";
 import useUploadsService from "@/services/uploads.service";
 import { ButtonBase, IconButton, MenuItem } from "@mui/material";
 import React, { useCallback, useState } from "react";
@@ -12,6 +13,7 @@ export default function Settings() {
   const [companyDirector, setCompanyDirector] = useState<boolean>(false);
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
+  const [cacDocumentModal, setCacDocumentModal] = useState<boolean>(false);
   const {
     uploadFiles,
     imageUploadState: { isLoading: IsLoadingUpload },
@@ -238,6 +240,40 @@ export default function Settings() {
       "application/pdf": [".pdf"],
     },
   });
+
+  const documents = [
+    {
+      header: "CAC Documents",
+      title:
+        "Certificate of incorporation, Memorandum & Article of Association",
+      action: () => setCacDocumentModal(true),
+    },
+    {
+      header: "Tax Documents",
+      title: "Tax identification",
+      action: () => {},
+    },
+    {
+      header: "Pension Documents",
+      title: "Pension registration",
+      action: () => {},
+    },
+    {
+      header: "NHIS Documents",
+      title: "Health insurance",
+      action: () => {},
+    },
+    {
+      header: "Business Proof of Address",
+      title: "Utility bills or lease agreement",
+      action: () => {},
+    },
+    {
+      header: "NSITF Documents",
+      title: "Nigerian Social Insurance Trust Fund",
+      action: () => {},
+    },
+  ];
 
   return (
     <div>
@@ -1015,6 +1051,80 @@ export default function Settings() {
           </div>
         </>
       )}
+
+      {/* Documents Tab Content*/}
+      {activeTab === "documents" && (
+        <div>
+          <div className="mt-5">
+            <h1 className="text-[18px] font-[700] text-[#0F1625]">
+              Document upload
+            </h1>
+            <p className="text-[#0F1625] font-[400] text-[14px]">
+              Provide the documents below to complete your company’s
+              verification.
+            </p>
+          </div>
+
+          <div className="mt-7 grid grid-cols-2 gap-[28px]">
+            {documents.map((item, i) => (
+              <div className="w-full rounded-[12px] border border-[#D0D6DD] p-5 flex items-center gap-[16px]">
+                <div className="bg-[#F0F2F5] rounded-[8px] p-[12px] flex justify-center items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="34"
+                    viewBox="0 0 30 34"
+                    fill="none"
+                  >
+                    <path
+                      d="M15.8824 0.333496C22.5375 0.333496 25.865 0.333496 27.9325 2.28612C30 4.23874 30 7.38144 30 13.6668V20.3335C30 26.6189 30 29.7616 27.9325 31.7142C25.865 33.6668 22.5375 33.6668 15.8824 33.6668H14.1176C7.46252 33.6668 4.13496 33.6668 2.06748 31.7142C-4.20739e-07 29.7616 -2.90686e-07 26.6189 2.18279e-10 20.3335L3.08775e-07 13.6668C5.99679e-07 7.38143 8.41477e-07 4.23874 2.06748 2.28612C4.13496 0.333496 7.46253 0.333496 14.1177 0.333496L15.8824 0.333496Z"
+                      fill="#D0D6DD"
+                    />
+                    <path
+                      d="M8.3335 8.66699H21.6668"
+                      stroke="#687588"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M8.3335 17H21.6668"
+                      stroke="#687588"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M8.3335 25.3335H15.0002"
+                      stroke="#687588"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+
+                <div>
+                  <h1 className="text-[16px] font-[700] text-[#0F1625]">
+                    {item.header}
+                  </h1>
+                  <p className="text-[12px] font-[400] text-[#0F1625]">
+                    {item.title}
+                  </p>
+
+                  <button onClick={item.action} className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[8px] px-[14px] mt-2">
+                    <img src="/icons/upload.svg" width={15} height={15} />
+                    <span className="leading-none">Upload</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Document Modals */}
+      <CacModal
+        modal={cacDocumentModal}
+        closeModal={() => setCacDocumentModal(false)}
+      />
     </div>
   );
 }
