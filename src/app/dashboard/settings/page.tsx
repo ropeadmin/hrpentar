@@ -1,6 +1,8 @@
 "use client";
 import MyTextField from "@/app/components/Fields/MyTextField";
+import BusinessProofModal from "@/app/components/Modals/Document/BusinessProofModal";
 import CacModal from "@/app/components/Modals/Document/CacModal";
+import TaxModal from "@/app/components/Modals/Document/TaxModal";
 import useUploadsService from "@/services/uploads.service";
 import { ButtonBase, IconButton, MenuItem } from "@mui/material";
 import React, { useCallback, useState } from "react";
@@ -14,6 +16,9 @@ export default function Settings() {
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   const [cacDocumentModal, setCacDocumentModal] = useState<boolean>(false);
+  const [taxDocumentModal, setTaxDocumentModal] = useState<boolean>(false);
+  const [businessProofDocumentModal, setBusinessProofDocumentModal] =
+    useState<boolean>(false);
   const {
     uploadFiles,
     imageUploadState: { isLoading: IsLoadingUpload },
@@ -251,7 +256,7 @@ export default function Settings() {
     {
       header: "Tax Documents",
       title: "Tax identification",
-      action: () => {},
+      action: () => setTaxDocumentModal(true),
     },
     {
       header: "Pension Documents",
@@ -266,7 +271,7 @@ export default function Settings() {
     {
       header: "Business Proof of Address",
       title: "Utility bills or lease agreement",
-      action: () => {},
+      action: () => setBusinessProofDocumentModal(true),
     },
     {
       header: "NSITF Documents",
@@ -1109,7 +1114,10 @@ export default function Settings() {
                     {item.title}
                   </p>
 
-                  <button onClick={item.action} className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[8px] px-[14px] mt-2">
+                  <button
+                    onClick={item.action}
+                    className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[8px] px-[14px] mt-2"
+                  >
                     <img src="/icons/upload.svg" width={15} height={15} />
                     <span className="leading-none">Upload</span>
                   </button>
@@ -1124,6 +1132,16 @@ export default function Settings() {
       <CacModal
         modal={cacDocumentModal}
         closeModal={() => setCacDocumentModal(false)}
+      />
+
+      <TaxModal
+        modal={taxDocumentModal}
+        closeModal={() => setTaxDocumentModal(false)}
+      />
+
+      <BusinessProofModal
+        modal={businessProofDocumentModal}
+        closeModal={() => setBusinessProofDocumentModal(false)}
       />
     </div>
   );
