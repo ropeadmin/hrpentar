@@ -20,6 +20,19 @@ export default function CacModal({ modal, closeModal }: any) {
 
   const businessEntity = ["Yes", "No"];
 
+  const uploadedFiles = [
+    {
+      name: "Certificate of incorporation _001.pdf",
+      size: "256",
+      icon: "/icons/pdf-icon.svg",
+    },
+    {
+      name: "Memorandum & Article of Association",
+      size: "125",
+      icon: "/icons/pdf-icon.svg",
+    },
+  ];
+
   return (
     <AppModal
       open={modal}
@@ -54,71 +67,90 @@ export default function CacModal({ modal, closeModal }: any) {
         </div>
       </div>
 
-      {/* Document Stepper */}
-      <div className="flex gap-5 w-full mt-3">
-        {documents.map((item, i) => (
-          <div className="rounded-[8px] p-[16px] border border-[#D0D6DD] flex justify-center items-center">
-            <p
-              className="leading-none text-[14px] font-[500]"
-              style={{ color: item.completed ? "#0F1625" : "#A0AEC0" }}
-            >
-              {item.title}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <div className="w-full">
-        <MyTextField
-          id="businessEntity"
-          name="businessEntity"
-          label="Is your business a non-Nigerian Entity?"
-          placeholder=""
-          type="text"
-          value={""}
-          onChange={undefined}
-          select
-          required
-        >
-          {businessEntity.map((businessEntity, i) => (
-            <MenuItem key={i} value={businessEntity}>
-              {businessEntity}
-            </MenuItem>
+      <div className="overflow-auto mt-1.5 remove-scroll-bar w-full">
+        {/* Document Stepper */}
+        <div className="flex gap-5 w-full">
+          {documents.map((item, i) => (
+            <div className="rounded-[8px] p-[16px] border border-[#D0D6DD] flex justify-center items-center">
+              <p
+                className="leading-none text-[14px] font-[500]"
+                style={{ color: item.completed ? "#0F1625" : "#A0AEC0" }}
+              >
+                {item.title}
+              </p>
+            </div>
           ))}
-        </MyTextField>
-      </div>
+        </div>
 
-      {/* Upload Zone */}
-      <div className="mt-3 w-full bg-[#FBFBFC] border-[0.5px] border-dashed border-[#A0AEC0] rounded-[8px] py-[30px] flex flex-col justify-center items-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="23"
-          height="22"
-          viewBox="0 0 23 22"
-          fill="none"
-        >
-          <path
-            d="M11.4993 1.00016L11.4993 14.3335M11.4993 1.00016C10.5657 1.00016 8.82139 3.65923 8.16602 4.3335M11.4993 1.00016C12.433 1.00016 14.1773 3.65923 14.8327 4.3335"
-            stroke="#0F1625"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M22.1663 17C22.1663 20.3093 21.4757 21 18.1663 21H4.83301C1.52367 21 0.833008 20.3093 0.833008 17"
-            stroke="#0F1625"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <p className="text-[14px] font-[400] text-[#0F1625] mt-3">
-          <span className="font-[700] text-[#EF0000]">Click to upload</span> or
-          drag and drop image.
-        </p>
-        <p className="text-[12px] font-[400] text-[#323B49]">
-          SVG, PNG, JPG (max. 800 x 400px)
-        </p>
+        <div className="w-full mt-5">
+          <MyTextField
+            id="businessEntity"
+            name="businessEntity"
+            label="Is your business a non-Nigerian Entity?"
+            placeholder=""
+            type="text"
+            value={""}
+            onChange={undefined}
+            select
+            required
+          >
+            {businessEntity.map((businessEntity, i) => (
+              <MenuItem key={i} value={businessEntity}>
+                {businessEntity}
+              </MenuItem>
+            ))}
+          </MyTextField>
+        </div>
+
+        {/* Upload Zone */}
+        <div className="mt-7 w-full bg-[#FBFBFC] border-[0.5px] border-dashed border-[#A0AEC0] rounded-[8px] py-[30px] flex flex-col justify-center items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="23"
+            height="22"
+            viewBox="0 0 23 22"
+            fill="none"
+          >
+            <path
+              d="M11.4993 1.00016L11.4993 14.3335M11.4993 1.00016C10.5657 1.00016 8.82139 3.65923 8.16602 4.3335M11.4993 1.00016C12.433 1.00016 14.1773 3.65923 14.8327 4.3335"
+              stroke="#0F1625"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M22.1663 17C22.1663 20.3093 21.4757 21 18.1663 21H4.83301C1.52367 21 0.833008 20.3093 0.833008 17"
+              stroke="#0F1625"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <p className="text-[14px] font-[400] text-[#0F1625] mt-3">
+            <span className="font-[700] text-[#EF0000]">Click to upload</span>{" "}
+            or drag and drop image.
+          </p>
+          <p className="text-[12px] font-[400] text-[#323B49]">
+            SVG, PNG, JPG (max. 800 x 400px)
+          </p>
+        </div>
+
+        {/* Uploaded Files */}
+        <div className="grid grid-cols-1 gap-3 w-full mt-5">
+          {uploadedFiles.map((file, i) => (
+            <div className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px]">
+              <div className="flex items-center gap-[12px]">
+                <img src={file.icon} width={40} height={40} />
+                <p className="text-[14px] font-[500] text-[#0F1625]">
+                  {file.name} ({file.size})
+                </p>
+              </div>
+              <IconButton>
+                <img src="/icons/delete.svg" width={18} height={18} />
+              </IconButton>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Buttons */}
