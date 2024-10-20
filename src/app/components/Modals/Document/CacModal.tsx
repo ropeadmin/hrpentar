@@ -71,7 +71,7 @@ export default function CacModal({ modal, closeModal }: any) {
         {/* Document Stepper */}
         <div className="flex gap-5 w-full">
           {documents.map((item, i) => (
-            <div className="rounded-[8px] p-[16px] border border-[#D0D6DD] flex justify-center items-center">
+            <div key={i} className="rounded-[8px] p-[16px] border border-[#D0D6DD] flex justify-center items-center">
               <p
                 className="leading-none text-[14px] font-[500]"
                 style={{ color: item.completed ? "#0F1625" : "#A0AEC0" }}
@@ -138,7 +138,7 @@ export default function CacModal({ modal, closeModal }: any) {
         {/* Uploaded Files */}
         <div className="grid grid-cols-1 gap-3 w-full mt-5">
           {uploadedFiles.map((file, i) => (
-            <div className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px]">
+            <div key={i} className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px]">
               <div className="flex items-center gap-[12px]">
                 <img src={file.icon} width={40} height={40} />
                 <p className="text-[14px] font-[500] text-[#0F1625]">

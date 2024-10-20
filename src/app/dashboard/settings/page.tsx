@@ -473,8 +473,9 @@ export default function Settings() {
               </div>
               <div className="flex flex-col items-start gap-[20px]">
                 <div className="flex gap-2">
-                  {colors.map((color) => (
+                  {colors.map((color, i) => (
                     <div
+                    key={i}
                       className="w-[24px] h-[24px] rounded-full cursor-pointer"
                       style={{ backgroundColor: color }}
                     />
