@@ -1073,7 +1073,7 @@ export default function Settings() {
 
           <div className="mt-7 grid grid-cols-2 gap-[28px]">
             {documents.map((item, i) => (
-              <div className="w-full rounded-[12px] border border-[#D0D6DD] p-5 flex items-center gap-[16px]">
+              <div key={i} className="w-full rounded-[12px] border border-[#D0D6DD] p-5 flex items-center gap-[16px]">
                 <div className="bg-[#F0F2F5] rounded-[8px] p-[12px] flex justify-center items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
