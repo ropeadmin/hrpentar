@@ -6,6 +6,7 @@ import CompanyTable from "@/app/components/Table/CompanyTable";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
 import useAppTheme from "@/hooks/theme.hook";
+import useRequest from "@/services/request.service";
 import useAccountRequest from "@/services/accountRequest.service";
 import { ButtonBase, IconButton, MenuItem } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,9 @@ import useUploadsService from "@/services/uploads.service";
 import { useDropzone } from "react-dropzone";
 import { Bounce, toast } from "react-toastify";
 import { matchesQuery } from "@/helpers";
+import { ToastBar } from "react-hot-toast";
+import { GrToast } from "react-icons/gr";
+import { sliceText } from "@/utils/formatter/formatter";
 
 export default function Company() {
   const { isMobile } = useAppTheme();
@@ -55,13 +59,29 @@ export default function Company() {
   const [business, setBusiness] = useState<any>([]);
   const {
     uploadFiles,
-    imageUploadState: { isLoading: IsLoadingUpload },
+    imageUploadState: { isLoading: IsLoadingUploadId },
+  } = useUploadsService();
+  const { makeRequest: deleteFileRequest, isLoading: isLoadingDeleteFile } =
+    useRequest();
+  const {
+    uploadFiles: uploadSignatureFile,
+    imageUploadState: { isLoading: IsLoadingUploadSignature },
   } = useUploadsService();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedCompany, setSelectedCompany] = useState<any>(null);
   const [selectedCompany2, setSelectedCompany2] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const [uploadedDirectorSignatureFile, setUploadedDirectorSignatureFile] =
+    useState<any>(null);
+  const [
+    uploadedDirectorSignatureFileName,
+    setUploadedDirectorSignatureFileName,
+  ] = useState<any>(null);
+  const [uploadedDirectorIdFile, setUploadedDirectorIdFile] =
+    useState<any>(null);
+  const [uploadedDirectorIdFileName, setUploadedDirectorIdFileName] =
+    useState<any>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const handleStatusSelect = (status: string) => {
@@ -117,7 +137,7 @@ export default function Company() {
     setCurrentStep(1);
     setFormData({
       businessName: "",
-      registrationNumber: "",
+      businessRegistrationNumber: "",
       size: "",
       businessType: "",
       subsidiary: "",
@@ -149,7 +169,7 @@ export default function Company() {
     setCurrentStep(1);
     setFormData({
       businessName: "",
-      registrationNumber: "",
+      businessRegistrationNumber: "",
       size: "",
       businessType: "",
       subsidiary: "",
@@ -191,9 +211,165 @@ export default function Company() {
     setActiveTab(key);
   };
 
+  // Generalized file upload handler
+  const handleFileUpload = async (
+    files: File[],
+    uploadFunction: any,
+    onSuccess: (data: any) => Promise<void>
+  ) => {
+    try {
+      // Upload the files using the provided upload function and success callback
+      await uploadFiles(files, onSuccess);
+    } catch (error) {
+      console.log("File upload failed:", error);
+    }
+  };
+
+  // onSuccess callback for regular file upload
+  const onFileUploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    // Update the regular file state
+    setUploadedDirectorIdFile(uploadedFile);
+    setUploadedDirectorIdFileName(uploadedFileName);
+  };
+
+  // onSuccess callback for signature file upload
+  const onSignatureUploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    // Update the signature file state
+    setUploadedDirectorSignatureFile(uploadedFile);
+    setUploadedDirectorSignatureFileName(uploadedFileName);
+  };
+
+  // Dropzone for regular files
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(acceptedFiles, uploadFiles, onFileUploadSuccess),
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+      "application/pdf": [".pdf"],
+    },
+  });
+
+  // Dropzone for signature files
+  const {
+    getRootProps: getSignatureRootProps,
+    getInputProps: getSignatureInputProps,
+    isDragActive: isSignatureDragActive,
+  } = useDropzone({
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(
+        acceptedFiles,
+        uploadSignatureFile,
+        onSignatureUploadSuccess
+      ),
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+      "application/pdf": [".pdf"],
+    },
+  });
+
+  // Delete Uploaded files
+  const deleteFile = async (file: any) => {
+    catchAsync(
+      async () => {
+        const res = await deleteFileRequest({
+          method: "DELETE",
+          url: API.upload,
+          data: { key: file },
+        });
+
+        const { data } = res?.data;
+        toast.success("File deleted successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedDirectorIdFile(null);
+        setUploadedDirectorIdFileName(null);
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+  // Delete signature files
+  const deleteSignatureFile = async (file: any) => {
+    catchAsync(
+      async () => {
+        const res = await deleteFileRequest({
+          method: "DELETE",
+          url: API.upload,
+          data: { key: file },
+        });
+
+        const { data } = res?.data;
+        toast.success("File deleted successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedDirectorSignatureFile(null);
+        setUploadedDirectorSignatureFileName(null);
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
   const [formData, setFormData] = useState({
     businessName: "",
-    registrationNumber: "",
+    businessRegistrationNumber: "",
     size: "",
     businessType: "",
     subsidiary: "",
@@ -256,7 +432,7 @@ export default function Company() {
 
   const payload = {
     businessName: formData.businessName,
-    registrationNumber: formData.registrationNumber,
+    registrationNumber: formData.businessRegistrationNumber,
     size: formData.size,
     country: formData.address.country,
     businessType: formData.businessType,
@@ -274,12 +450,9 @@ export default function Company() {
       name: formData.director.name,
       email: formData.director.email,
       country: formData.address.country,
-      idCard: [
-        "https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png",
-      ],
+      idCard: [uploadedDirectorIdFile],
       position: formData.director.position,
-      signature:
-        "https://alpharides.s3.us-east-1.amazonaws.com/66e2b9e9ba5ee534ab474d9c/Screenshot-2024-08-25-at-03.19.17.png",
+      signature: uploadedDirectorSignatureFile,
     },
   };
 
@@ -583,10 +756,7 @@ export default function Company() {
     "United States",
   ];
 
-  const industryTypes = [
-    "Finance",
-    "Technology",
-  ];
+  const industryTypes = ["Finance", "Technology"];
 
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -641,28 +811,6 @@ export default function Company() {
   const previousStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
-
-  // File Upload
-  const onDrop = useCallback((acceptedFiles: any) => {
-    // Call the uploadFiles function when files are dropped or selected
-    uploadFiles(
-      acceptedFiles,
-      (data) => {
-        console.log("Upload successful", data);
-      },
-      (error) => {
-        console.log("Upload failed", error);
-      }
-    );
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
-      "application/pdf": [".pdf"],
-    },
-  });
 
   const [businessMenuOpen, setBusinessMenuOpen] = useState<Array<boolean>>([]);
   const [anchorElTip, setAnchorElTip] = useState(null);
@@ -758,8 +906,8 @@ export default function Company() {
             </div>
           </div>
 
-          <div className="relative inline-block">
-            {/* Button */}
+          {/* <div className="relative inline-block">
+            {/* Button *
             <div
               className="px-[14px] py-[8px] rounded-[8px] flex items-center gap-2 border border-[#D0D6DD] cursor-pointer"
               onClick={toggleDropdown}
@@ -785,7 +933,7 @@ export default function Company() {
               </svg>
             </div>
 
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu *
             {isOpen && (
               <div
                 className="absolute z-10 mt-2 w-[150px] bg-white rounded-[12px] shadow-lg"
@@ -808,7 +956,7 @@ export default function Company() {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
 
         <div
@@ -922,7 +1070,7 @@ export default function Company() {
                 name="businessRegistrationNumber"
                 label="Business registration number"
                 placeholder="Enter business registration number"
-                value={formData.registrationNumber}
+                value={formData.businessRegistrationNumber}
                 type="text"
                 onChange={handleChange}
               />
@@ -1133,56 +1281,122 @@ export default function Company() {
                 <h3 className="text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]">
                   Upload Director’s ID (National ID)
                 </h3>
-                <div
-                  {...getRootProps()}
-                  className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
-                    isDragActive ? "bg-gray-100" : ""
-                  }`}
-                >
-                  <input {...getInputProps()} />
-                  <img
-                    src="/icons/upload.svg"
-                    width={20}
-                    height={20}
-                    alt="upload"
-                  />
-                  {isDragActive ? (
-                    <p>Drop the files here ...</p>
-                  ) : (
-                    <p>Upload file</p>
-                  )}
-                </div>
-                <p className="mt-[7px] text-[12px] font-[700] text-[#1F2937]">
-                  PDF, PNG, JPG (max. 800 x 400px).
-                </p>
+
+                {uploadedDirectorIdFile && (
+                  <div className="flex justify-between items-center gap-[32px] mt-3">
+                    <div className="bg-[#F9FAFB] flex gap-3 items-center w-full rounded-[6px] py-[10px] px-[14px]">
+                      <img
+                        src={
+                          uploadedDirectorIdFileName.includes("png")
+                            ? "/icons/png-icon.svg"
+                            : uploadedDirectorIdFileName.includes("pdf")
+                            ? "/icons/pdf-icon.svg"
+                            : "/icons/pdf-icon.svg"
+                        }
+                        alt=""
+                        width={20}
+                        height={20}
+                      />
+                      <p className="truncate text-[16px] font-[500] text-[#0F1625] leading-none">
+                        {sliceText(40, uploadedDirectorIdFileName)}
+                      </p>
+                    </div>
+                    <IconButton
+                      onClick={() => deleteFile(uploadedDirectorIdFileName)}
+                    >
+                      <img src="/icons/delete.svg" width={16} height={16} />
+                    </IconButton>
+                  </div>
+                )}
+
+                {uploadedDirectorIdFile === null && (
+                  <>
+                    <div
+                      {...getRootProps()}
+                      className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
+                        isDragActive ? "bg-gray-100" : ""
+                      }`}
+                    >
+                      <input {...getInputProps()} />
+                      <img
+                        src="/icons/upload.svg"
+                        width={20}
+                        height={20}
+                        alt="upload"
+                      />
+                      {isDragActive ? (
+                        <p>Drop the files here ...</p>
+                      ) : (
+                        <p>Upload file</p>
+                      )}
+                    </div>
+                    <p className="mt-[7px] text-[12px] font-[700] text-[#1F2937]">
+                      PDF, PNG, JPG (max. 800 x 400px).
+                    </p>
+                  </>
+                )}
               </div>
 
               <div>
                 <h3 className="text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]">
                   Upload Director’s signature
                 </h3>
-                <div
-                  {...getRootProps()}
-                  className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
-                    isDragActive ? "bg-gray-100" : ""
-                  }`}
-                >
-                  <input {...getInputProps()} />
-                  <img
-                    src="/icons/upload.svg"
-                    width={20}
-                    height={20}
-                    alt="upload"
-                  />
-                  {isDragActive ? (
-                    <p>Drop the files here ...</p>
-                  ) : (
-                    <p>Upload file</p>
-                  )}
-                </div>
-                <p className="mt-[7px] text-[12px] font-[700] text-[#1F2937]">
-                  PDF, PNG, JPG. File must not be above 125kb.
-                </p>
+
+                {uploadedDirectorSignatureFile && (
+                  <div className="flex justify-between items-center gap-[32px] mt-3">
+                    <div className="bg-[#F9FAFB] flex gap-3 items-center w-full rounded-[6px] py-[10px] px-[14px]">
+                      <img
+                        src={
+                          uploadedDirectorSignatureFileName.includes("png")
+                            ? "/icons/png-icon.svg"
+                            : uploadedDirectorSignatureFileName.includes("pdf")
+                            ? "/icons/pdf-icon.svg"
+                            : "/icons/pdf-icon.svg"
+                        }
+                        alt=""
+                        width={20}
+                        height={20}
+                      />
+                      <p className="truncate text-[16px] font-[500] text-[#0F1625] leading-none">
+                        {sliceText(40, uploadedDirectorSignatureFileName)}
+                      </p>
+                    </div>
+                    <IconButton
+                      onClick={() =>
+                        deleteSignatureFile(uploadedDirectorSignatureFileName)
+                      }
+                    >
+                      <img src="/icons/delete.svg" width={16} height={16} />
+                    </IconButton>
+                  </div>
+                )}
+
+                {uploadedDirectorSignatureFile === null && (
+                  <>
+                    <div
+                      {...getSignatureRootProps()}
+                      className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
+                        isDragActive ? "bg-gray-100" : ""
+                      }`}
+                    >
+                      <input {...getSignatureInputProps()} />
+                      <img
+                        src="/icons/upload.svg"
+                        width={20}
+                        height={20}
+                        alt="upload"
+                      />
+                      {isSignatureDragActive ? (
+                        <p>Drop the files here ...</p>
+                      ) : (
+                        <p>Upload file</p>
+                      )}
+                    </div>
+                    <p className="mt-[7px] text-[12px] font-[700] text-[#1F2937]">
+                      PDF, PNG, JPG. File must not be above 125kb.
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -1437,7 +1651,9 @@ export default function Company() {
             className="text-white bg-[#EF0000] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             onClick={deactivateBusiness}
           >
-            {isLoadingBusinessDeactivate ? "Please wait..." : "Deactivate company"}
+            {isLoadingBusinessDeactivate
+              ? "Please wait..."
+              : "Deactivate company"}
           </button>
         </div>
       </AppModal>

@@ -24,21 +24,21 @@ const useUploadsService = (
     useRequest();
 
 /**
-   *
-   * @param {File} file The file you want to upload
-   * @param onSuccess is a callback that will be called when the upload is successful
-   * @param onError is a callback that will be called when the upload fails
-   * @returns {Promise<any>}
-   */
+ *
+ * @param {File[]} files The files you want to upload (an array of files)
+ * @param onSuccess is a callback that will be called when the upload is successful
+ * @param onError is a callback that will be called when the upload fails
+ * @returns {Promise<any>}
+ */
 const uploadFiles = async (
-  file: File, // Expecting a single file now
+  files: File[], // Now expecting an array of files
   onSuccess: (data: IDocumentFileResponse[]) => void,
   onError?: (err: AxiosError) => void
 ): Promise<any> => {
   try {
-    const fileFormData = await getFileFormData(file);
+    const fileFormData = await getFileFormData(files); // Pass the array of files
     
-    // Upload the file
+    // Upload the files (assuming the API accepts multiple files at once)
     const res = await makeImageUploadRequest({
       url: API.upload,
       method: "POST",
@@ -47,7 +47,7 @@ const uploadFiles = async (
 
     const { data } = res;
 
-    // Call the onSuccess callback
+    // Call the onSuccess callback with the array of responses
     onSuccess(data);
   } catch (e: any) {
     const res = e?.response;
@@ -64,7 +64,7 @@ const uploadFiles = async (
         error: true,
       });
     } else if (status === 500) {
-      enqueueSnackbar("The file is too large. Please select a smaller image.", {
+      enqueueSnackbar("The file is too large. Please select smaller images.", {
         error: true,
       });
     } else {

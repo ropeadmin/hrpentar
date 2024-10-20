@@ -4,11 +4,13 @@ import { AppModal } from "@/app/components/Modals";
 import useAuthRedirect from "@/hooks/authredirect.hook";
 import useAppTheme from "@/hooks/theme.hook";
 import { ButtonBase } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Welcome() {
   // useAuthRedirect();
   // const { isMobile } = useAppTheme();
+  const navigate = useRouter();
   const percentage = 32;
 
   // Get Started Steps
@@ -17,13 +19,13 @@ export default function Welcome() {
       header: "Complete your company profile",
       title: "Fill in company information and customize account. ",
       actionTitle: "Continue setup",
-      action: "/",
+      action: "/dashboard/settings",
     },
     {
       header: "Submit documents for background checks and verification",
       title: "Upload required documents needed to verify your business.",
       actionTitle: "Submit documents",
-      action: "/",
+      action: "/dashboard/settings",
     },
     {
       header: "Setup organizations chart and directory",
@@ -191,7 +193,10 @@ export default function Welcome() {
                       </p>
                     </div>
                   </div>
-                  <button className="px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937]">
+                  <button
+                    onClick={() => navigate.push(step.action)}
+                    className="px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937]"
+                  >
                     {step.actionTitle}
                   </button>
                 </div>
@@ -278,17 +283,17 @@ export default function Welcome() {
           />
         </div>
 
-          {/* Navigation Dots */}
-      <div className="flex justify-center w-full mt-1 gap-2">
-        {welcomeTips.map((_, index) => (
-          <div
-            key={index}
-            className={`w-[6px] h-[6px] rounded-full ${
-              modalIndex === index ? 'bg-[#EF0000]' : 'bg-[#E4E8EC]'
-            }`}
-          ></div>
-        ))}
-      </div>
+        {/* Navigation Dots */}
+        <div className="flex justify-center w-full mt-1 gap-2">
+          {welcomeTips.map((_, index) => (
+            <div
+              key={index}
+              className={`w-[6px] h-[6px] rounded-full ${
+                modalIndex === index ? "bg-[#EF0000]" : "bg-[#E4E8EC]"
+              }`}
+            ></div>
+          ))}
+        </div>
 
         <div className="mt-3">
           <h1 className="text-[20px] font-[700] text-[#0F1625] leading-tight">
