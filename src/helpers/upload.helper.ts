@@ -7,37 +7,43 @@ export const getFileMetadata = (file: Blob) =>
     reader.onload = (e: ProgressEvent<FileReader>) => {
       const file = e.target?.result;
       if (file) res(file);
-      else rej(new Error('file is encrypted or corrupt!.'));
+      else rej(new Error("file is encrypted or corrupt!."));
     };
   });
 
-  export const getFormData = <T extends Record<string, unknown>>(values: T) => {
-    const formData = new FormData();
-    Object.keys(values).forEach((key) => {
-      const actualValue = values[key as keyof T];
-      const stringValue = String(actualValue); // Convert to string
-  
-      if (Array.isArray(actualValue)) {
-        actualValue.forEach((val) => formData.append(`${key}[]`, String(val))); // Convert array values to strings
-      } else {
-        formData.append(key, stringValue);
-      }
-    });
-    return formData;
-  };
-  
-  
+export const getFormData = <T extends Record<string, unknown>>(values: T) => {
+  const formData = new FormData();
+  Object.keys(values).forEach((key) => {
+    const actualValue = values[key as keyof T];
+    const stringValue = String(actualValue); // Convert to string
+
+    if (Array.isArray(actualValue)) {
+      actualValue.forEach((val) => formData.append(`${key}[]`, String(val))); // Convert array values to strings
+    } else {
+      formData.append(key, stringValue);
+    }
+  });
+  return formData;
+};
 
 /**
  *
- * @param name the name
- * @param {string | Blob[]} files the file values
+ * @param {File[]} files The array of files
+ * @param name the name (defaults to "file")
  * @returns {Promise<FormData>}
  */
-export const getFileFormData = (file: File, name = "file"): Promise<FormData> =>
+export const getFileFormData = (
+  files: File[],
+  name = "files"
+): Promise<FormData> =>
   new Promise((resolve) => {
     const formData = new FormData();
-    formData.append(name, file); // Append only a single file
+
+    // Append each file in the array
+    files.forEach((file, index) => {
+      formData.append(name, file); // Add multiple files
+    });
+
     resolve(formData);
   });
 
@@ -51,8 +57,8 @@ function generateRandomFileName(extension: string) {
 
 export async function getFileFromBase64(
   base64String: string,
-  filename = generateRandomFileName('.png'),
-  type = 'image/png'
+  filename = generateRandomFileName(".png"),
+  type = "image/png"
 ) {
   const response = await fetch(`${base64String}`);
   const blob = await response.blob();
