@@ -151,7 +151,7 @@ export default function DashboardNavbar() {
                       <img
                         className="h-full w-full rounded-full object-cover object-center"
                         src={
-                          profile?.avatar ||
+                          profile?.account?.avatar || profile?.account?.photo ||
                           `https://ui-avatars.com/api/?name=${profile?.firstName}+${profile?.lastName}&rounded=true&size=128`
                         }
                         alt=""
