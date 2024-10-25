@@ -3,10 +3,20 @@ import MyTextField from "@/app/components/Fields/MyTextField";
 import BusinessProofModal from "@/app/components/Modals/Document/BusinessProofModal";
 import CacModal from "@/app/components/Modals/Document/CacModal";
 import TaxModal from "@/app/components/Modals/Document/TaxModal";
+import API from "@/constants/api.constant";
+import { catchAsync } from "@/helpers/api.helper";
+import useGlobalState from "@/hooks/globalstate.hook";
+import useRequest from "@/services/request.service";
+import useAccountRequest from "@/services/accountRequest.service";
 import useUploadsService from "@/services/uploads.service";
 import { ButtonBase, IconButton, MenuItem } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import { useSnackbar } from "notistack";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { Bounce, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { ChromePicker } from "react-color";
+import { profileLoginAction, profileUpdateAction } from "@/store/profile.slice";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -17,12 +27,34 @@ export default function Settings() {
   const [cities, setCities] = useState<string[]>([]);
   const [cacDocumentModal, setCacDocumentModal] = useState<boolean>(false);
   const [taxDocumentModal, setTaxDocumentModal] = useState<boolean>(false);
+  const [selectedThumbImage, setSelectedThumbImage] = useState<any>(null);
   const [businessProofDocumentModal, setBusinessProofDocumentModal] =
     useState<boolean>(false);
+  const [uploadedAvatar, setUploadedAvatar] = useState("");
+  const [uploadedAvatarName, setUploadedAvatarName] = useState("");
+  const [uploadedLogo, setUploadedLogo] = useState("");
+  const [uploadedLogoName, setUploadedLogoName] = useState("");
+  const [domainName, setDomainName] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const { profile } = useGlobalState();
+  console.log(profile);
   const {
     uploadFiles,
     imageUploadState: { isLoading: IsLoadingUpload },
   } = useUploadsService();
+  const {
+    uploadFiles: uploadLogoFiles,
+    imageUploadState: { isLoading: IsLoadingUploadLogo },
+  } = useUploadsService();
+  const { makeRequest: deleteFileRequest, isLoading: isLoadingDeleteFile } =
+    useRequest();
+  const { makeRequest: makeProfileRequest, isLoading: isLoadingProfile } =
+    useAccountRequest();
+  const { makeRequest: makeCompanyRequest, isLoading: isLoadingCompany } =
+    useAccountRequest();
+
+  const existingData = profile ? profile?.business : {};
 
   const handleCompanyInfo = () => {
     setCompanyInfo(!companyInfo);
@@ -34,6 +66,16 @@ export default function Settings() {
 
   const handleCompanyDirector = () => {
     setCompanyDirector(!companyDirector);
+  };
+
+  const handleDomainNameInputChange = (e: { target: { value: string } }) => {
+    // Convert input to lowercase, replace spaces with dashes, and remove special characters
+    const formattedName = e.target.value
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with dashes
+      .replace(/[^a-z0-9-]/g, ""); // Remove special characters
+
+    setDomainName(formattedName);
   };
 
   const [formData, setFormData] = useState({
@@ -61,6 +103,195 @@ export default function Settings() {
       signature: "",
     },
   });
+
+  const [profileFormData, setProfileFormData] = useState({
+    firstName: "",
+    lastName: "",
+    title: "",
+    phoneNumber: "",
+    photo: uploadedAvatar,
+  });
+
+  const [companyFormData, setCompanyFormData] = useState({
+    businessName: profile?.business?.businessName,
+    registrationNumber: profile?.business?.registrationNumber,
+    size: profile?.business?.size,
+    businessType: profile?.business?.businessType,
+    subsidiary: "Just a test sub",
+    subsidiaryDetails: profile?.business?.subsidiaryDetails,
+    companyPrefix: profile?.business?.prefix,
+    industryType: profile?.business?.industryType,
+    address: {
+      country: profile?.business?.address?.country,
+      state: profile?.business?.address?.state,
+      address: profile?.business?.address?.address,
+      city: profile?.business?.address?.city,
+      postalCode: profile?.business?.address?.postalCode,
+    },
+    director: {
+      name: profile?.business?.director?.name,
+      email: profile?.business?.director?.email,
+      country: profile?.business?.director?.country,
+      idCard: [profile?.business?.director?.idCard],
+      position: profile?.business?.director?.position,
+      signature: profile?.business?.director?.signature,
+    },
+  });
+
+  // Handle form field changes
+  const handleUpdateProfileChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setCompanyFormData({
+      ...companyFormData,
+      [name]: value,
+    });
+  };
+
+  // Update the profileFormData with the uploaded avatar when uploadedAvatar changes
+  useEffect(() => {
+    setProfileFormData((prevData) => ({
+      ...prevData,
+      photo: uploadedAvatar,
+    }));
+  }, [uploadedAvatar]);
+
+  // Handle form field changes
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setProfileFormData({
+      ...profileFormData,
+      [name]: value,
+    });
+  };
+
+  const handleSave = async () => {
+    // Create the profile payload
+    const profilePayload = {
+      firstName: profileFormData.firstName,
+      lastName: profileFormData.lastName,
+      title: profileFormData.title,
+      phoneNumber: profileFormData.phoneNumber,
+      ...(profileFormData.photo && { photo: profileFormData.photo }), // Only include photo if it exists
+    };
+
+    catchAsync(
+      async () => {
+        const res = await makeProfileRequest({
+          method: "PATCH",
+          url: API.updateAccountProfile,
+          data: profilePayload,
+        });
+
+        const { data } = res.data;
+        dispatch(profileUpdateAction({ account: data }));
+
+        enqueueSnackbar("Profile updated successfully!", {
+          variant: "rope_snackbar",
+          autoHideDuration: 5000,
+        });
+
+        setProfileFormData({
+          firstName: "",
+          lastName: "",
+          title: "",
+          phoneNumber: "",
+          photo: "",
+        });
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+
+  const handleSaveCompany = async () => {
+    catchAsync(
+      async () => {
+        const res = await makeCompanyRequest({
+          method: "PATCH",
+          url: `${API.createBusiness}?id=${profile?.business?._id}`,
+          data: companyFormData,
+        });
+
+        const { data } = res.data;
+        // Combine existing data with new data
+        const combinedData = {
+          ...existingData,
+          ...data, // Assuming `data` is the new data you want to add
+        };
+        dispatch(profileUpdateAction({ business: combinedData }));
+
+        enqueueSnackbar("Company updated successfully!", {
+          variant: "rope_snackbar",
+          autoHideDuration: 5000,
+        });
+
+        setCompanyFormData({
+          businessName: profile?.business?.businessName,
+          registrationNumber: profile?.business?.registrationNumber,
+          size: profile?.business?.size,
+          businessType: profile?.business?.businessType,
+          subsidiary: "Just a test sub",
+          subsidiaryDetails: profile?.business?.subsidiaryDetails,
+          companyPrefix: profile?.business?.prefix,
+          industryType: profile?.business?.industryType,
+          address: {
+            country: profile?.business?.address?.country,
+            state: profile?.business?.address?.state,
+            address: profile?.business?.address?.address,
+            city: profile?.business?.address?.city,
+            postalCode: profile?.business?.address?.postalCode,
+          },
+          director: {
+            name: profile?.business?.director?.name,
+            email: profile?.business?.director?.email,
+            country: profile?.business?.director?.country,
+            idCard: [profile?.business?.director?.idCard],
+            position: profile?.business?.director?.position,
+            signature: profile?.business?.director?.signature,
+          },
+        });
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
 
   const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedCountry = event.target.value;
@@ -169,14 +400,34 @@ export default function Settings() {
     "#DC1B21",
   ];
 
+  const [selectedColor, setSelectedColor] = useState("#000000"); // Default custom color
+  const [showColorPicker, setShowColorPicker] = useState(false); // Toggle color picker visibility
+
+  // Handle preset color click
+  const handlePresetClick = (color: React.SetStateAction<string>) => {
+    setSelectedColor(color);
+    setShowColorPicker(false); // Close color picker when a preset is chosen
+  };
+
+  // Handle custom color selection
+  const handleColorChange = (color: { hex: React.SetStateAction<string> }) => {
+    setSelectedColor(color.hex);
+  };
+
   const thumbnail = [
     {
-      image: "/images/t1.png",
+      image:
+        "https://res.cloudinary.com/dtuims4ku/image/upload/v1729836393/375shots_so_3_tqje1r.png",
     },
     {
-      image: "/images/t2.png",
+      image:
+        "https://res.cloudinary.com/dtuims4ku/image/upload/v1729836393/375shots_so_4_epypdn.png",
     },
   ];
+
+  const handleThumbnailClick = (url: string | React.SetStateAction<null>) => {
+    setSelectedThumbImage(url);
+  };
 
   const companySize = [
     "10 - 50",
@@ -225,26 +476,107 @@ export default function Settings() {
   };
 
   // File Upload
-  const onDrop = useCallback((acceptedFiles: any) => {
-    // Call the uploadFiles function when files are dropped or selected
-    uploadFiles(
-      acceptedFiles,
-      (data) => {
-        console.log("Upload successful", data);
-      },
-      (error) => {
-        console.log("Upload failed", error);
-      }
-    );
-  }, []);
+  // Generalized file upload handler
+  const handleFileUpload = async (
+    files: File[],
+    uploadFunction: any,
+    onSuccess: (data: any) => Promise<void>
+  ) => {
+    try {
+      // Upload the files using the provided upload function and success callback
+      await uploadFiles(files, onSuccess);
+    } catch (error) {
+      console.log("File upload failed:", error);
+    }
+  };
 
+  // onSuccess callback for regular file upload
+  const onFileUploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    // Update the regular file state
+    setUploadedAvatar(uploadedFile);
+    setUploadedAvatarName(uploadedFileName);
+  };
+
+  // onSuccess callback for Logo file upload
+  const onLogoUploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    setUploadedLogo(uploadedFile);
+    setUploadedLogoName(uploadedFileName);
+  };
+
+  // Dropzone for regular files
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(acceptedFiles, uploadFiles, onFileUploadSuccess),
     accept: {
       "image/*": [".png", ".jpg", ".jpeg"],
-      "application/pdf": [".pdf"],
     },
   });
+
+  // Dropzone for logo files
+  const {
+    getRootProps: getLogoRootProps,
+    getInputProps: getLogoInputProps,
+    isDragActive: isLogoDragActive,
+  } = useDropzone({
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(acceptedFiles, uploadLogoFiles, onLogoUploadSuccess),
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+    },
+  });
+
+  // Delete Uploaded files
+  const deleteFile = async (file: any) => {
+    catchAsync(
+      async () => {
+        const res = await deleteFileRequest({
+          method: "DELETE",
+          url: API.upload,
+          data: { key: file },
+        });
+
+        const { data } = res?.data;
+        toast.success("File deleted successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedAvatar("");
+        setUploadedAvatarName("");
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
 
   const documents = [
     {
@@ -280,6 +612,62 @@ export default function Settings() {
     },
   ];
 
+  // Save Company Settings
+  const companySettingsPayload = {
+    companyDomain: domainName,
+    brandColor: selectedColor,
+    companyLogo: uploadedLogo,
+    interfaceImages: [selectedThumbImage],
+  };
+
+  const handleCompanySettingSave = async () => {
+    catchAsync(
+      async () => {
+        const res = await makeCompanyRequest({
+          method: "PATCH",
+          url: API.updateCompany,
+          data: companySettingsPayload,
+        });
+
+        const { data } = res.data;
+        // Combine existing data with new data
+        const combinedData = {
+          ...existingData,
+          ...data, // Assuming `data` is the new data you want to add
+        };
+        dispatch(profileUpdateAction({ business: combinedData }));
+
+        enqueueSnackbar("Company updated successfully!", {
+          variant: "rope_snackbar",
+          autoHideDuration: 5000,
+        });
+        setSelectedColor("#000000");
+        setUploadedLogo("");
+        setSelectedThumbImage(null);
+        setDomainName("");
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
   return (
     <div>
       <div>
@@ -287,7 +675,7 @@ export default function Settings() {
       </div>
 
       {/* Tab */}
-      <div className="text-[14px] flex items-center mt-5 gap-1 bg-[#FBFBFC] w-fit rounded-[6px] mt-5">
+      <div className="text-[14px] flex items-center gap-1 bg-[#FBFBFC] w-fit rounded-[6px] mt-5">
         {tabs.map((tab, index) => (
           <ButtonBase
             key={index}
@@ -329,16 +717,29 @@ export default function Settings() {
             <div className="flex items-center gap-[24px] mt-7">
               <div className="rounded-full w-[72px] h-[72px]">
                 <img
-                  src="/images/pfp-test.png"
-                  className="object-cover w-full h-full rounded-full"
+                  className="h-full w-full rounded-full object-cover object-center"
+                  src={
+                    profile?.account?.avatar ||
+                    profile?.account?.photo ||
+                    uploadedAvatar ||
+                    `https://ui-avatars.com/api/?name=${profile?.firstName}+${profile?.lastName}&rounded=true&size=128`
+                  }
+                  alt=""
                 />
               </div>
               <div className="flex items-center gap-[16px]">
-                <button className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]">
+                <button
+                  {...getRootProps()}
+                  className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]"
+                >
+                  <input {...getInputProps()} />
                   <img src="/icons/pic.svg" width={18} height={18} />
                   <span className="leading-none">Change picture</span>
                 </button>
-                <div className="rounded-[8px] border border-[#EF0000] flex justify-center items-center p-[10px]">
+                <div
+                  onClick={() => deleteFile(uploadedAvatarName)}
+                  className="rounded-[8px] border border-[#EF0000] flex justify-center items-center p-[10px] cursor-pointer"
+                >
                   <img src="/icons/delete.svg" width={15} height={15} />
                 </div>
               </div>
@@ -356,45 +757,46 @@ export default function Settings() {
                 name="firstName"
                 label="First name"
                 placeholder="Kamsi"
-                value={""}
+                value={profileFormData.firstName}
                 type="text"
-                onChange={() => {}}
+                onChange={handleProfileChange}
               />
               <MyTextField
                 id="lastName"
                 name="lastName"
                 label="Last name"
                 placeholder="Bentley"
-                value={""}
+                value={profileFormData.lastName}
                 type="text"
-                onChange={() => {}}
+                onChange={handleProfileChange}
               />
               <MyTextField
                 id="phoneNumber"
                 name="phoneNumber"
                 label="Phone number"
                 placeholder="0809 1728 283"
-                value={""}
+                value={profileFormData.phoneNumber}
                 type="tel"
-                onChange={() => {}}
+                onChange={handleProfileChange}
               />
               <MyTextField
                 id="email"
                 name="email"
                 label="Email address"
                 placeholder="kamsibentley@macaty.com"
-                value={""}
+                value={profile?.account?.email}
                 type="text"
-                onChange={() => {}}
+                onChange={handleProfileChange}
+                readOnly
               />
               <MyTextField
-                id="role"
-                name="role"
+                id="title"
+                name="title"
                 label="Role"
                 placeholder="HR Manager"
-                value={""}
+                value={profileFormData.title}
                 type="text"
-                onChange={() => {}}
+                onChange={handleProfileChange}
               />
             </form>
           </div>
@@ -413,10 +815,11 @@ export default function Settings() {
                 Cancel
               </button>
               <button
+                onClick={handleSave}
                 type="button"
                 className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
               >
-                Save changes
+                {isLoadingProfile ? "Please wait..." : "Save changes"}
               </button>
             </div>
           </div>
@@ -448,11 +851,19 @@ export default function Settings() {
                 </p>
               </div>
               <div className="flex items-center gap-[32px]">
-                <div className="rounded-full w-[80px] h-[80px] shadow flex justify-center items-center">
-                  <p className="text-[24px] font-[700] text-[#A0AEC0]">Logo</p>
+                <div className="rounded-full w-[80px] h-[80px] shadow">
+                  <img
+                    className="h-full w-full rounded-full object-cover object-center"
+                    src={profile?.business?.companyLogo || uploadedLogo}
+                    alt=""
+                  />
                 </div>
                 <div>
-                  <button className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]">
+                  <button
+                    {...getLogoRootProps()}
+                    className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]"
+                  >
+                    <input {...getLogoInputProps()} />
                     <img src="/icons/upload.svg" width={18} height={18} />
                     <span className="leading-none">Upload logo</span>
                   </button>
@@ -472,26 +883,44 @@ export default function Settings() {
                 </p>
               </div>
               <div className="flex flex-col items-start gap-[20px]">
+                {/* Preset Colors */}
                 <div className="flex gap-2">
                   {colors.map((color, i) => (
                     <div
-                    key={i}
+                      key={i}
                       className="w-[24px] h-[24px] rounded-full cursor-pointer"
                       style={{ backgroundColor: color }}
+                      onClick={() => handlePresetClick(color)}
                     />
                   ))}
                 </div>
+
+                {/* Custom Color Picker */}
                 <div className="flex items-center gap-[10px]">
                   <p className="text-[16px] font-[500] leading-none text-[#323B49]">
                     Custom color
                   </p>
-                  <button className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]">
-                    <div className="rounded-full w-[20px] h-[20px] bg-[#10782D] p-1.5">
-                      <div className="w-full h-full rounded-full bg-[#10782D]" />
-                    </div>
-                    <span className="leading-none">#000000</span>
+                  <button
+                    className="flex items-center gap-2 text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]"
+                    onClick={() => setShowColorPicker(!showColorPicker)}
+                  >
+                    <div
+                      className="rounded-full w-[20px] h-[20px]"
+                      style={{ backgroundColor: selectedColor }}
+                    />
+                    <span className="leading-none">{selectedColor}</span>
                   </button>
                 </div>
+
+                {/* Color Picker Popup */}
+                {showColorPicker && (
+                  <div className="mt-2">
+                    <ChromePicker
+                      color={selectedColor}
+                      onChange={handleColorChange}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* grid 3 */}
@@ -508,8 +937,8 @@ export default function Settings() {
                   <input
                     type="text"
                     id=""
-                    value={""}
-                    onChange={undefined}
+                    value={domainName}
+                    onChange={handleDomainNameInputChange}
                     className="text-[#687588] text-[16px] font-[400] leading-none rounded-l-[8px] outline-none w-[200px] pl-4 pr-4 py-[12px]"
                     placeholder="Company name"
                   />
@@ -561,7 +990,7 @@ export default function Settings() {
                 <p className="text-[#0F1625] font-[400] text-[14px]">
                   Upload your company’s image to personalize your account
                 </p>
-                <button className="flex items-center gap-2 mt-[12px] text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]">
+                {/* <button className="flex items-center gap-2 mt-[12px] text-[14px] font-[500] text-[#1F2937] border border-[#D0D6DD] rounded-[8px] py-[10px] px-[16px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -590,18 +1019,45 @@ export default function Settings() {
                     />
                   </svg>
                   <span className="leading-none">Edit thumbnail</span>
-                </button>
+                </button> */}
               </div>
               <div className="flex gap-[16px]">
                 {thumbnail.map((item, i) => (
-                  <div key={i} className="w-full h-[200px] rounded-[8px]">
+                  <div
+                    key={i}
+                    onClick={() => handleThumbnailClick(item.image)}
+                    className={`w-full rounded-[10px] cursor-pointer ${
+                      selectedThumbImage === item.image
+                        ? "border-2 border-[#FF543E]"
+                        : "border border-transparent"
+                    }`}
+                  >
                     <img
                       src={item.image}
                       className="w-full h-full object-contain rounded-[8px]"
+                      alt={`Thumbnail ${i}`}
                     />
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex items-center justify-end gap-3 mt-12">
+              <button
+                type="button"
+                className="text-[#1F2937] border border-[#D0D6DD] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
+                onClick={() => {}}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCompanySettingSave}
+                type="button"
+                className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
+              >
+                {isLoadingCompany ? "Please wait..." : "Save changes"}
+              </button>
             </div>
           </div>
 
@@ -644,9 +1100,9 @@ export default function Settings() {
                     name="businessName"
                     label="Company name"
                     placeholder="Enter Company name"
-                    value={""}
+                    value={companyFormData.businessName}
                     type="text"
-                    onChange={undefined}
+                    onChange={handleUpdateProfileChange}
                     required
                   />
                   <MyTextField
@@ -655,8 +1111,8 @@ export default function Settings() {
                     label="Company size"
                     placeholder=""
                     type="text"
-                    value={""}
-                    onChange={undefined}
+                    value={companyFormData.size}
+                    onChange={handleUpdateProfileChange}
                     select
                     required
                   >
@@ -671,38 +1127,38 @@ export default function Settings() {
                     name="email"
                     label="Email address"
                     placeholder="Enter email address"
-                    value={formData.director.email}
+                    value={profile?.account?.email}
                     type="email"
-                    onChange={undefined}
-                    required
+                    onChange={handleUpdateProfileChange}
+                    readOnly
                   />
-                  <MyTextField
+                  {/* <MyTextField
                     id="phoneNumber"
                     name="phoneNumber"
                     label="Official phone number"
                     placeholder="Enter phone number"
                     value={formData.director.email}
                     type="tel"
-                    onChange={undefined}
-                  />
-                  <MyTextField
+                    onChange={handleUpdateProfileChange}
+                  /> */}
+                  {/* <MyTextField
                     id="companyWebsite"
                     name="companyWebsite"
                     label="Company website"
                     placeholder="Enter company website"
                     value={formData.director.email}
                     type="text"
-                    onChange={undefined}
+                    onChange={handleUpdateProfileChange}
                     required
-                  />
+                  /> */}
                   <MyTextField
                     id="industryType"
                     name="industryType"
                     label="Industry type"
                     placeholder=""
                     type="text"
-                    value={formData.industryType}
-                    onChange={undefined}
+                    value={companyFormData.industryType}
+                    onChange={handleUpdateProfileChange}
                     select
                     required
                   >
@@ -718,8 +1174,8 @@ export default function Settings() {
                     label="Business type"
                     placeholder=""
                     type="text"
-                    value={formData.businessType}
-                    onChange={undefined}
+                    value={companyFormData.businessType}
+                    onChange={handleUpdateProfileChange}
                     select
                     required
                   >
@@ -734,31 +1190,31 @@ export default function Settings() {
                     name="businessRegistrationNumber"
                     label="Business registration number"
                     placeholder="Enter business registration number"
-                    value={formData.registrationNumber}
+                    value={companyFormData.registrationNumber}
                     type="text"
-                    onChange={undefined}
+                    onChange={handleUpdateProfileChange}
                     required
                   />
-                  <MyTextField
+                  {/* <MyTextField
                     id="businessRegistrationDate"
                     name="businessRegistrationDate"
                     label="Business registration date"
                     placeholder="Enter business registration number"
-                    value={formData.registrationNumber}
+                    value={companyFormData.registrationNumber}
                     type="date"
-                    onChange={undefined}
+                    onChange={handleUpdateProfileChange}
                     required
-                  />
-                  <MyTextField
+                  /> */}
+                  {/* <MyTextField
                     id="tin"
                     name="tin"
                     label="Tax identification number (TIN)"
                     placeholder="Enter tax identification number"
                     value={formData.registrationNumber}
                     type="text"
-                    onChange={undefined}
+                    onChange={handleUpdateProfileChange}
                     required
-                  />
+                  /> */}
                 </div>
               )}
             </div>
@@ -800,7 +1256,7 @@ export default function Settings() {
                     name="country"
                     label="Country"
                     select
-                    value={formData.address.country}
+                    value={companyFormData.address.country}
                     onChange={handleCountryChange}
                     required
                     placeholder="Select Country"
@@ -816,7 +1272,7 @@ export default function Settings() {
                     name="state"
                     label="State"
                     select
-                    value={formData.address.state}
+                    value={companyFormData.address.state}
                     onChange={handleStateChange}
                     required
                     placeholder="Select State"
@@ -833,11 +1289,14 @@ export default function Settings() {
                     name="city"
                     label="City"
                     select
-                    value={formData.address.city}
+                    value={companyFormData.address.city}
                     onChange={(e: { target: { value: any } }) =>
-                      setFormData({
+                      setCompanyFormData({
                         ...formData,
-                        address: { ...formData.address, city: e.target.value },
+                        address: {
+                          ...companyFormData.address,
+                          city: e.target.value,
+                        },
                       })
                     }
                     required
@@ -855,9 +1314,9 @@ export default function Settings() {
                     name="address"
                     label="Address"
                     placeholder="5, Prince Adelowo Adedeji St, Peninsula, Lagos"
-                    value={formData.address.address}
+                    value={companyFormData.address.address}
                     type="text"
-                    onChange={undefined}
+                    onChange={handleUpdateProfileChange}
                     required
                   />
                   <MyTextField
@@ -865,9 +1324,9 @@ export default function Settings() {
                     name="postalCode"
                     label="Postal code"
                     placeholder="106104"
-                    value={formData.address.postalCode}
+                    value={companyFormData.address.postalCode}
                     type="number"
-                    onChange={undefined}
+                    onChange={handleUpdateProfileChange}
                     required
                   />
                 </div>
@@ -911,7 +1370,7 @@ export default function Settings() {
                     name="directorName"
                     label="Director’s name"
                     placeholder="Babatunde Rotimi"
-                    value={formData.director.name}
+                    value={companyFormData.director.name}
                     type="text"
                     onChange={undefined}
                     required
@@ -921,7 +1380,7 @@ export default function Settings() {
                     name="email"
                     label="Email address"
                     placeholder="babatunderotimi@mactay.com"
-                    value={formData.director.email}
+                    value={companyFormData.director.email}
                     type="email"
                     onChange={undefined}
                     required
@@ -932,7 +1391,7 @@ export default function Settings() {
                     label="Position in company"
                     placeholder=""
                     type="text"
-                    value={formData.director.position}
+                    value={companyFormData.director.position}
                     onChange={undefined}
                     required
                   />
@@ -1049,10 +1508,11 @@ export default function Settings() {
               Cancel
             </button>
             <button
+              onClick={handleSaveCompany}
               type="button"
               className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             >
-              Save changes
+              {isLoadingCompany ? "Please wait..." : "Save changes"}
             </button>
           </div>
         </>
@@ -1073,7 +1533,10 @@ export default function Settings() {
 
           <div className="mt-7 grid grid-cols-2 gap-[28px]">
             {documents.map((item, i) => (
-              <div key={i} className="w-full rounded-[12px] border border-[#D0D6DD] p-5 flex items-center gap-[16px]">
+              <div
+                key={i}
+                className="w-full rounded-[12px] border border-[#D0D6DD] p-5 flex items-center gap-[16px]"
+              >
                 <div className="bg-[#F0F2F5] rounded-[8px] p-[12px] flex justify-center items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
