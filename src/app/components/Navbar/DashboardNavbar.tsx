@@ -147,10 +147,15 @@ export default function DashboardNavbar() {
                   onClick={() => setOpenProfile(!openProfile)}
                 >
                   <div className="flex gap-2 items-center">
-                    <div className="w-[45px] h-[45px] bg-[#F9FAFB] rounded-full flex justify-center items-center">
-                      <p className="text-[18px] font-[700] text-[#687588] leading-none">
-                        {initials}
-                      </p>
+                    <div className="w-[45px] h-[45px] rounded-full">
+                      <img
+                        className="h-full w-full rounded-full object-cover object-center"
+                        src={
+                          profile?.avatar ||
+                          `https://ui-avatars.com/api/?name=${profile?.firstName}+${profile?.lastName}&rounded=true&size=128`
+                        }
+                        alt=""
+                      />
                     </div>
                     <div>
                       <h1 className="text-[16px] font-[700] text-[#1F2937]">
@@ -179,7 +184,10 @@ export default function DashboardNavbar() {
                   <FadeIn>
                     <div className="right-0 left-0 h-auto absolute rounded-[12px] bg-white shadow p-4">
                       {profileDropdown.map(({ icon, title }, i) => (
-                        <div key={i} className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#F9FAFB] transition-all ease-in-out duration-300">
+                        <div
+                          key={i}
+                          className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#F9FAFB] transition-all ease-in-out duration-300"
+                        >
                           <img src={icon} alt="" width={17} />
                           <p className="text-[#323B49] text-[16px] font-[500] leading-none">
                             {title}

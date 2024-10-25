@@ -1,11 +1,11 @@
-export const API_AUTH_HOST = 'https://auth.ropeafrica.com';
-export const API_ACCOUNT_HOST = 'https://account.ropeafrica.com';
-export const API_SUB_HOST = 'https://subscription.ropeafrica.com';
+export const API_AUTH_HOST = 'https://www.penta.ropeafrica.com';
+export const API_ACCOUNT_HOST = 'https://www.penta.ropeafrica.com/accounts';
+export const API_SUB_HOST = 'https://www.penta.ropeafrica.com/subscription';
 
 export const API = {
   // Auth
   login: '/api/v1/auth/account/login',
-  register: '/api/v1/auth/account/sign-up',
+  register: '/auth/account/sign-up',
   resetPassword: '/api/v1/auth/account/forgot-password',
   changePassword: '/api/v1/auth/account/change-password',
   generateToken: '/api/v1/auth/account/generate-token',
@@ -22,6 +22,9 @@ export const API = {
 
   // Branch
   branch: '/api/v1/branch',
+
+  // Account Update
+  updateAccountProfile: '/api/v1/account'
 };
 
 export default API;
