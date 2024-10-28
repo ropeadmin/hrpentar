@@ -1,0 +1,28 @@
+.step-item {
+  @apply relative flex flex-col justify-center items-center w-36;
+}
+
+.step-item:not(:first-child):before {
+  @apply content-[''] bg-n400 absolute w-full h-[2px] right-2/4 top-[30%] mx-2 -translate-y-2/4;
+}
+
+.step {
+  @apply w-8 h-8 flex items-center justify-center z-10 relative bg-[#F9FAFA] rounded-full font-semibold text-sm text-n700;
+}
+
+.active .step {
+  @apply bg-p800 text-white text-sm;
+}
+
+.complete .step {
+  @apply bg-p800 text-white;
+}
+
+.complete p {
+  @apply text-white;
+}
+
+.complete:not(:first-child):before,
+.active:not(:first-child):before {
+  @apply bg-n400;
+}

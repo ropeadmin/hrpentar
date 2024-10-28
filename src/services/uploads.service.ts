@@ -1,7 +1,6 @@
 import { useSnackbar } from 'notistack';
-import { AxiosResponse, AxiosError, AxiosProgressEvent } from 'axios';
+import { AxiosError, AxiosProgressEvent } from 'axios';
 import useRequest from './request.service';
-import API from '@/constants/api.constant';
 import { getFileFormData } from '@/helpers/upload.helper';
 
 interface useUploadServiceProps {
