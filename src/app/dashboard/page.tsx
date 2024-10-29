@@ -10,6 +10,8 @@ import LineChart from "../components/charts/Line";
 import EmployeesTable from "../components/Table/EmployeesTable";
 import useAuthRedirect from "@/hooks/authredirect.hook";
 import useGlobalState from "@/hooks/globalstate.hook";
+import GenderRatioChart from "@/views/dashboard/charts/semi-donut";
+import EtypeRatioChart from "@/views/dashboard/charts/etype-chart";
 
 export default function Dashboard() {
   useAuthRedirect();
@@ -176,10 +178,14 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex gap-5 mt-5">
-        <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5"></div>
+        <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5">
+          <h2 className="text-[#1F2937] text-base font-bold ml-[6%]">Employment Type</h2>
+          <EtypeRatioChart />
+        </div>
 
         <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] w-full p-5">
-          {" "}
+          <h2 className="text-[#1F2937] text-base font-bold ml-[6%]">Employee Gender</h2>
+          <GenderRatioChart />
         </div>
 
         {activeTab === "tasks" && (
@@ -203,11 +209,11 @@ export default function Dashboard() {
                 </button>
               </div>
             ) : (
-              <div className="rounded-[12px] border-[0.5px] border-[#E4E8EC] min-w-[400px] px-5 pt-5 pb-10">
+              <div className="rounded-[12px] h-full border-[0.5px] border-[#E4E8EC] min-w-[400px] px-5 pt-5 pb-10">
                 <p className="text-[16px] font-[700] text-[#1F2937] mb-2">
                   Payroll
                 </p>
-                <div className="mt-4 flex flex-col justify-center items-center text-center">
+                <div className="mt-4 flex flex-col justify-center items-center text-center h-full">
                   <img src="/icons/no-payroll.svg" alt="" width={30} />
                   <div className="mt-4">
                     <h1 className="text-[20px] font-[700] text-[#1F2937]">

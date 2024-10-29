@@ -17,8 +17,6 @@ import useUploadsService from "@/services/uploads.service";
 import { useDropzone } from "react-dropzone";
 import { Bounce, toast } from "react-toastify";
 import { matchesQuery } from "@/helpers";
-import { ToastBar } from "react-hot-toast";
-import { GrToast } from "react-icons/gr";
 import { sliceText } from "@/utils/formatter/formatter";
 
 export default function Company() {

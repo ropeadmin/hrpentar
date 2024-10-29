@@ -104,35 +104,7 @@ export default function CacModal({ modal, closeModal }: any) {
 
         {/* Upload Zone */}
         <div className="mt-7 w-full bg-[#FBFBFC] border-[0.5px] border-dashed border-[#A0AEC0] rounded-[8px] py-[30px] flex flex-col justify-center items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="23"
-            height="22"
-            viewBox="0 0 23 22"
-            fill="none"
-          >
-            <path
-              d="M11.4993 1.00016L11.4993 14.3335M11.4993 1.00016C10.5657 1.00016 8.82139 3.65923 8.16602 4.3335M11.4993 1.00016C12.433 1.00016 14.1773 3.65923 14.8327 4.3335"
-              stroke="#0F1625"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M22.1663 17C22.1663 20.3093 21.4757 21 18.1663 21H4.83301C1.52367 21 0.833008 20.3093 0.833008 17"
-              stroke="#0F1625"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <p className="text-[14px] font-[400] text-[#0F1625] mt-3">
-            <span className="font-[700] text-[#EF0000]">Click to upload</span>{" "}
-            or drag and drop image.
-          </p>
-          <p className="text-[12px] font-[400] text-[#323B49]">
-            SVG, PNG, JPG (max. 800 x 400px)
-          </p>
+          
         </div>
 
         {/* Uploaded Files */}
