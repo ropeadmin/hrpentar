@@ -95,7 +95,10 @@ const CompanyTable = ({
                 </div>
               </td> */}
               <td className="px-3 py-4 whitespace-nowrap">
-                {company.businessName}
+                <div className="flex gap-2 items-center">
+                  <p>{company.businessName}</p>
+                  {company?.main === true && <div className="rounded-full px-[8px] py-[2px] bg-[#F9F5FF] border-[#E9D7FE] border"><p className='leading-none text-[12px] font-[700] text-[#A056FF]'>Main</p></div>}
+                </div>
               </td>
               <td className="px-3 py-4">{company.prefix}</td>
               <td className="px-3 py-4">{company.industryType}</td>

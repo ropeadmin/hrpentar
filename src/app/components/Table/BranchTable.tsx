@@ -95,7 +95,12 @@ const BranchTable = ({
                     />
                   </div>
                 </td>
-                <td className="px-3 py-4 whitespace-nowrap">{branch?.name}</td>
+                <td className="px-3 py-4 whitespace-nowrap">
+                <div className="flex gap-2 items-center">
+                  <p>{branch?.name}</p>
+                  {branch?.main === true && <div className="rounded-full px-[8px] py-[2px] bg-[#F9F5FF] border-[#E9D7FE] border"><p className='leading-none text-[12px] font-[700] text-[#A056FF]'>Main</p></div>}
+                </div>
+              </td>
                 <td className="px-3 py-4">{branch?.address}</td>
                 <td className="px-3 py-4">{branch?.branchId}</td>
                 <td className="px-3 py-4">{branch?.department || "-----"}</td>
