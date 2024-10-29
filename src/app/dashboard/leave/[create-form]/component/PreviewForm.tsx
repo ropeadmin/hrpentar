@@ -120,6 +120,18 @@ const renderInputField = (input: InputField, date: Date | undefined, setDate: Di
           />
         </>
       );
+    case 'upload':
+      return (
+        <>
+          <div className="mb-2"><Label className="text-sm text-n900 font-medium !mb-5" >{input?.value}{input?.settings.required && <span className="text-red-500"> *</span>}</Label></div>
+          <Input 
+            type="file"
+            placeholder={""}
+            disabled={input.settings.disabled || false}
+            required={input.settings.required || false}
+          />
+        </>
+      );
     case 'checkbox':
       return <input type="checkbox" className="input checkbox-input"  />;
     case 'radio':

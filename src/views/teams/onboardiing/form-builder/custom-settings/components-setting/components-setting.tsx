@@ -9,7 +9,7 @@ import { fieldConfigurations } from "./configuration/field-configurations"
 import { DynamicFormField } from "./configuration/dynamic-form-field"
 
 // ** Icon
-import { Type, Mail, Phone, ChevronDown, Link2, Calendar, CalendarDays } from 'lucide-react';
+import { Type, Mail, Phone, ChevronDown, Link2, Calendar, CalendarDays, FileUp } from 'lucide-react';
 import { CustomSettingProps } from "../custom-settings"
 
 // Define the form schema with Zod
@@ -25,6 +25,7 @@ export const fieldTypeOptions = [
   { label: "Phone number", value: "phone", icon: <Phone size={16} color="#0F1625" strokeWidth={1.5}/> },
   { label: "Website", value: "website", icon: <Link2 style={{transform: "rotate(145deg)"}} size={18} color="#0F1625" strokeWidth={1.5}/> },
   { label: "Date", value: "date", icon: <CalendarDays size={18} color="#0F1625" strokeWidth={1.3}/> },
+  { label: "File upload", value: "upload", icon: <FileUp size={18} color="#0F1625" strokeWidth={1.3}/> },
 ];
 
 // Infer the type from the schema

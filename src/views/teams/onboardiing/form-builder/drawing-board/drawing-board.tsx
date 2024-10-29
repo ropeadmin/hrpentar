@@ -13,7 +13,7 @@ import {
 import { FormField } from '@/components/custom-inputs/custom-inputs'
 import {Trash2, CirclePlus, Copy, StretchHorizontal } from "lucide-react"
 import BootstrapTooltip from "@/components/ui/tooltip"
-import { FormBuilderData } from "@/app/dashboard/help/[create-form]/page"
+import { FormBuilderData } from "@/app/dashboard/leave/[create-form]/page"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -23,6 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import ImageUpload from "@/components/custom-uploader/uploader"
 
 
 
@@ -308,7 +309,20 @@ const DrawingBoard = ({ fields, handleSectionChange, addNewSection,handleFormCha
                             </div>
                           )
                         }
-                    
+                        {   
+                          input.type === "upload" &&  (
+                            <div className="grid grid-cols-1 w-full gap-4 ">
+                              <FormField
+                                name={`image-${input.id}`}
+                                type="input"
+                                placeholder="Enter question"
+                                required
+                                onChange={(e) => handleFieldValueUpdate(input.id, e.target.value)}
+                              />
+                              <ImageUpload  files={[]} /> 
+                            </div>
+                          )
+                        }
                     </CardContent>
                   </Card>
                 ))  }

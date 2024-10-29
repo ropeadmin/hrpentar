@@ -113,12 +113,48 @@ export const fieldConfigurations = {
     layout: "flex flex-col space-y-4", // Flex layout for this configuration
   },
   website: {
-    label: "Websitet",
+    label: "Website",
     settings: [
       {
         name: "required",
         type: "switch",
         label: "Required",
+        gridSpan: "col-span-1",
+      },
+    ],
+    layout: "flex flex-col space-y-4", // Flex layout for this configuration
+  },
+  upload: {
+    label: "File upload",
+    settings: [
+      {
+        name: "required",
+        type: "switch",
+        label: "Required",
+        gridSpan: "col-span-1",
+      },
+      {
+        name: "image",
+        type: "switch",
+        label: "Image",
+        gridSpan: "col-span-1",
+      },
+      {
+        name: "video",
+        type: "switch",
+        label: "Video",
+        gridSpan: "col-span-1",
+      },
+      {
+        name: "any",
+        type: "switch",
+        label: "Any",
+        gridSpan: "col-span-1",
+      },
+      {
+        name: "limit",
+        type: "switch",
+        label: "Size limit",
         gridSpan: "col-span-1",
       },
     ],

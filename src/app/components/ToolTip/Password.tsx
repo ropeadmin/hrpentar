@@ -22,20 +22,22 @@ export default function PasswordToolTip({
       >
         {title}
       </p>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="8"
-        height="8"
-        viewBox="0 0 8 8"
-        fill="none"
-      >
-        <path
-          d="M0.5 5L2.25 6.75L7.5 1.25"
-          stroke={passed ? "#0CAF60" : "#687588"} // change color based on passed status
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      {passed && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="8"
+          height="8"
+          viewBox="0 0 8 8"
+          fill="none"
+        >
+          <path
+            d="M0.5 5L2.25 6.75L7.5 1.25"
+            stroke={passed ? "#0CAF60" : "#687588"} // change color based on passed status
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
     </div>
   );
 }

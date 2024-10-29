@@ -2,32 +2,24 @@
 
 import MyTextField from "@/app/components/Fields/MyTextField";
 import API from "@/constants/api.constant";
-import { obfuscateEmail } from "@/helpers";
 import { catchAsync } from "@/helpers/api.helper";
+import useAuthRedirect from "@/hooks/authredirect.hook";
 import useRequest from "@/services/request.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import OtpInput from "react-otp-input";
-import OtpInputField from "@/app/components/Fields/OtpInputField";
-import useAuthRedirect from "@/hooks/authredirect.hook";
 
-interface OTPInputProps {
-  onSubmitOTP: (otp: string) => void; // Function to handle OTP submission
-}
-
-export default function VerifyUser() {
+export default function EmailVerificationSuccess() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { makeRequest, isLoading } = useRequest();
-  const [email, setEmail] = useState("");
-
   const [tokenData, setTokenData] = useState<any>(null);
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     const token = searchParams.get("token"); // Extract the 'token' query parameter
@@ -47,43 +39,32 @@ export default function VerifyUser() {
     }
   }, [searchParams]);
 
-  console.log("tokenData:", tokenData);
-
   useEffect(() => {
-    const storedEmail = localStorage.getItem("register-user-email");
-
-    if (storedEmail) {
-      setEmail(storedEmail);
+    // Automatically trigger verifyOtp if tokenData exists and is valid
+    if (tokenData?.email && tokenData?.code) {
+      verifyOtp(); // Call the function when both email and code are available
     }
-  }, []);
+  }, [tokenData]);
 
-  const [otp, setOtp] = useState<string>("");
-
-  const handleChange = (otpValue: string) => {
-    setOtp(otpValue);
-
-    if (otpValue.length === 6) {
-      handleSubmit(otpValue);
-    }
+  const payload = {
+    email: tokenData?.email,
+    code: tokenData?.code,
   };
 
-  const handleSubmit = async (otpValue: string) => {
-    const formData = { email, code: otpValue };
-
+  const verifyOtp = async () => {
     catchAsync(
       async () => {
         const otpRes = await makeRequest({
           method: "POST",
           url: API.verifyOtp,
-          data: formData,
+          data: payload,
         });
 
         const otpData = otpRes?.data?.data;
 
         if (otpData?.accessToken) {
           dispatch(profileLoginAction(otpData));
-          router.push("/auth/verified");
-          setOtp("");
+          setVerified(true);
         } else {
           displaySnackbar(
             "Email Verification failed. No token received!",
@@ -129,7 +110,6 @@ export default function VerifyUser() {
           <img src="/pentaHR.svg" width={150} height={150} />
         </div>
 
-
         <div className="absolute bottom-7 left-7 right-7 h-auto auth-glass p-5">
           <p className="text-white text-base font-medium font-['Cabinet Grotesk'] leading-tight">
             &quot;PentaHR has revolutionized our HR processes. The intuitive
@@ -149,28 +129,33 @@ export default function VerifyUser() {
         </div>
       </div>
 
-      <div className="bg-white mx-auto w-full min-h-screen px-28 flex flex-col justify-center items-center">
-        <div className="w-full flex flex-col justify-center items-start text-start">
-          <img src="/icons/email.svg" width={100} height={100} />
-          <div className="mt-7 mb-7">
-            <h1 className="text-[#0f1625] text-[32px]  font-bold font-['Cabinet Grotesk'] leading-loose">
-              Verify Your Email
-            </h1>
-            <div className="">
-              <span className="text-[#313a48] text-base font-medium font-['Cabinet Grotesk'] leading-tight">
-                An OTP code was sent to{" "}
-              </span>
-              <span className="text-[#0f1625] text-base font-bold font-['Cabinet Grotesk'] leading-tight">
-                {email || "*******"}
-              </span>
-              <span className="text-[#0f1625] text-base font-medium font-['Cabinet Grotesk'] leading-tight">
-                {" "}
-              </span>
+      {verified ? (
+        <div className="bg-white mx-auto w-full min-h-screen px-28 flex flex-col justify-center items-center">
+          <div className="w-full flex flex-col justify-center items-center text-center">
+            <img src="/icons/success-icon.svg" width={70} height={70} />
+            <div className="mt-7">
+              <h1 className="text-[#0f1625] text-[28px]  font-bold font-['Cabinet Grotesk'] leading-loose">
+                Email verification successful
+              </h1>
+              <div className="text-center">
+                <span className="text-[#0f1625] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
+                  Your email has been verified successfully. Let’s get you fully
+                  onboarded.
+                </span>
+              </div>
             </div>
           </div>
-          <OtpInputField onChange={handleChange} error={""} value={otp} />
+
+          <Link
+            href="/auth/onboarding/step1"
+            className="text-[#0f1625] border w-fit px-7 py-3 rounded-[8px] text-base font-medium mt-10"
+          >
+            Continue
+          </Link>
         </div>
-      </div>
+      ) : (
+        <h1>Loading...</h1>
+      )}
     </div>
   );
 }

@@ -5,15 +5,12 @@ import Stepper from "@/app/components/Stepper/Stepper";
 import API from "@/constants/api.constant";
 import { catchAsync } from "@/helpers/api.helper";
 import useRequest from "@/services/accountRequest.service";
-import { profileLoginAction } from "@/store/profile.slice";
 import { MenuItem } from "@mui/material";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
-import ReactFlagsSelect from "react-flags-select";
+import { saveCompany } from "@/store/company.slice";
 
 export default function Step1() {
   const router = useRouter();
@@ -22,13 +19,14 @@ export default function Step1() {
   const { makeRequest, isLoading } = useRequest();
   const [currentStep, setCurrentStep] = useState(1);
   const [country, setCountry] = useState("");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     businessName: "",
     registrationNumber: "",
     size: "",
     businessType: "",
     subsidiary: "",
     subsidiaryDetails: "",
+    country: ""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +41,7 @@ export default function Step1() {
     businessName: formData.businessName,
     registrationNumber: formData.registrationNumber,
     size: formData.size,
-    country: country,
+    country: formData.country,
     businessType: formData.businessType,
     subsidiary: formData.subsidiaryDetails,
     main: false,
@@ -76,11 +74,20 @@ export default function Step1() {
 
         const { data } = res;
 
+        if (formData.subsidiary === "No") {
+          setFormData({
+            subsidiaryDetails: "",
+          })
+        }
+
         // Move to step 3 on success
         if (data?.status === 'SUCCESS') {
-          setCurrentStep(3);
-          router.push('/auth/onboarding/step2')
+          // setCurrentStep(3);
+          dispatch(saveCompany(data));
+          router.push('/dashboard/welcome')
+          // router.push('/auth/onboarding/step2')
         }
+      
       },
       (error: any) => {
         const response = error?.response;
@@ -121,6 +128,206 @@ export default function Step1() {
   ];
 
   const subsidiary = ["Yes", "No"];
+
+  const countries = [
+    "Afghanistan",
+    "Albania",
+    "Algeria",
+    "Andorra",
+    "Angola",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Aruba",
+    "Australia",
+    "Austria",
+    "Azerbaijan",
+    "Bahamas",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Belarus",
+    "Belgium",
+    "Belize",
+    "Benin",
+    "Bermuda",
+    "Bhutan",
+    "Bolivia",
+    "Bosnia and Herzegovina",
+    "Botswana",
+    "Brazil",
+    "Brunei",
+    "Bulgaria",
+    "Burkina Faso",
+    "Burundi",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Cape Verde",
+    "Cayman Islands",
+    "Central African Republic",
+    "Chad",
+    "Chile",
+    "China",
+    "Colombia",
+    "Comoros",
+    "Congo",
+    "Costa Rica",
+    "Cote d'Ivoire",
+    "Croatia",
+    "Cuba",
+    "Cyprus",
+    "Czech Republic",
+    "Democratic Republic of the Congo",
+    "Denmark",
+    "Djibouti",
+    "Dominica",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Estonia",
+    "Eswatini",
+    "Ethiopia",
+    "Fiji",
+    "Finland",
+    "France",
+    "Gabon",
+    "Gambia",
+    "Georgia",
+    "Germany",
+    "Ghana",
+    "Greece",
+    "Grenada",
+    "Guatemala",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana",
+    "Haiti",
+    "Honduras",
+    "Hungary",
+    "Iceland",
+    "India",
+    "Indonesia",
+    "Iran",
+    "Iraq",
+    "Ireland",
+    "Israel",
+    "Italy",
+    "Jamaica",
+    "Japan",
+    "Jordan",
+    "Kazakhstan",
+    "Kenya",
+    "Kiribati",
+    "Kuwait",
+    "Kyrgyzstan",
+    "Laos",
+    "Latvia",
+    "Lebanon",
+    "Lesotho",
+    "Liberia",
+    "Libya",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Madagascar",
+    "Malawi",
+    "Malaysia",
+    "Maldives",
+    "Mali",
+    "Malta",
+    "Marshall Islands",
+    "Mauritania",
+    "Mauritius",
+    "Mexico",
+    "Micronesia",
+    "Moldova",
+    "Monaco",
+    "Mongolia",
+    "Montenegro",
+    "Morocco",
+    "Mozambique",
+    "Myanmar",
+    "Namibia",
+    "Nauru",
+    "Nepal",
+    "Netherlands",
+    "New Zealand",
+    "Nicaragua",
+    "Niger",
+    "Nigeria",
+    "North Korea",
+    "North Macedonia",
+    "Norway",
+    "Oman",
+    "Pakistan",
+    "Palau",
+    "Panama",
+    "Papua New Guinea",
+    "Paraguay",
+    "Peru",
+    "Philippines",
+    "Poland",
+    "Portugal",
+    "Qatar",
+    "Romania",
+    "Russia",
+    "Rwanda",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Vincent and the Grenadines",
+    "Samoa",
+    "San Marino",
+    "Sao Tome and Principe",
+    "Saudi Arabia",
+    "Senegal",
+    "Serbia",
+    "Seychelles",
+    "Sierra Leone",
+    "Singapore",
+    "Slovakia",
+    "Slovenia",
+    "Solomon Islands",
+    "Somalia",
+    "South Africa",
+    "South Korea",
+    "South Sudan",
+    "Spain",
+    "Sri Lanka",
+    "Sudan",
+    "Suriname",
+    "Sweden",
+    "Switzerland",
+    "Syria",
+    "Tajikistan",
+    "Tanzania",
+    "Thailand",
+    "Timor-Leste",
+    "Togo",
+    "Tonga",
+    "Trinidad and Tobago",
+    "Tunisia",
+    "Turkey",
+    "Turkmenistan",
+    "Tuvalu",
+    "Uganda",
+    "Ukraine",
+    "United Arab Emirates",
+    "United Kingdom",
+    "United States",
+    "Uruguay",
+    "Uzbekistan",
+    "Vanuatu",
+    "Vatican City",
+    "Venezuela",
+    "Vietnam",
+    "Yemen",
+    "Zambia",
+    "Zimbabwe",
+  ];
 
   return (
     <div className="bg-[#fff] h-screen flex p-4 overflowHidden">
@@ -194,7 +401,7 @@ export default function Step1() {
               <MyTextField
                 id="companySize"
                 name="size"
-                label="Company Size"
+                label="Company size"
                 placeholder=""
                 type="text"
                 value={formData.size}
@@ -208,17 +415,23 @@ export default function Step1() {
                   </MenuItem>
                 ))}
               </MyTextField>
-              <div className="flex flex-col justify-between">
-                <h3 className="text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]">
-                  Country
-                </h3>
-                <div className="w-full">
-                  <ReactFlagsSelect
-                    selected={country}
-                    onSelect={(val) => setCountry(val)}
-                  />
-                </div>
-              </div>
+              <MyTextField
+                  id="country"
+                  name="country"
+                  label="Country"
+                  placeholder=""
+                  type="text"
+                  value={formData.country}
+                  onChange={handleChange}
+                  select
+                  required
+                >
+                  {countries.map((country, i) => (
+                    <MenuItem key={i} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))}
+                </MyTextField>
 
               <MyTextField
                 id="businessType"
