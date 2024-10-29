@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^11.3.24",
+    "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.453.0",
     "next": "14.2.5",
@@ -36,6 +37,7 @@
     "react": "^18",
     "react-apexcharts": "^1.4.1",
     "react-avatar-editor": "^13.0.2",
+    "react-beautiful-dnd": "^13.1.1",
     "react-chartjs-2": "^5.2.0",
     "react-color": "^2.19.3",
     "react-country-region-selector": "^3.6.1",
@@ -59,9 +61,11 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-avatar-editor": "^13.0.3",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
     "@types/react-slick": "^0.23.13",

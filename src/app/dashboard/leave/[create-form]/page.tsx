@@ -340,6 +340,7 @@ const CreateFormBuilder = () => {
             <DrawingBoard 
               fields={fields}
               form={form}
+              setForm={setForm}
               handleDeleteField={handleDeleteField}
               handleDuplicateField={handleDuplicateField}
               onSelectField={handleFieldSelect}
