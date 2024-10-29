@@ -12,20 +12,23 @@ export const API = {
   verifyOtp: '/api/v1/auth/account/verify-otp',
   
   // Account
-  createBusiness: '/api/v1/business',
+  createBusiness: '/business',
 
   // Subscription
-  getSubscription: '/api/v1/subscription',
+  getSubscription: '/subscription',
 
   // Upload
   upload: '/file/upload',
 
   // Branch
-  branch: '/api/v1/branch',
+  branch: '/branch',
 
   // Account Update
   updateAccountProfile: '/account',
   updateCompany: '/account/company-settings',
+
+  // Tracker
+  track: '/onboard-tracker'
 };
 
 export default API;
