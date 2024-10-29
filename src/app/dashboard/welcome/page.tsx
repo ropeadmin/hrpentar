@@ -1,49 +1,68 @@
 "use client";
 import Banner from "@/app/components/Banner/Banner";
 import { AppModal } from "@/app/components/Modals";
+import API from "@/constants/api.constant";
+import { catchAsync } from "@/helpers/api.helper";
 import useAuthRedirect from "@/hooks/authredirect.hook";
 import useAppTheme from "@/hooks/theme.hook";
+import useRequest from "@/services/request.service";
 import { ButtonBase } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
 
 export default function Welcome() {
+  const { makeRequest, isLoading } = useRequest();
+  const { enqueueSnackbar } = useSnackbar();
   // useAuthRedirect();
   // const { isMobile } = useAppTheme();
   const navigate = useRouter();
   const percentage = 32;
+  const [onboardingStatus, setOnboardingStatus] = useState<any>({
+    completeCompanyProfile: 0,
+    backgroundCheck: 0,
+    organizationChart: 0,
+    onboardTeam: 0,
+    firstPayment: 0,
+    percentage: 0,
+  });
 
   // Get Started Steps
-  const steps = [
+  const steps: any = [
     {
       header: "Complete your company profile",
       title: "Fill in company information and customize account. ",
       actionTitle: "Continue setup",
       action: "/dashboard/settings",
+      completedKey: "completeCompanyProfile",
     },
     {
       header: "Submit documents for background checks and verification",
       title: "Upload required documents needed to verify your business.",
       actionTitle: "Submit documents",
       action: "/dashboard/settings",
+      completedKey: "backgroundCheck",
     },
     {
       header: "Setup organizations chart and directory",
       title: "Build your company’s internal structure.",
       actionTitle: "Setup organization",
       action: "/",
+      completedKey: "organizationChart",
     },
     {
       header: "Onboard your success team",
       title: "Create departments and add team members.",
       actionTitle: "Create teams",
       action: "/",
+      completedKey: "onboardTeam",
     },
     {
       header: "Make your first payment",
       title: "Activate payroll and benefits.",
       actionTitle: "Run payroll",
       action: "/",
+      completedKey: "firstPayment",
     },
   ];
 
@@ -121,6 +140,52 @@ export default function Welcome() {
 
   const handleClose = () => setOpenModal(false);
 
+  // Tracker
+  const tracker = async () => {
+    catchAsync(
+      async () => {
+        const res = await makeRequest({
+          method: "GET",
+          url: API.track,
+        });
+
+        const { data } = res?.data;
+        if (data) {
+          setOnboardingStatus({
+            completeCompanyProfile: data.completeCompanyProfile,
+            backgroundCheck: data.backgroundCheck,
+            organizationChart: data.organizationChart,
+            onboardTeam: data.onboardTeam,
+            firstPayment: data.firstPayment,
+            percentage: data.percentage,
+          });
+        }
+      },
+      (error: any) => {
+        const response = error?.response;
+        const message =
+          response?.data?.data?.message || "An error occurred during sign up";
+
+        enqueueSnackbar(message, {
+          variant: "rope_snackbar",
+          autoHideDuration: 5000,
+          error: true,
+        });
+      }
+    );
+  };
+
+  // useEffect to poll the tracker function
+  useEffect(() => {
+    tracker(); // initial fetch
+
+    // Polling interval to track in real-time
+    const interval = setInterval(tracker, 2000); // runs every 2 seconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div>
       <Banner />
@@ -161,12 +226,12 @@ export default function Welcome() {
                 <div className="w-[100px] bg-[#F0F2F5] rounded-full h-[4px]">
                   <div
                     className="bg-[#0BA259] h-[4px] rounded-full"
-                    style={{ width: `${percentage}%` }}
+                    style={{ width: `${onboardingStatus?.percentage}%` }}
                   ></div>
                 </div>
                 <div>
                   <p className="text-[14px] font-[500] text-[#0BA259] leading-none">
-                    {percentage}% done
+                    {onboardingStatus?.percentage}% done
                   </p>
                 </div>
               </div>
@@ -174,28 +239,42 @@ export default function Welcome() {
 
             {/* Steps Progress */}
             <div className="grid grid-cols-1 gap-10 mt-10">
-              {steps.map((step, i) => (
+              {steps.map((step: any, i: any) => (
                 <div key={i} className="flex justify-between items-center">
                   <div className="flex items-center gap-4">
                     <div className="w-[32px] h-[32px] rounded-full flex justify-center items-center border border-[#D0D6DD] bg-[#FBFBFC]">
-                      <span
-                        className={`text-[18px] font-[700] text-[#1F2937] leading-none`}
-                      >
+                      <span className="text-[18px] font-[700] text-[#1F2937] leading-none">
                         {i + 1}
                       </span>
                     </div>
                     <div>
-                      <h1 className="text-[16px] font-[700] text-[#1F2937]">
+                      <h1
+                        className={`text-[16px] font-[700] ${
+                          onboardingStatus[step.completedKey] === 1
+                            ? "text-gray-400 line-through"
+                            : "text-[#1F2937]"
+                        }`}
+                      >
                         {step.header}
                       </h1>
-                      <p className="text-[14px] font-[400] text-[#323B49]">
+                      <p
+                        className={`text-[14px] font-[400] ${
+                          onboardingStatus[step.completedKey] === 1
+                            ? "text-gray-400 line-through"
+                            : "text-[#323B49]"
+                        }`}
+                      >
                         {step.title}
                       </p>
                     </div>
                   </div>
                   <button
                     onClick={() => navigate.push(step.action)}
-                    className="px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] text-[#1F2937]"
+                    className={`px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] ${
+                      onboardingStatus[step.completedKey] === 1
+                        ? "text-gray-400 line-through"
+                        : "text-[#1F2937]"
+                    }`}
                   >
                     {step.actionTitle}
                   </button>
