@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { PhoneInput } from "react-international-phone";
 import PasswordToolTip from "@/app/components/ToolTip/Password";
+import { FadeIn } from "@/app/components/Transitions/Transitions";
 // import "react-international-phone/style.css";
 
 // Example password tooltip structure
@@ -148,7 +149,7 @@ export default function SignUp() {
           autoHideDuration: 5000,
         });
 
-        router.push("/auth/verify-user");
+        router.push("/auth/verify-email");
         setFormData({
           firstName: "",
           lastName: "",
@@ -242,7 +243,7 @@ export default function SignUp() {
 
         {/* Scrollable Form Container */}
         <div className="w-[80%] overflow-y-auto h-full max-h-[70vh] lg:max-h-[80vh] 2xl:max-h-[90vh]">
-          <form className="w-full space-y-5" onSubmit={handleSubmit}>
+          <form className="w-full" onSubmit={handleSubmit}>
             <div className="space-y-5">
               <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-4">
                 <MyTextField
@@ -287,19 +288,29 @@ export default function SignUp() {
                 />
               </div>
 
-              <MyTextField
-                id="password"
-                name="password"
-                label="Password"
-                placeholder="Enter your password"
-                value={formData.password}
-                type="password"
-                onChange={handleChange}
-              />
-              <div className="flex items-center gap-1.5 mt-2">
-                {passwordTooltip.map(({ title, passed }, index) => (
-                  <PasswordToolTip key={index} title={title} passed={passed} />
-                ))}
+              <div>
+                <MyTextField
+                  id="password"
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  type="password"
+                  onChange={handleChange}
+                />
+                {formData.password.length > 0 && (
+                  <FadeIn>
+                    <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                      {passwordTooltip.map(({ title, passed }, index) => (
+                        <PasswordToolTip
+                          key={index}
+                          title={title}
+                          passed={passed}
+                        />
+                      ))}
+                    </div>
+                  </FadeIn>
+                )}
               </div>
 
               <MyTextField

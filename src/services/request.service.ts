@@ -99,12 +99,12 @@ const useRequest = () => {
         const request = async () => {
           try {
             const {
-              token,
+              accessToken,
               visitor_id,
               refreshToken: refresh,
             } = store.getState().profile;
-            axiosInstance.defaults.headers.common.Authorization = token
-              ? `Bearer ${token}`
+            axiosInstance.defaults.headers.common.Authorization = accessToken
+              ? `Bearer ${accessToken}`
               : "";
 
             const response: AxiosResponse<any> = await axiosInstance.request(
@@ -139,7 +139,8 @@ const useRequest = () => {
               // Authentication Checker...
               const authTokenErrors = [401, 403];
               const data = error.response;
-              if (authTokenErrors.includes(error.response)) {
+
+              if (authTokenErrors.includes(data.status)) {
                 enqueueSnackbar(
                   "You are not authorized to make this request!",
                   {

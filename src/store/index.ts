@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 import profileReducer, { sliceName as profileSliceName } from './profile.slice';
+import companyReducer, { sliceName as companySliceName } from './company.slice';
 
 export const store = configureStore({
   reducer: {
     [profileSliceName]: profileReducer,
+    [companySliceName]: companyReducer,
   },
 });
 
