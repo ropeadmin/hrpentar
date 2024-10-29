@@ -14,8 +14,6 @@ import React, { useEffect, useState } from "react";
 export default function Welcome() {
   const { makeRequest, isLoading } = useRequest();
   const { enqueueSnackbar } = useSnackbar();
-  // useAuthRedirect();
-  // const { isMobile } = useAppTheme();
   const navigate = useRouter();
   const percentage = 32;
   const [onboardingStatus, setOnboardingStatus] = useState<any>({
