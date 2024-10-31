@@ -29,7 +29,8 @@ export const API = {
 
   // Tracker
   track: '/onboard-tracker',
-  switchBusiness: '/account/switch-business'
+  switchBusiness: '/account/switch-business',
+  documents: '/account/documents'
 };
 
 export default API;

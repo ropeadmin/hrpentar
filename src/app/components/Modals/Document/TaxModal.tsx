@@ -4,7 +4,18 @@ import { AppModal } from "..";
 import { IconButton, MenuItem } from "@mui/material";
 import MyTextField from "../../Fields/MyTextField";
 
-export default function TaxModal({ modal, closeModal }: any) {
+export default function TaxModal({
+  modal,
+  closeModal,
+  uploadedTaxDocumentName,
+  uploadedTaxDocument,
+  root,
+  rootInput,
+  isDragActive,
+  deleteTaxDocumentFile,
+  handleDocuments,
+  isLoadingDocument,
+}: any) {
   const { isMobile } = useAppTheme();
 
   const documents = [
@@ -63,7 +74,11 @@ export default function TaxModal({ modal, closeModal }: any) {
       </div>
 
       <div className="w-full">
-        <div className="w-full bg-[#FBFBFC] border-[0.5px] border-dashed border-[#A0AEC0] rounded-[8px] py-[30px] flex flex-col justify-center items-center">
+        <div
+          {...root}
+          className="w-full bg-[#FBFBFC] border-[0.5px] border-dashed border-[#A0AEC0] rounded-[8px] py-[30px] flex flex-col justify-center items-center"
+        >
+          <input {...rootInput} />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="23"
@@ -96,9 +111,37 @@ export default function TaxModal({ modal, closeModal }: any) {
         </div>
 
         {/* Uploaded Files */}
-        <div className="grid grid-cols-1 gap-3 w-full mt-5">
+        {uploadedTaxDocument && (
+          <div className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px] mt-5">
+            <div className="flex items-center gap-[12px]">
+              <img
+                src={
+                  uploadedTaxDocumentName.includes("png")
+                    ? "/icons/png-icon.svg"
+                    : uploadedTaxDocumentName.includes("pdf")
+                    ? "/icons/pdf-icon.svg"
+                    : "/icons/pdf-icon.svg"
+                }
+                width={40}
+                height={40}
+              />
+              <p className="text-[14px] font-[500] text-[#0F1625]">
+                {uploadedTaxDocumentName}
+              </p>
+            </div>
+            <IconButton
+              onClick={() => deleteTaxDocumentFile(uploadedTaxDocumentName)}
+            >
+              <img src="/icons/delete.svg" width={18} height={18} />
+            </IconButton>
+          </div>
+        )}
+        {/* <div className="grid grid-cols-1 gap-3 w-full mt-5">
           {uploadedFiles.map((file, i) => (
-            <div key={i} className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px]">
+            <div
+              key={i}
+              className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px]"
+            >
               <div className="flex items-center gap-[12px]">
                 <img src={file.icon} width={40} height={40} />
                 <p className="text-[14px] font-[500] text-[#0F1625]">
@@ -110,7 +153,7 @@ export default function TaxModal({ modal, closeModal }: any) {
               </IconButton>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Buttons */}
@@ -125,8 +168,16 @@ export default function TaxModal({ modal, closeModal }: any) {
         <button
           type="button"
           className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
+          onClick={() =>
+            handleDocuments({
+              type: "tax",
+              name: "tax document",
+              description: "desc",
+              documentUrl: [uploadedTaxDocument],
+            })
+          }
         >
-          Upload document
+          {isLoadingDocument ? "Please wait..." : "Upload document"}
         </button>
       </div>
     </AppModal>

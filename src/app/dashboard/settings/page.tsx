@@ -34,11 +34,28 @@ export default function Settings() {
   const [uploadedAvatarName, setUploadedAvatarName] = useState("");
   const [uploadedLogo, setUploadedLogo] = useState("");
   const [uploadedLogoName, setUploadedLogoName] = useState("");
+  const [uploadedCacDocument, setUploadedCacDocument] = useState("");
+  const [uploadedCacDocumentName, setUploadedCacDocumentName] = useState("");
+  const [uploadedCacDocument2, setUploadedCacDocument2] = useState("");
+  const [uploadedCacDocumentName2, setUploadedCacDocumentName2] = useState("");
+  const [uploadedTaxDocument, setUploadedTaxDocument] = useState("");
+  const [uploadedTaxDocumentName, setUploadedTaxDocumentName] = useState("");
+  const [uploadedBusinessDocument, setUploadedBusinessDocument] =
+    useState("");
+  const [
+    uploadedBusinessDocumentName,
+    setUploadedBusinessDocumentName,
+  ] = useState("");
+  const [uploadedDirectorSignatureFile, setUploadedDirectorSignatureFile] =
+    useState("");
+  const [
+    uploadedDirectorSignatureFileName,
+    setUploadedDirectorSignatureFileName,
+  ] = useState("");
   const [domainName, setDomainName] = useState("");
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { profile } = useGlobalState();
-  console.log(profile);
   const {
     uploadFiles,
     imageUploadState: { isLoading: IsLoadingUpload },
@@ -52,6 +69,8 @@ export default function Settings() {
   const { makeRequest: makeProfileRequest, isLoading: isLoadingProfile } =
     useAccountRequest();
   const { makeRequest: makeCompanyRequest, isLoading: isLoadingCompany } =
+    useAccountRequest();
+  const { makeRequest: makeDocumentRequest, isLoading: isLoadingDocument } =
     useAccountRequest();
 
   const existingData = profile ? profile?.business : {};
@@ -221,7 +240,6 @@ export default function Settings() {
       }
     );
   };
-
 
   const handleSaveCompany = async () => {
     catchAsync(
@@ -509,6 +527,42 @@ export default function Settings() {
     setUploadedLogoName(uploadedFileName);
   };
 
+  // onSuccess callback for CacDocument file upload
+  const onCacDocumentUploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    setUploadedCacDocument(uploadedFile);
+    setUploadedCacDocumentName(uploadedFileName);
+  };
+
+  // onSuccess callback for CacDocument2 file upload
+  const onCacDocument2UploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    setUploadedCacDocument2(uploadedFile);
+    setUploadedCacDocumentName2(uploadedFileName);
+  };
+
+  // onSuccess callback for Tax file upload
+  const onTaxUploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    setUploadedTaxDocument(uploadedFile);
+    setUploadedTaxDocumentName(uploadedFileName);
+  };
+
+    // onSuccess callback for Business file upload
+    const onBusinessUploadSuccess = async (uploadedData: any) => {
+      const uploadedFile = uploadedData?.data[0]?.location;
+      const uploadedFileName = uploadedData?.data[0]?.fileName;
+  
+      setUploadedBusinessDocument(uploadedFile);
+      setUploadedBusinessDocumentName(uploadedFileName);
+    };
+
   // Dropzone for regular files
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles: File[]) =>
@@ -526,6 +580,66 @@ export default function Settings() {
   } = useDropzone({
     onDrop: (acceptedFiles: File[]) =>
       handleFileUpload(acceptedFiles, uploadLogoFiles, onLogoUploadSuccess),
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+    },
+  });
+
+  // Dropzone for CacDocument files
+  const {
+    getRootProps: getCacDocumentRootProps,
+    getInputProps: getCacDocumentInputProps,
+    isDragActive: isCacDocumentDragActive,
+  } = useDropzone({
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(
+        acceptedFiles,
+        uploadLogoFiles,
+        onCacDocumentUploadSuccess
+      ),
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+    },
+  });
+
+  // Dropzone for CacDocument2 files
+  const {
+    getRootProps: getCacDocument2RootProps,
+    getInputProps: getCacDocument2InputProps,
+    isDragActive: isCacDocument2DragActive,
+  } = useDropzone({
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(
+        acceptedFiles,
+        uploadLogoFiles,
+        onCacDocument2UploadSuccess
+      ),
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+    },
+  });
+
+   // Dropzone for logo files
+   const {
+    getRootProps: getTaxRootProps,
+    getInputProps: getTaxInputProps,
+    isDragActive: isTaxDragActive,
+  } = useDropzone({
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(acceptedFiles, uploadLogoFiles, onTaxUploadSuccess),
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+    },
+  });
+
+   // Dropzone for logo files
+   const {
+    getRootProps: getBusinessRootProps,
+    getInputProps: getBusinessInputProps,
+    isDragActive: isBusinessDragActive,
+  } = useDropzone({
+    onDrop: (acceptedFiles: File[]) =>
+      handleFileUpload(acceptedFiles, uploadLogoFiles, onBusinessUploadSuccess),
     accept: {
       "image/*": [".png", ".jpg", ".jpeg"],
     },
@@ -555,6 +669,194 @@ export default function Settings() {
         });
         setUploadedAvatar("");
         setUploadedAvatarName("");
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+  // Delete Uploaded files
+  const deleteCacDocumentFile = async (file: any) => {
+    catchAsync(
+      async () => {
+        const res = await deleteFileRequest({
+          method: "DELETE",
+          url: API.upload,
+          data: { key: file },
+        });
+
+        const { data } = res?.data;
+        toast.success("File deleted successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedCacDocument("");
+        setUploadedCacDocumentName("");
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+  // Delete Uploaded files
+  const deleteCacDocument2File = async (file: any) => {
+    catchAsync(
+      async () => {
+        const res = await deleteFileRequest({
+          method: "DELETE",
+          url: API.upload,
+          data: { key: file },
+        });
+
+        const { data } = res?.data;
+        toast.success("File deleted successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedCacDocument2("");
+        setUploadedCacDocumentName2("");
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+  // Delete Uploaded files
+  const deleteTaxDocumentFile = async (file: any) => {
+    catchAsync(
+      async () => {
+        const res = await deleteFileRequest({
+          method: "DELETE",
+          url: API.upload,
+          data: { key: file },
+        });
+
+        const { data } = res?.data;
+        toast.success("File deleted successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedTaxDocument("");
+        setUploadedTaxDocumentName("");
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+  // Delete Uploaded files
+  const deleteBusinessDocumentFile = async (file: any) => {
+    catchAsync(
+      async () => {
+        const res = await deleteFileRequest({
+          method: "DELETE",
+          url: API.upload,
+          data: { key: file },
+        });
+
+        const { data } = res?.data;
+        toast.success("File deleted successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedBusinessDocument("");
+        setUploadedBusinessDocumentName("");
       },
       (error: any) => {
         const response = error?.response;
@@ -645,6 +947,73 @@ export default function Settings() {
         setUploadedLogo("");
         setSelectedThumbImage(null);
         setDomainName("");
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+  // Uploaded files
+  const handleDocuments = async ({
+    type,
+    name,
+    description,
+    documentUrl,
+  }: any) => {
+    const payload = {
+      type: type,
+      name: name,
+      description: description,
+      documentUrl: documentUrl,
+    };
+    catchAsync(
+      async () => {
+        const res = await makeDocumentRequest({
+          method: "POST",
+          url: API.documents,
+          data: payload,
+        });
+
+        const { data } = res?.data;
+        toast.success("Documents Uploaded successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setUploadedCacDocument("");
+        setUploadedCacDocumentName("");
+        setUploadedCacDocument2("");
+        setUploadedCacDocumentName2("");
+        setUploadedTaxDocument("");
+        setUploadedTaxDocumentName("");
+        setUploadedBusinessDocument("");
+        setUploadedBusinessDocumentName("");
+        setCacDocumentModal(false);
+        setTaxDocumentModal(false);
+        setBusinessProofDocumentModal(false);
       },
       (error: any) => {
         const response = error?.response;
@@ -1596,16 +1965,46 @@ export default function Settings() {
       <CacModal
         modal={cacDocumentModal}
         closeModal={() => setCacDocumentModal(false)}
+        root={{ ...getCacDocumentRootProps() }}
+        rootInput={{ ...getCacDocumentInputProps() }}
+        isDragActive={isCacDocumentDragActive}
+        root2={{ ...getCacDocument2RootProps() }}
+        rootInput2={{ ...getCacDocument2InputProps() }}
+        isDragActive2={isCacDocument2DragActive}
+        uploadedCacDocumentName={uploadedCacDocumentName}
+        uploadedCacDocumentName2={uploadedCacDocumentName2}
+        uploadedCacDocument={uploadedCacDocument}
+        uploadedCacDocument2={uploadedCacDocument2}
+        deleteCacDocumentFile={deleteCacDocumentFile}
+        deleteCacDocument2File={deleteCacDocument2File}
+        handleDocuments={handleDocuments}
+        isLoadingDocument={isLoadingDocument}
       />
 
       <TaxModal
         modal={taxDocumentModal}
         closeModal={() => setTaxDocumentModal(false)}
+        root={{ ...getTaxRootProps() }}
+        rootInput={{ ...getTaxInputProps() }}
+        isDragActive={isTaxDragActive}
+        uploadedTaxDocument={uploadedTaxDocument}
+        uploadedTaxDocumentName={uploadedTaxDocumentName}
+        deleteTaxDocumentFile={deleteTaxDocumentFile}
+        handleDocuments={handleDocuments}
+        isLoadingDocument={isLoadingDocument}
       />
 
       <BusinessProofModal
         modal={businessProofDocumentModal}
         closeModal={() => setBusinessProofDocumentModal(false)}
+        root={{ ...getBusinessRootProps() }}
+        rootInput={{ ...getBusinessInputProps() }}
+        isDragActive={isBusinessDragActive}
+        uploadedBusinessDocument={uploadedBusinessDocument}
+        uploadedBusinessDocumentName={uploadedBusinessDocumentName}
+        deleteBusinessDocumentFile={deleteBusinessDocumentFile}
+        handleDocuments={handleDocuments}
+        isLoadingDocument={isLoadingDocument}
       />
     </div>
   );
