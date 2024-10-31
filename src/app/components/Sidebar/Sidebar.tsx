@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import SidebarItem from "../SidebarItem/SidebarItem";
 import Image from "next/image";
 // import "./Sidebar.scss";
@@ -13,6 +13,8 @@ import { profileLogoutAction } from "@/store/profile.slice";
 import Link from "next/link";
 import useGlobalState from "@/hooks/globalstate.hook";
 import useCompanyState from "@/hooks/companystate.hook";
+import { sliceText } from "@/utils/formatter/formatter";
+import { FadeIn } from "../Transitions/Transitions";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,8 @@ const Sidebar = () => {
   const subpath = currentPath?.split("/")[2];
   const isActive = (paths: string[]) => paths.includes(subpath ?? "");
   const { company } = useCompanyState();
+  const { profile } = useGlobalState();
+  const [openDrop, setOpenDrop] = useState<boolean>(false);
 
   const links: SideBarItemLink[] = [
     {
@@ -185,20 +189,28 @@ const Sidebar = () => {
           </Link>
 
           {/* Company Detail */}
-          <div className="bg-[#182434] rounded-[10px] w-full px-[10px] py-[5px] flex justify-between items-center mb-4 mt-3">
+          <div className="bg-[#182434] rounded-[10px] w-full px-[10px] py-[5px] flex justify-between items-center mb-4 mt-3 cursor-pointer">
             <div className="flex gap-[7px] items-center">
-              <img
+              {profile?.business?.companyLogo && (
+                <div className="w-[25px] h-[25px] rounded-[9px]">
+                  <img
+                    src={profile?.business?.companyLogo}
+                    className="w-full h-full object-cover rounded-[7px]"
+                  />
+                  {/* <img
                 src="/icons/logomark.svg"
                 alt="company-logo"
                 width={20}
                 height={20}
-              />
+              /> */}
+                </div>
+              )}
               <div className="">
-                <h1 className="font-[500] text-[13px] text-white">
-                  {company?.data?.businessName}
+                <h1 className="font-[500] text-[13px] text-white truncate">
+                  {sliceText(15, profile?.business?.businessName)}
                 </h1>
-                <p className="text-[11px] font-[400] text-white">
-                  {company?.data?.address.city}
+                <p className="text-[11px] font-[400] text-white truncate">
+                  {sliceText(15, profile?.business?.address.city)}
                 </p>
               </div>
             </div>
@@ -225,6 +237,34 @@ const Sidebar = () => {
               />
             </svg>
           </div>
+
+          {/* Drop down */}
+          {openDrop && (
+                  <FadeIn>
+                    <div className="right-0 left-0 h-auto absolute rounded-[12px] bg-white shadow p-4">
+                      {/* {profileDropdown.map(({ icon, title }, i) => (
+                        <div
+                          key={i}
+                          className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#F9FAFB] transition-all ease-in-out duration-300"
+                        >
+                          <img src={icon} alt="" width={17} />
+                          <p className="text-[#323B49] text-[16px] font-[500] leading-none">
+                            {title}
+                          </p>
+                        </div>
+                      ))} */}
+                      {/* <div
+                        className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#ff414109] transition-all ease-in-out duration-300"
+                        onClick={logout}
+                      >
+                        <img src="/icons/logout.svg" alt="" width={17} />
+                        <p className="text-[#EF0000] text-[16px] font-[500] leading-none">
+                          Logout
+                        </p>
+                      </div> */}
+                    </div>
+                  </FadeIn>
+                )}
 
           <div className="h-auto links mt-3">
             {links.map((link, index) => (

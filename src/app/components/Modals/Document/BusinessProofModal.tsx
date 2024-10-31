@@ -4,7 +4,18 @@ import { AppModal } from "..";
 import { IconButton, MenuItem } from "@mui/material";
 import MyTextField from "../../Fields/MyTextField";
 
-export default function BusinessProofModal({ modal, closeModal }: any) {
+export default function BusinessProofModal({
+  modal,
+  closeModal,
+  uploadedBusinessDocumentName,
+  uploadedBusinessDocument,
+  root,
+  rootInput,
+  isDragActive,
+  deleteBusinessDocumentFile,
+  handleDocuments,
+  isLoadingDocument,
+}: any) {
   const { isMobile } = useAppTheme();
 
   const documents = [
@@ -45,10 +56,10 @@ export default function BusinessProofModal({ modal, closeModal }: any) {
       <div className="flex justify-between items-start w-full">
         <div className="">
           <h1 className="text-[#0F1625] text-[4.5vw] sm:text-[24px] font-[700]">
-          Business address proof
+            Business address proof
           </h1>
           <p className="text-[#0F1625] text-[3.5vw] sm:text-[14px] font-[400]">
-          Select any of the option below for verification
+            Select any of the option below for verification
           </p>
         </div>
 
@@ -63,7 +74,7 @@ export default function BusinessProofModal({ modal, closeModal }: any) {
       </div>
 
       <div className="overflow-auto remove-scroll-bar w-full">
-        <div className="w-full">
+        {/* <div className="w-full">
           <MyTextField
             id="businessProof"
             name="businessProof"
@@ -81,10 +92,14 @@ export default function BusinessProofModal({ modal, closeModal }: any) {
               </MenuItem>
             ))}
           </MyTextField>
-        </div>
+        </div> */}
 
         {/* Upload Zone */}
-        <div className="mt-7 w-full bg-[#FBFBFC] border-[0.5px] border-dashed border-[#A0AEC0] rounded-[8px] py-[30px] flex flex-col justify-center items-center">
+        <div
+          {...root}
+          className="mt-7 w-full bg-[#FBFBFC] border-[0.5px] border-dashed border-[#A0AEC0] rounded-[8px] py-[30px] flex flex-col justify-center items-center"
+        >
+          <input {...rootInput} />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="23"
@@ -117,21 +132,33 @@ export default function BusinessProofModal({ modal, closeModal }: any) {
         </div>
 
         {/* Uploaded Files */}
-        <div className="grid grid-cols-1 gap-3 w-full mt-5">
-          {uploadedFiles.map((file, i) => (
-            <div key={i} className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px]">
-              <div className="flex items-center gap-[12px]">
-                <img src={file.icon} width={40} height={40} />
-                <p className="text-[14px] font-[500] text-[#0F1625]">
-                  {file.name} ({file.size})
-                </p>
-              </div>
-              <IconButton>
-                <img src="/icons/delete.svg" width={18} height={18} />
-              </IconButton>
+        {uploadedBusinessDocument && (
+          <div className="flex justify-between items-center w-full rounded-[8px] border border-[#D0D6DD] py-[12px] px-[16px] mt-5">
+            <div className="flex items-center gap-[12px]">
+              <img
+                src={
+                  uploadedBusinessDocumentName.includes("png")
+                    ? "/icons/png-icon.svg"
+                    : uploadedBusinessDocumentName.includes("pdf")
+                    ? "/icons/pdf-icon.svg"
+                    : "/icons/pdf-icon.svg"
+                }
+                width={40}
+                height={40}
+              />
+              <p className="text-[14px] font-[500] text-[#0F1625]">
+                {uploadedBusinessDocumentName}
+              </p>
             </div>
-          ))}
-        </div>
+            <IconButton
+              onClick={() =>
+                deleteBusinessDocumentFile(uploadedBusinessDocumentName)
+              }
+            >
+              <img src="/icons/delete.svg" width={18} height={18} />
+            </IconButton>
+          </div>
+        )}
       </div>
 
       {/* Buttons */}
@@ -146,8 +173,16 @@ export default function BusinessProofModal({ modal, closeModal }: any) {
         <button
           type="button"
           className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
+          onClick={() =>
+            handleDocuments({
+              type: "business-proof",
+              name: "Business Proof",
+              description: "desc",
+              documentUrl: [uploadedBusinessDocument],
+            })
+          }
         >
-          Continue
+          {isLoadingDocument ? "Please wait..." : "Upload document"}
         </button>
       </div>
     </AppModal>
