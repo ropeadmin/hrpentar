@@ -18,6 +18,8 @@ import { useDropzone } from "react-dropzone";
 import { Bounce, toast } from "react-toastify";
 import { matchesQuery } from "@/helpers";
 import { sliceText } from "@/utils/formatter/formatter";
+import { profileUpdateAction } from "@/store/profile.slice";
+import useGlobalState from "@/hooks/globalstate.hook";
 
 export default function Company() {
   const { isMobile } = useAppTheme();
@@ -34,6 +36,7 @@ export default function Company() {
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+  const {profile} = useGlobalState();
   const dispatch = useDispatch();
   const {
     makeRequest: createBusinessRequest,
@@ -45,6 +48,10 @@ export default function Company() {
     makeRequest: businessDeleteRequest,
     isLoading: isLoadingBusinessDelete,
   } = useAccountRequest();
+  const {
+    makeRequest: businessSwitchRequest,
+    isLoading: isLoadingBusinessSwitch,
+  } = useRequest();
   const {
     makeRequest: businessDeactivateRequest,
     isLoading: isLoadingBusinessDeactivate,
@@ -161,36 +168,16 @@ export default function Company() {
   };
 
   // Switch business after creation
-  const handleOpenSwitch = () => {
+  const handleOpenSwitch = async () => {
     setSuccessModal(false);
     setSwitchCompanyModal(true);
     setCurrentStep(1);
-    setFormData({
-      businessName: "",
-      businessRegistrationNumber: "",
-      size: "",
-      businessType: "",
-      subsidiary: "",
-      subsidiaryDetails: "",
-      companyPrefix: "",
-      industryType: "",
-      address: {
-        country: "",
-        state: "",
-        address: "",
-        city: "",
-        postalCode: "",
-      },
-      director: {
-        name: "",
-        email: "",
-        country: "",
-        idCard: [""],
-        position: "",
-        signature: "",
-      },
-    });
-  };
+    setFormData({ ...formData, size: '' });
+    const fetchedData = await getBusiness();
+    setBusiness(fetchedData);
+};
+
+console.log(business);
 
   const tabs = [
     {
@@ -813,6 +800,7 @@ export default function Company() {
   const [businessMenuOpen, setBusinessMenuOpen] = useState<Array<boolean>>([]);
   const [anchorElTip, setAnchorElTip] = useState(null);
 
+
   const handleOpen = (event: any, id: number) => {
     event.preventDefault(); // Prevent the default action (e.g., following a link)
     event.stopPropagation(); // Stop the event from propagating further
@@ -832,6 +820,75 @@ export default function Company() {
     setBusinessMenuOpen(Array(business.length).fill(false));
     setAnchorElTip(null);
   };
+
+
+
+  // State for selected business ID and details
+  const [selectedBusinessId, setSelectedBusinessId] = useState('');
+  const [selectedBusinessDetails, setSelectedBusinessDetails] = useState<any>(null);
+
+  // Handle dropdown change
+  const handleSwitchChange = (event: { target: { value: any; }; }) => {
+    const selectedId = event.target.value;
+    setSelectedBusinessId(selectedId);
+
+    // Find and set the full business details based on selected ID
+    const selectedBusiness = business.find((b: { _id: any; }) => b._id === selectedId);
+    setSelectedBusinessDetails(selectedBusiness);
+  };
+
+
+  const handleSwitchConfirmOpen = () => {
+    setSwitchCompanyConfirmModal(true);
+    setSwitchCompanyModal(false);
+  };
+
+  const handleSwitchConfirmClose = () => {
+    setSwitchCompanyConfirmModal(false);
+    setSwitchCompanyModal(true);
+  };
+
+  // Switch Business
+  const switchBusiness = async () => {
+    catchAsync(
+      async () => {
+        const res = await businessSwitchRequest({
+          method: "GET",
+          url: `${API.switchBusiness}?business=${selectedBusinessId}`,
+        });
+
+        const { data } = res?.data;
+        dispatch(profileUpdateAction(data));
+        setSwitchCompanyModal(false);
+        setSelectedBusinessId('');
+        setSelectedBusinessDetails(null)
+        setSwitchCompanyConfirmModal(false)
+      },
+      (error: any) => {
+        const response = error?.response;
+        if (response) {
+          enqueueSnackbar(
+            response?.data?.data?.message || "An error occurred during sign up",
+            {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            }
+          );
+        } else {
+          enqueueSnackbar("A network error occurred!", {
+            variant: "rope_snackbar",
+            autoHideDuration: 5000,
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+
+  
+
 
   return (
     <div>
@@ -984,7 +1041,7 @@ export default function Company() {
             />
           </svg>
           <p className="text-white text-[16px] font-[500] leading-none">
-            Create company
+            Add company
           </p>
         </div>
       </div>
@@ -1511,22 +1568,22 @@ export default function Company() {
         </div>
 
         <MyTextField
-          id="switchCompany"
-          name="switchCompany"
-          label="Switch company"
-          placeholder=""
-          type="text"
-          value={formData.size}
-          onChange={handleChange}
-          select
-          required
-        >
-          {countries.map((country, i) => (
-            <MenuItem key={i} value={country}>
-              {country}
-            </MenuItem>
-          ))}
-        </MyTextField>
+        id="switchCompany"
+        name="switchCompany"
+        label="Switch company"
+        placeholder=""
+        type="text"
+        value={selectedBusinessId}
+        onChange={handleSwitchChange}
+        select
+        required
+      >
+        {business.map((b: any, i: React.Key | null | undefined) => (
+          <MenuItem key={i} value={b._id}>
+            {b.businessName}
+          </MenuItem>
+        ))}
+      </MyTextField>
         <div className="flex items-center justify-end gap-3 w-full mt-3">
           <button
             type="button"
@@ -1538,6 +1595,7 @@ export default function Company() {
           <button
             type="button"
             className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
+            onClick={handleSwitchConfirmOpen}
           >
             Continue
           </button>
@@ -1547,7 +1605,7 @@ export default function Company() {
       {/* Switch Company Confirmation */}
       <AppModal
         open={switchCompanyConfirmModal}
-        handleClose={() => setSwitchCompanyConfirmModal(false)}
+        handleClose={handleSwitchConfirmClose}
         style={{
           backgroundColor: "#ffffff",
           padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
@@ -1574,8 +1632,8 @@ export default function Company() {
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
           You are about to make a switch from{" "}
-          <span className="font-[700]">MacTay Consulting</span> to{" "}
-          <span className="font-[700]">Rope Africa</span>. Click “Switch
+          <span className="font-[700]">{profile?.business?.businessName}</span> to{" "}
+          <span className="font-[700]">{selectedBusinessDetails?.businessName}</span>. Click “Switch
           company” to confirm this action.
         </p>
 
@@ -1583,15 +1641,16 @@ export default function Company() {
           <button
             type="button"
             className="text-[#1F2937] border border-[#D0D6DD] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
-            onClick={() => setSuccessModal(false)}
+            onClick={handleSwitchConfirmClose}
           >
             Cancel
           </button>
           <button
             type="button"
             className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
+            onClick={switchBusiness}
           >
-            Switch company
+            {isLoadingBusinessSwitch ? 'Please wait...' : 'Switch company'}
           </button>
         </div>
       </AppModal>

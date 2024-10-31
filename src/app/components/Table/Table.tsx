@@ -13,7 +13,7 @@ export default function Table({ head, body }: TableProps) {
         <thead className='text-xs text-[#0F1625]'>
           <tr>{head}</tr>
         </thead>
-        <tbody>{body}</tbody>
+        <tbody className='text-[#0F1625]'>{body}</tbody>
       </table>
     </div>
   );
