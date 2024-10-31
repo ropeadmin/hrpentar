@@ -887,6 +887,9 @@ console.log(business);
   };
 
 
+  
+
+
   return (
     <div>
       <div>
@@ -1038,7 +1041,7 @@ console.log(business);
             />
           </svg>
           <p className="text-white text-[16px] font-[500] leading-none">
-            Create company
+            Add company
           </p>
         </div>
       </div>

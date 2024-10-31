@@ -40,12 +40,9 @@ export default function Settings() {
   const [uploadedCacDocumentName2, setUploadedCacDocumentName2] = useState("");
   const [uploadedTaxDocument, setUploadedTaxDocument] = useState("");
   const [uploadedTaxDocumentName, setUploadedTaxDocumentName] = useState("");
-  const [uploadedBusinessDocument, setUploadedBusinessDocument] =
+  const [uploadedBusinessDocument, setUploadedBusinessDocument] = useState("");
+  const [uploadedBusinessDocumentName, setUploadedBusinessDocumentName] =
     useState("");
-  const [
-    uploadedBusinessDocumentName,
-    setUploadedBusinessDocumentName,
-  ] = useState("");
   const [uploadedDirectorSignatureFile, setUploadedDirectorSignatureFile] =
     useState("");
   const [
@@ -467,11 +464,202 @@ export default function Settings() {
     "Afghanistan",
     "Albania",
     "Algeria",
+    "Andorra",
+    "Angola",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Aruba",
+    "Australia",
+    "Austria",
+    "Azerbaijan",
+    "Bahamas",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Belarus",
+    "Belgium",
+    "Belize",
+    "Benin",
+    "Bermuda",
+    "Bhutan",
+    "Bolivia",
+    "Bosnia and Herzegovina",
+    "Botswana",
+    "Brazil",
+    "Brunei",
+    "Bulgaria",
+    "Burkina Faso",
+    "Burundi",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Cape Verde",
+    "Cayman Islands",
+    "Central African Republic",
+    "Chad",
+    "Chile",
+    "China",
+    "Colombia",
+    "Comoros",
+    "Congo",
+    "Costa Rica",
+    "Cote d'Ivoire",
+    "Croatia",
+    "Cuba",
+    "Cyprus",
+    "Czech Republic",
+    "Democratic Republic of the Congo",
+    "Denmark",
+    "Djibouti",
+    "Dominica",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Estonia",
+    "Eswatini",
+    "Ethiopia",
+    "Fiji",
+    "Finland",
+    "France",
+    "Gabon",
+    "Gambia",
+    "Georgia",
+    "Germany",
+    "Ghana",
+    "Greece",
+    "Grenada",
+    "Guatemala",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana",
+    "Haiti",
+    "Honduras",
+    "Hungary",
+    "Iceland",
+    "India",
+    "Indonesia",
+    "Iran",
+    "Iraq",
+    "Ireland",
+    "Israel",
+    "Italy",
+    "Jamaica",
+    "Japan",
+    "Jordan",
+    "Kazakhstan",
+    "Kenya",
+    "Kiribati",
+    "Kuwait",
+    "Kyrgyzstan",
+    "Laos",
+    "Latvia",
+    "Lebanon",
+    "Lesotho",
+    "Liberia",
+    "Libya",
+    "Liechtenstein",
+    "Lithuania",
     "Luxembourg",
+    "Madagascar",
+    "Malawi",
+    "Malaysia",
+    "Maldives",
+    "Mali",
+    "Malta",
+    "Marshall Islands",
+    "Mauritania",
+    "Mauritius",
+    "Mexico",
+    "Micronesia",
+    "Moldova",
+    "Monaco",
+    "Mongolia",
+    "Montenegro",
+    "Morocco",
+    "Mozambique",
+    "Myanmar",
+    "Namibia",
+    "Nauru",
+    "Nepal",
+    "Netherlands",
+    "New Zealand",
+    "Nicaragua",
+    "Niger",
+    "Nigeria",
+    "North Korea",
+    "North Macedonia",
+    "Norway",
+    "Oman",
+    "Pakistan",
+    "Palau",
+    "Panama",
+    "Papua New Guinea",
+    "Paraguay",
+    "Peru",
+    "Philippines",
+    "Poland",
+    "Portugal",
+    "Qatar",
+    "Romania",
+    "Russia",
+    "Rwanda",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Vincent and the Grenadines",
+    "Samoa",
+    "San Marino",
+    "Sao Tome and Principe",
+    "Saudi Arabia",
+    "Senegal",
+    "Serbia",
+    "Seychelles",
+    "Sierra Leone",
+    "Singapore",
+    "Slovakia",
+    "Slovenia",
+    "Solomon Islands",
+    "Somalia",
+    "South Africa",
+    "South Korea",
+    "South Sudan",
+    "Spain",
+    "Sri Lanka",
+    "Sudan",
+    "Suriname",
+    "Sweden",
+    "Switzerland",
+    "Syria",
+    "Tajikistan",
+    "Tanzania",
+    "Thailand",
+    "Timor-Leste",
+    "Togo",
+    "Tonga",
+    "Trinidad and Tobago",
+    "Tunisia",
+    "Turkey",
+    "Turkmenistan",
+    "Tuvalu",
+    "Uganda",
+    "Ukraine",
     "United Arab Emirates",
     "United Kingdom",
     "United States",
+    "Uruguay",
+    "Uzbekistan",
+    "Vanuatu",
+    "Vatican City",
+    "Venezuela",
+    "Vietnam",
+    "Yemen",
+    "Zambia",
+    "Zimbabwe",
   ];
+
 
   const industryTypes = ["Finance", "Technology"];
 
@@ -554,14 +742,14 @@ export default function Settings() {
     setUploadedTaxDocumentName(uploadedFileName);
   };
 
-    // onSuccess callback for Business file upload
-    const onBusinessUploadSuccess = async (uploadedData: any) => {
-      const uploadedFile = uploadedData?.data[0]?.location;
-      const uploadedFileName = uploadedData?.data[0]?.fileName;
-  
-      setUploadedBusinessDocument(uploadedFile);
-      setUploadedBusinessDocumentName(uploadedFileName);
-    };
+  // onSuccess callback for Business file upload
+  const onBusinessUploadSuccess = async (uploadedData: any) => {
+    const uploadedFile = uploadedData?.data[0]?.location;
+    const uploadedFileName = uploadedData?.data[0]?.fileName;
+
+    setUploadedBusinessDocument(uploadedFile);
+    setUploadedBusinessDocumentName(uploadedFileName);
+  };
 
   // Dropzone for regular files
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -619,8 +807,8 @@ export default function Settings() {
     },
   });
 
-   // Dropzone for logo files
-   const {
+  // Dropzone for logo files
+  const {
     getRootProps: getTaxRootProps,
     getInputProps: getTaxInputProps,
     isDragActive: isTaxDragActive,
@@ -632,8 +820,8 @@ export default function Settings() {
     },
   });
 
-   // Dropzone for logo files
-   const {
+  // Dropzone for logo files
+  const {
     getRootProps: getBusinessRootProps,
     getInputProps: getBusinessInputProps,
     isDragActive: isBusinessDragActive,
@@ -1220,13 +1408,19 @@ export default function Settings() {
                 </p>
               </div>
               <div className="flex items-center gap-[32px]">
-                <div className="rounded-full w-[80px] h-[80px] shadow">
-                  <img
-                    className="h-full w-full rounded-full object-cover object-center"
-                    src={profile?.business?.companyLogo || uploadedLogo}
-                    alt=""
-                  />
-                </div>
+                {profile?.business?.companyLogo || uploadedLogo ? (
+                  <div className="rounded-full w-[80px] h-[80px] shadow">
+                    <img
+                      className="h-full w-full rounded-full object-cover object-center"
+                      src={profile?.business?.companyLogo || uploadedLogo}
+                      alt=""
+                    />
+                  </div>
+                ) : (
+                  <div className="rounded-full w-[80px] h-[80px] shadow bg-white flex justify-center items-center">
+                    <p className="text-[24px] font-[700] text-[#A0AEC0]">Logo</p>
+                  </div>
+                )}
                 <div>
                   <button
                     {...getLogoRootProps()}
