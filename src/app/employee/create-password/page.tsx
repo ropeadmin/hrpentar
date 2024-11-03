@@ -38,6 +38,7 @@ export default function CreatePassword() {
     confirmPassword: "",
   });
 
+  // Function to handle password input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -75,6 +76,7 @@ export default function CreatePassword() {
     );
   };
 
+  // Testimonials
   const slides = [
     {
       text: `"PentaHR has revolutionized our HR processes. The intuitive interface and comprehensive features have significantly reduced administrative tasks, allowing us to focus more on employee engagement and development. It's a game-changer for any HR team!"`,
@@ -93,6 +95,7 @@ export default function CreatePassword() {
     },
   ];
 
+  // Testimonials Carousel
   const settings = {
     dots: true,
     infinite: true,
@@ -114,6 +117,7 @@ export default function CreatePassword() {
     ),
   };
 
+  // Handle Create Password
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     catchAsync(
@@ -223,7 +227,6 @@ export default function CreatePassword() {
           </Slider>
         </div>
       </div>
-
       <div className="bg-white flex flex-col justify-center items-center mx-auto w-full min-h-full">
         <form className="w-[55%]" onSubmit={handleSubmit}>
           <div className="mb-2 text-left">
@@ -237,7 +240,6 @@ export default function CreatePassword() {
               Please setup your password to continue.
             </span>
           </div>
-
           <div className="mb-4">
             <MyTextField
               id="password"
