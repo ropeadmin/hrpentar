@@ -194,7 +194,7 @@ export default function CreatePassword() {
   return (
     <div className="bg-[#fff] h-screen flex p-4 overflowHidden">
       <div
-        className="relative p-[32px] rounded-[16px] flex-grow min-h-full min-w-[47vw] max-w-[47vw] w-[47vw] overflow-hidden bg-[url('/images/auth-1.jpeg')]"
+        className="relative p-[32px] rounded-[16px] flex-grow min-h-full min-w-[47vw] max-w-[47vw] w-[47vw] overflow-hidden bg-[url('/images/mactayhq.svg')]"
         style={{
           backgroundSize: "cover",
           backgroundPosition: "center",
