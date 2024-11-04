@@ -29,6 +29,15 @@ const Sidebar = () => {
 
   const links: SideBarItemLink[] = [
     {
+      name: "Onboarding",
+      icon:
+        currentPath === "/employee/onboarding"
+          ? "/icons/onboarding.svg"
+          : "/icons/onboarding.svg",
+      to: "/employee/onboarding",
+      paths: [""],
+    },
+    {
       name: "Dashboard",
       icon:
         currentPath === "/dashboard"
