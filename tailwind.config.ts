@@ -22,6 +22,7 @@ const config: Config = {
   		colors: {
         n50: "#FBFBFC",
         n75: "#F9FAFB",
+        custom_green: "#0BA259",
         n100: "#F0F2F5",
         n200: "#E4E8EC",
         n300: "#D0D6DD",

@@ -48,7 +48,7 @@ export default function Onboarding() {
                 />
               </Progress.Root>
             </div>
-            <span className="w-[70px] text-green-500">
+            <span className="w-[70px] text-custom_green">
               {progressValue}% done
             </span>
           </div>
