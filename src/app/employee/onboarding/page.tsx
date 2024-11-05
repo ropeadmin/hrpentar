@@ -34,7 +34,7 @@ export default function Onboarding() {
                 (1/5)
               </span>
             </div>
-            <div className="mb-10">
+            <div className="mb-4">
               <span className="text-[#323B49] text-[14px] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
                 Here is a quick to do list.
               </span>
