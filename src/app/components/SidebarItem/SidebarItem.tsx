@@ -31,6 +31,7 @@ const SidebarItem = ({ link, active }: SideBarItemProps) => {
             </p>
           </div>
           {![
+            "Onboarding",
             "Dashboard",
             "Company",
             "Documents",

@@ -1,14 +1,21 @@
 "use client";
-import Layout from "@/app/dashboard/layout";
+import Layout from "../component/employeelayout";
 import OnboardComponent from "./component/onboardcomponent";
+import Image from "next/image";
+import * as Progress from "@radix-ui/react-progress";
 
 export default function Onboarding() {
+  const progressValue = 33;
+
   return (
     <Layout>
       <div className="mt-7">
-        <h1 className="text-[#0f1625] text-[28px]  font-bold font-['Cabinet Grotesk'] leading-loose">
-          Welcome, Olayemi
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-[#0f1625] text-[28px]  font-bold font-['Cabinet Grotesk'] leading-loose">
+            Welcome, Olayemi
+          </h1>
+          <Image src="/icons/party.svg" alt="" width={24} height={24} />
+        </div>
         <div className="">
           <span className="text-[#323B49] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
             We are excited to have you onboard. Please complete the following
@@ -17,18 +24,34 @@ export default function Onboarding() {
         </div>
       </div>
       <div className="mt-8 border-[0.5px] border-[#D0D6DD] rounded-[12px] p-[40px]">
-        <div className="flex items-center space-x-2">
-          <h1 className="text-[#0f1625] text-[18px] font-bold font-['Cabinet Grotesk'] leading-loose">
-            Onboarding overview
-          </h1>
-          <span className="text-[#323B49] text-[14px] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
-            (1/5)
-          </span>
-        </div>
-        <div className="mb-10">
-          <span className="text-[#323B49] text-[14px] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
-            Here is a quick to do list.
-          </span>
+        <div className="flex items-center space-x-2 justify-between">
+          <div>
+            <div className="flex items-center space-x-2">
+              <h1 className="text-[#0f1625] text-[18px] font-bold font-['Cabinet Grotesk'] leading-loose">
+                Onboarding overview
+              </h1>
+              <span className="text-[#323B49] text-[14px] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
+                (1/5)
+              </span>
+            </div>
+            <div className="mb-10">
+              <span className="text-[#323B49] text-[14px] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
+                Here is a quick to do list.
+              </span>
+            </div>
+          </div>
+          <div className="w-[200px] flex items-center justify-end space-x-2">
+            <div className="w-[100px] bg-[#f8f8f8] rounded-full h-[4px] overflow-hidden">
+              <Progress.Root className="h-[4px]" value={progressValue}>
+                <Progress.Indicator
+                  className="bg-[#0BA259] w-full h-full" style={{ transition: "transform 660ms cubic-bezier(0.65, 0, 0.35, 1)", transform: `translateX(-${100 - progressValue}%)` }}
+                />
+              </Progress.Root>
+            </div>
+            <span className="w-[70px] text-green-500">
+              {progressValue}% done
+            </span>
+          </div>
         </div>
         <div className="">
           <OnboardComponent
