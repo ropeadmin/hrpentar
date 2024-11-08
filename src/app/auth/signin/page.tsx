@@ -1,30 +1,28 @@
 "use client";
 
 import MyTextField from "@/app/components/Fields/MyTextField";
-import API from "@/constants/api.constant";
-import { catchAsync } from "@/helpers/api.helper";
 import useAuthRedirect from "@/hooks/authredirect.hook";
 import useRequest from "@/services/request.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useAdminLoginMutation } from "@/store/features/auth/authService";
 
 export default function SignIn() {
   useAuthRedirect();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const { makeRequest, isLoading } = useRequest();
+  const [adminLogin, { isLoading: isAdminLoginLoading }] = useAdminLoginMutation();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "gbengstar@gmail.com",
+    password: "global234!!!GY",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,42 +38,38 @@ export default function SignIn() {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    catchAsync(
-      async () => {
-        const loginRes = await makeRequest({
-          method: "POST",
-          url: API.login,
-          data: formData,
+    try {
+ // rtk query
+        await adminLogin(formData)
+        .unwrap()
+        .then((res) => {
+          const loginData = res?.data;
+          if (loginData?.accessToken) {
+            const combinedData = {
+              ...loginData,
+            };
+            dispatch(profileLoginAction(combinedData));
+    
+            enqueueSnackbar("Login Successfully!", {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+            });
+    
+            router.push("/");
+            setFormData({
+              email: "",
+              password: "",
+            });
+          } else {
+            enqueueSnackbar("Login failed. No token received!", {
+              variant: "rope_snackbar",
+              autoHideDuration: 5000,
+              error: true,
+            });
+          }
         });
-
-        const loginData = loginRes?.data?.data;
-
-        if (loginData?.accessToken) {
-          const combinedData = {
-            ...loginData,
-          };
-          dispatch(profileLoginAction(combinedData));
-
-          enqueueSnackbar("Login Successfully!", {
-            variant: "rope_snackbar",
-            autoHideDuration: 5000,
-          });
-
-          router.push("/");
-          setFormData({
-            email: "",
-            password: "",
-          });
-        } else {
-          enqueueSnackbar("Login failed. No token received!", {
-            variant: "rope_snackbar",
-            autoHideDuration: 5000,
-            error: true,
-          });
-        }
-      },
-      (error: any) => {
-        const response = error?.response;
+    } catch (error: any) {
+      const response = error?.response;
         if (response) {
           enqueueSnackbar(
             response?.data?.data?.message || "An error occurred during login",
@@ -93,8 +87,63 @@ export default function SignIn() {
           });
         }
       }
-    );
-  };
+    }
+    // catchAsync(
+    //   async () => {
+    //     const loginRes = await makeRequest({
+    //       method: "POST",
+    //       url: API.login,
+    //       data: formData,
+    //     });
+
+       
+    //     const loginData = loginRes?.data?.data;
+
+    //     if (loginData?.accessToken) {
+    //       const combinedData = {
+    //         ...loginData,
+    //       };
+    //       dispatch(profileLoginAction(combinedData));
+
+    //       enqueueSnackbar("Login Successfully!", {
+    //         variant: "rope_snackbar",
+    //         autoHideDuration: 5000,
+    //       });
+
+    //       router.push("/");
+    //       setFormData({
+    //         email: "",
+    //         password: "",
+    //       });
+    //     } else {
+    //       enqueueSnackbar("Login failed. No token received!", {
+    //         variant: "rope_snackbar",
+    //         autoHideDuration: 5000,
+    //         error: true,
+    //       });
+    //     }
+    //   },
+    //   (error: any) => {
+    //     const response = error?.response;
+    //     if (response) {
+    //       enqueueSnackbar(
+    //         response?.data?.data?.message || "An error occurred during login",
+    //         {
+    //           variant: "rope_snackbar",
+    //           autoHideDuration: 5000,
+    //           error: true,
+    //         }
+    //       );
+    //     } else {
+    //       enqueueSnackbar("A network error occurred!", {
+    //         variant: "rope_snackbar",
+    //         autoHideDuration: 5000,
+    //         error: true,
+    //       });
+    //     }
+    //   }
+    // );
+  // };
 
   const slides = [
     {
@@ -218,11 +267,11 @@ export default function SignIn() {
                 ? "bg-[#f0f2f5] text-[#a0aec0]"
                 : "bg-[#0f1625] text-white"
             } w-full transition-all duration-150 py-[14px] rounded-[8px] text-base font-medium mt-10 leading-none ${
-              isLoading || !isFormValid ? "opacity-50 cursor-not-allowed" : ""
+              isAdminLoginLoading || !isFormValid ? "opacity-50 cursor-not-allowed" : ""
             }`}
-            disabled={!isFormValid || isLoading}
+            disabled={!isFormValid || isAdminLoginLoading}
           >
-            {isLoading ? "Logging In..." : "Log in"}
+            {isAdminLoginLoading ? "Logging In..." : "Log in"}
           </button>
         </form>
 

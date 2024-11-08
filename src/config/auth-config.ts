@@ -5,17 +5,12 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: `${process.env.NEXT_PUBLIC_FLEXR_BASE_URL}/api/v1`,
+  baseUrl: `${process.env.NEXT_PUBLIC_PENTA_BASE_URL}`,
   prepareHeaders: (headers) => {
     const cookieValue = Cookies.get('authData');
-    const superAdminData = localStorage.getItem('superAdminData');
     let accessToken;
 
-    // Check if superAdminData exists in localStorage and extract accessToken
-    if (superAdminData) {
-      const parsedSuperAdminData = JSON.parse(superAdminData);
-      accessToken = parsedSuperAdminData.accessToken;
-    } else if (cookieValue) {
+    if (cookieValue) {
       const parsedCookie = JSON.parse(cookieValue);
       accessToken = parsedCookie.accessToken;
     }
@@ -25,7 +20,7 @@ export const baseQuery = fetchBaseQuery({
     }
 
     return headers;
-  },
+  }
 });
 
 //  redux toolkit can't handle onprogress state for upload i.e 10%, 20% 

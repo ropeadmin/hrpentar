@@ -1,25 +1,27 @@
 'use client'
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button'
 import { v4 as uuid } from 'uuid'
 // ** View
 import CustomSetting from '@/views/teams/onboardiing/form-builder/custom-settings/custom-settings'
 import DrawingBoard from '@/views/teams/onboardiing/form-builder/drawing-board/drawing-board'
-import { ChangeEvent, useState } from 'react';
 import { fieldTypeOptions } from '@/views/teams/onboardiing/form-builder/custom-settings/components-setting/components-setting'
 import { fieldConfigurations } from '@/views/teams/onboardiing/form-builder/custom-settings/components-setting/configuration/field-configurations'
 import { useForm } from 'react-hook-form'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { ChevronLeft } from 'lucide-react'
 import PreviewForm from './component/PreviewForm'
+import { useCreateFormMutation } from '@/store/features/form-builder/formBuilderService';
+import { toast } from 'react-toastify';
+import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export type FieldConfig = {
   id: string;
@@ -44,14 +46,14 @@ export interface InputField {
 }
 
 interface Section {
-  section_title: string;
-  section_desc: string;
+  title: string;
+  description: string;
   inputs: InputField[]; // Array of InputField
 }
 
 export interface FormBuilderData {
-  form_title: string;
-  form_desc: string;
+  title: string;
+  description: string;
   sections: Section[]; // Array of Section
 }
 
@@ -69,16 +71,20 @@ const CreateFormBuilder = () => {
   }>({ inputId: null, selectedSectionIndex: null });
 
   const [form, setForm] = useState<FormBuilderData>({
-    form_title: '',
-    form_desc: '',
+    title: '',
+    description: '',
     sections: [
       {
-        section_title: '',
-        section_desc: '',
+        title: '',
+        description: '',
         inputs: [],
       },
     ],
   });
+  const [createForm, { isLoading: isCreateLoading }] = useCreateFormMutation();
+
+
+
 
   // React Hook Form instance for managing form data
   const { register, handleSubmit, setValue } = useForm();
@@ -87,8 +93,8 @@ const CreateFormBuilder = () => {
   const handleAddSection = () => {
     // Create a new section with default values
     const newSection: Section = {
-      section_title: '',
-      section_desc: '',
+      title: '',
+      description: '',
       inputs: [], // Start with no inputs
     };
   
@@ -188,22 +194,7 @@ const CreateFormBuilder = () => {
       ...prevForm,
       sections: updatedSections,
     }));
-    // const fieldToDuplicate = fields?.find((field) => field.id === id);
-    // console.log(fieldToDuplicate)
-    // if (fieldToDuplicate) {
-    //   const duplicatedField = { ...fieldToDuplicate, id: uuid() }; // Generate new ID
-    //   setFields((prevFields =[]) => [...prevFields, duplicatedField]);
-    // }
   };
-
-  // Function to update field settings when selected on the DrawingBoard
-  // const handleFieldSettingUpdate = (fieldId: string, newSettings: Record<string, any>) => {
-  //   setFields((prevFields) =>
-  //     prevFields?.map((field) =>
-  //       field.id === fieldId ? { ...field, settings: newSettings } : field
-  //     )
-  //   );
-  // };
 
   // Function to update field settings in the correct section
   const handleFieldSettingUpdate = (
@@ -211,9 +202,6 @@ const CreateFormBuilder = () => {
     newSettings: Record<string, any> // New settings object
   ) => {
     if(selectedSectionIndex === null) return null;
-
-    console.log(inputId, newSettings);
-
     setForm((prevForm) => {
       const updatedSections = [...prevForm.sections]; // Clone sections array
       const section = updatedSections[selectedSectionIndex];  // Get the specific section
@@ -282,7 +270,7 @@ const CreateFormBuilder = () => {
   // Update section title and description for a specific section
   const handleSectionChange = (
     sectionIndex: number,
-    field: 'section_title' | 'section_desc',
+    field: 'title' | 'description',
     value: string
   ) => {
     if(selectedSectionIndex == null) return;
@@ -314,7 +302,32 @@ const CreateFormBuilder = () => {
           (input) => input.id === selectedFieldInfo.inputId
         )
       : null;
+  
+  const handlePublishForm = async () => {
 
+    try {
+      await createForm(form).unwrap().then((res) => {
+        if (res.status === "SUCCESS") {
+          setForm({
+            title: '',
+            description: '',
+            sections: [
+              {
+                title: '',
+                description: '',
+                inputs: [],
+              },
+            ],
+          })
+          toast.success('Form created successfully')
+        }
+      });
+      console.log(form, "Form Builder")
+
+    } catch (e) {
+
+    }
+  }
   return (
     <Dialog>
       <div className='w-full '>
@@ -328,9 +341,14 @@ const CreateFormBuilder = () => {
 
           <div className="space-x-4">
             <DialogTrigger>
-              <Button variant={"outline"} className="">Preview</Button>
+              <Button variant={"outline"} > Preview </Button>
             </DialogTrigger>
-            <Button className="">Publish form</Button>
+            <Button  
+              className={cn(isCreateLoading && "disabled")} 
+              onClick={handlePublishForm}>
+                { isCreateLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" /> }
+                Publish form
+              </Button>
           </div>
         </div>
 
@@ -363,12 +381,6 @@ const CreateFormBuilder = () => {
         </div>
       </div>
       <DialogContent className='max-w-[800px]'>
-        {/* <DialogHeader>
-         
-        </DialogHeader> */}
-        {/* <DialogClose asChild>
-          <Button className='w-fit ' variant={"outline"}><ChevronLeft className='leading-0' strokeWidth={1.5} /> <h3 className='text-n800 text-base font-medium'>Back to form</h3></Button>
-        </DialogClose> */}
         <div className=" py-2 px-4 h-[70vh]">
           <PreviewForm form={form} />
         </div>

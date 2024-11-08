@@ -3,12 +3,10 @@ import React, { useState } from "react";
 import { getSubPathName } from "@/utils";
 import useGlobalState from "@/hooks/globalstate.hook";
 import useAppTheme from "@/hooks/theme.hook";
-import { MdClose } from "react-icons/md";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import { ButtonBase } from "@mui/material";
 import { getInitials } from "@/helpers";
-import { FadeIn } from "../Transitions/Transitions";
+import { FadeIn } from "../../app/components/Transitions/Transitions";
 
 export default function DashboardNavbar() {
   const router = useRouter();

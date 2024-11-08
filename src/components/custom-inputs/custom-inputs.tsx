@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, ReactNode } from "react"
+import React, { ReactNode } from "react"
 import { useFormContext } from "react-hook-form"
 import { FormControl, FormItem } from "@/components/ui/form"
 import {
@@ -18,7 +18,7 @@ import { Textarea } from "../ui/textarea"
 type FormFieldProps = {
   name: string;
   label?: string;
-  type: "input" | "select" | "textarea" | "tel" | "email";
+  type: "input" | "select" | "textarea" | "tel" | "email" | "checkbox";
   options?: { label: string; value: string; image?: string, icon?: ReactNode }[]; // For select field, image is optional
   placeholder?: string;
   value?: string;
@@ -97,6 +97,21 @@ export const FormField = ({ name, label, type, options, placeholder, onValueChan
           />
         </FormControl>
       )}
+
+      {/* {type === 'checkbox' && (
+        <Checkbox
+          checked={value?.includes(name)}
+          onCheckedChange={(checked) => {
+            if (onChange) {
+              onChange(
+                checked
+                  ? [...(value || []), name]
+                  : value?.filter((val: string) => val !== name)
+              );
+            }
+          }}
+        />
+      )} */}
       {/* </FormControl> */}
       {/* <FormMessage /> */}
     </FormItem>

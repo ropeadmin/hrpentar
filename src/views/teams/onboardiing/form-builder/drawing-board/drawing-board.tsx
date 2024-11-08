@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card"
 import { FormField } from '@/components/custom-inputs/custom-inputs'
 import {Trash2, CirclePlus, Copy, StretchHorizontal } from "lucide-react"
-import BootstrapTooltip from "@/components/ui/tooltip"
+import BootstrapTooltip from "@/components/ui/bootstrap-tooltip"
 import { FormBuilderData } from "@/app/dashboard/leave/[create-form]/page"
 import { Button } from "@/components/ui/button"
 import {
@@ -59,7 +59,7 @@ type DrawingBoardProps = {
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setSelectedSectionIndex: Dispatch<SetStateAction<number | null>>;
   handleFieldValueUpdate: (fieldId: string, newValue: string) => void;
-  handleSectionChange: (sectionIndex: number, field: "section_title" | "section_desc", value: string) => void;
+  handleSectionChange: (sectionIndex: number, field: "title" | "description", value: string) => void;
 };
 
 const DrawingBoard = ({ fields, handleSectionChange, addNewSection,handleFormChange, form, setForm, handleDeleteField, handleFieldValueUpdate, handleDuplicateField, onSelectField, setSelectedSectionIndex }: DrawingBoardProps) => {
@@ -125,29 +125,29 @@ const DrawingBoard = ({ fields, handleSectionChange, addNewSection,handleFormCha
             <CardContent className="w-full h-full p-5">
               <div className="grid grid-cols-2 w-full gap-4 ">
                 <FormField
-                  name="form_title"
+                  name="title"
                   label="Form title"
                   type="input"
                   placeholder="Enter form title"
                   required
-                  value={form.form_title}
+                  value={form.title}
                   onChange={(e) => handleFormChange(e)}
                 />
 
                 <FormField
-                  name="form_desc"
+                  name="description"
                   label="Form description (Optional)"
                   type="input"
                   placeholder="Enter form description"
-                  value={form.form_desc}
-                  onChange={handleFormChange}
+                  value={form.description}
+                  onChange={(e) => handleFormChange(e)}
                 />  
               </div>
             </CardContent>
           </Card>
           {
             form.sections.map((section, sectionIndex) => (
-              <Droppable droppableId={`${sectionIndex}`}>
+              <Droppable key={sectionIndex} droppableId={`section-${sectionIndex}`}>
                 {(provided) => (
                   <div {...provided.droppableProps} ref={provided.innerRef}>
                     <div className="relative mb-6 mt-10"  onClick={() => setSelectedSectionIndex(sectionIndex)}>
@@ -158,25 +158,25 @@ const DrawingBoard = ({ fields, handleSectionChange, addNewSection,handleFormCha
                         <CardContent className="w-full h-full p-5 pt-5">
                           <div className="grid grid-cols-2 w-full  gap-4">
                             <FormField
-                              name={`section_title-${sectionIndex}`}
+                              name={`title-${sectionIndex}`}
                               label="Section title"
                               type="input"
                               placeholder="Enter section title"
-                              value={section.section_title}
+                              value={section.title}
                               required
                               onChange={(e) =>
-                                handleSectionChange(sectionIndex, 'section_title', e.target.value)
+                                handleSectionChange(sectionIndex, 'title', e.target.value)
                               }
                             />
           
                             <FormField
-                              name={`section_desc-${sectionIndex}`}
+                              name={`description-${sectionIndex}`}
                               label="Section description (Optional)"
                               type="input"
                               placeholder="Enter section description"
-                              value={section.section_desc}
+                              value={section.description}
                               onChange={(e) =>
-                                handleSectionChange(sectionIndex, 'section_desc', e.target.value)
+                                handleSectionChange(sectionIndex, 'description', e.target.value)
                               }
                             />  
                           </div>

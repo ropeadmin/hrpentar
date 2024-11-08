@@ -2,7 +2,6 @@
 
 import { Dispatch, SetStateAction, useState } from 'react';
 import { FormBuilderData, InputField } from '../page';
-import { FormField } from '@/components/custom-inputs/custom-inputs';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -26,16 +25,16 @@ const PreviewForm = ({form}: {form: FormBuilderData} ) => {
     <div className="container mx-auto p-4">
       {/* Form Header */}
       <div className="form-header mb-4">
-        <h1 className="text-[28px] text-n900 font-bold ">{form.form_title || "Untitled Form"}</h1>
-        <p className="text-base text-n600 font-normal">{form.form_title || "No description available."}</p>
+        <h1 className="text-[28px] text-n900 font-bold ">{form.title || "Untitled Form"}</h1>
+        <p className="text-base text-n600 font-normal">{form.description || "No description available."}</p>
       </div>
 
       {/* Sections */}
       {form.sections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="section mb-8 py-2">
           {/* Section Title and Description */}
-          <h2 className="text-lg font-bold ">{section.section_title || `Section ${sectionIndex + 1}`}</h2>
-          <p className="text-n600 text-sm mb-4">{section.section_desc || "No section description."}</p>
+          <h2 className="text-lg font-bold ">{section.title || `Section ${sectionIndex + 1}`}</h2>
+          <p className="text-n600 text-sm mb-4">{section.description || "No section description."}</p>
 
           {/* Section Inputs */}
           <div className=" w-full gap-4 grid grid-cols-2">

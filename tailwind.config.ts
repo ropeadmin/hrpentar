@@ -14,25 +14,35 @@ const config: Config = {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
   			'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
   		},
-  		// borderRadius: {
-  		// 	lg: 'var(--radius)',
-  		// 	md: 'calc(var(--radius) - 2px)',
-  		// 	sm: 'calc(var(--radius) - 4px)'
-  		// },
   		colors: {
-        n50: "#FBFBFC",
-        n75: "#F9FAFB",
-        n100: "#F0F2F5",
-        n200: "#E4E8EC",
-        n300: "#D0D6DD",
-        n400: "#A0AEC0",
-        n500: "#687588",
-        n600: "#323B49",
-        n800: "#182434",
-        n900: "#0F1625",
-        r200: "#FFF3F3",
-        r600: '#F55C5C'
-      }
+  			n50: '#FBFBFC',
+  			n75: '#F9FAFB',
+  			n100: '#F0F2F5',
+  			n200: '#E4E8EC',
+  			n300: '#D0D6DD',
+  			n400: '#A0AEC0',
+  			n500: '#687588',
+  			n600: '#323B49',
+  			n800: '#182434',
+  			n700: '#1F2937',
+  			n900: '#0F1625',
+  			r200: '#FFF3F3',
+  			r800: '#EF0000',
+  			r600: '#F55C5C',
+  			g200: '#F3FBF7',
+  			g700: '#0CAF60',
+  			g800: '#0BA259',
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
+  			}
+  		}
   	}
   },
   plugins: [require("tailwindcss-animate")],
