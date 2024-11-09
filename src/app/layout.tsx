@@ -3,7 +3,7 @@ import { Onest } from 'next/font/google'
 import Head from 'next/head';
 import { ReduxProvider } from './components/redux/provider'
 import AppSnackBarProvider from './components/SnackBars/SnackBars';
-import './globals.css'
+import '../styles/globals.css'
 import { Suspense } from 'react'; // Import Suspense from React
 import SplashScreen from './components/SplashScreen/SplashScreen';
 import { ToastContainer, toast } from 'react-toastify';
@@ -46,7 +46,18 @@ export default function RootLayout({
             <Suspense fallback={<SplashScreen />}>
               {children}
             </Suspense>
-            <ToastContainer />
+            <ToastContainer
+              position="top-right"
+              autoClose={500}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
           </ReduxProvider>
         </AppSnackBarProvider>
       </body>

@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "./Sidebar/Sidebar";
-import DashboardNavbar from "@/app/components/Navbar/DashboardNavbar";
+import DashboardNavbar from "@/layout/navbar/dashboard-navbar";
 
 export default function EmployeeLayout({
   children,

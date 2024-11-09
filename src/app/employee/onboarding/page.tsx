@@ -55,31 +55,31 @@ export default function Onboarding() {
         </div>
         <div className="">
           <OnboardComponent
-            infoIcon="/icons/personaldetails.svg"
+            infoIcon="/icons/one.svg"
             infoTitle="Personal Details"
             infoSubtitle="Fill in your basic information and contact details"
           />
           <hr className="mt-6" />
           <OnboardComponent
-            infoIcon="/icons/onboardingcontact.svg"
+            infoIcon="/icons/two.svg"
             infoTitle="Contact details"
             infoSubtitle="Provide your contacts in case of emergency."
           />
           <hr className="mt-6" />
           <OnboardComponent
-            infoIcon="/icons/onboardingpayment.svg"
+            infoIcon="/icons/three.svg"
             infoTitle="Payment details"
             infoSubtitle="Input your preferred bank information and options."
           />
           <hr className="mt-6" />
           <OnboardComponent
-            infoIcon="/icons/onboardingdocument.svg"
+            infoIcon="/icons/four.svg"
             infoTitle="Documents"
             infoSubtitle="Upload required documents needed to complete your registration."
           />
           <hr className="mt-6" />
           <OnboardComponent
-            infoIcon="/icons/onboardingasset.svg"
+            infoIcon="/icons/five.svg"
             infoTitle="Assets"
             infoSubtitle="Collect your employee requirements and packages."
           />
