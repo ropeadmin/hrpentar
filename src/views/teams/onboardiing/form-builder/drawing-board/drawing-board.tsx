@@ -14,7 +14,7 @@ import {
 import { FormField } from '@/components/custom-inputs/custom-inputs'
 import {Trash2, CirclePlus, Copy, StretchHorizontal } from "lucide-react"
 import BootstrapTooltip from "@/components/ui/bootstrap-tooltip"
-import { FormBuilderData } from "@/app/dashboard/leave/[create-form]/page"
+import { FormBuilderData } from "@/app/dashboard/teams/onboarding/[create-form]/page"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,

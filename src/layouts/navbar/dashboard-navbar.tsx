@@ -69,7 +69,7 @@ export default function DashboardNavbar() {
 
   return (
     <>
-      <div className="min-h-[77px] max-h-[77px] bg-white border-b-[0.5px] border-[#d0d6dd46] sm:px-7 px-5 flex items-center justify-end relative">
+      <div className="min-h-[77px] max-h-[77px] bg-white border-b-[0.5px] border-n300 sm:px-7 px-5 flex items-center justify-end relative">
         {/* <div className="border w-full"></div> */}
         <div className="h-auto">
           {/* Search Bar & Notification */}

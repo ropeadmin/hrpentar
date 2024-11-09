@@ -214,7 +214,7 @@ export default function Company() {
           {/*  */}
           <div className="w-full mt-8 flex items-center justify-between">
             <div className='w-[242px] h-[212px] p-4 bg-n75 hover:bg-r200/60 border border-n300 hover:border-r600 rounded-lg flex items-center'>
-              <Link href={"/dashboard/leave/form_builder"}>
+              <Link href={"/dashboard/teams/onboarding/form_builder"}>
                 <div className='space-y-4'>
                   <Plus className="mr-2 h-11 w-11 text-n900" strokeWidth={0.8} />
                   <div className='space-y-1'>

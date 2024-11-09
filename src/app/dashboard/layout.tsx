@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
-import { AppSidebar } from "@/layout/app-sidebar/app-sidebar";
-import DashboardNavbar from "@/layout/navbar/dashboard-navbar";
+import { AppSidebar } from "@/layouts/app-sidebar/app-sidebar";
+import DashboardNavbar from "@/layouts/navbar/dashboard-navbar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
