@@ -7,33 +7,35 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Link from 'next/link'
+import Departments from '@/views/teams/department/department'
 
 const Department = () => {
   return (
     <Dialog>
       <div className='h-full'>
         <div>
-          <h1 className="text-[28px] font-[700] text-[#0F1625]">Employees</h1>
+          <h1 className="text-[28px] font-[700] text-[#0F1625]">Departments</h1>
           <p className="text-[14px] font-[400] text-[#323B49]">
-            Manage employees here.
+            Manage department here.
           </p>
         </div>
 
         {/*  */}
-        <div className="h-full flex items-center justify-center">
+        <Departments />
+        {/* <div className="h-full flex items-center justify-center">
           <EmptyState
             imgPath='/icons/employees.svg'
-            title='You have no employees'
-            description='When you add your employees it would appear here.'
+            title='You have no department'
+            description='When you add your department it would appear here.'
             className='-mt-80'
           >
             <DialogTrigger asChild>
               <Button className='mt-5 rounded-lg'>
-                <Plus className="mr-2 h-5 w-5" /> Add Employee
+                <Plus className="mr-2 h-5 w-5" /> Add Department
               </Button>
             </DialogTrigger>
           </EmptyState>
-        </div>
+        </div> */}
       </div>
 
       {/* Modal Content for adding Employee */}
