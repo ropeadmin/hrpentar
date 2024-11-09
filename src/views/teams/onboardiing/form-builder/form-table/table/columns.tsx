@@ -29,19 +29,19 @@ import { toast } from "react-toastify";
 // ** Type
 // import { Post } from "@/types/types";
 
-const useFormBuilderDeletion = () => {
-  const [deleteForm, { isLoading, error }] = useDeleteFormMutation();
+// const useFormBuilderDeletion = () => {
+//   const [deleteForm, { isLoading, error }] = useDeleteFormMutation();
 
-  const handleDelete =  async (formId: string) => {
-    await deleteForm(formId)
-    .unwrap()
-    .then((res) => {
-      toast.success('Form deleted successfully')
-    })
-  };
+//   const handleDelete =  async (formId: string) => {
+//     await deleteForm(formId)
+//     .unwrap()
+//     .then((res) => {
+//       toast.success('Form deleted successfully')
+//     })
+//   };
 
-  return { handleDelete, isLoading, error };
-};
+//   return { handleDelete, isLoading, error };
+// };
 
 
 export const columns: ColumnDef<FormDataTableType>[] = [
@@ -117,7 +117,7 @@ export const columns: ColumnDef<FormDataTableType>[] = [
     cell: ({ row }) => {
       const id = row.original._id
       
-      const { handleDelete, isLoading } = useFormBuilderDeletion()
+      // const { handleDelete, isLoading } = useFormBuilderDeletion()
       return (
         <Dialog>
           <DropdownMenu>
@@ -145,9 +145,9 @@ export const columns: ColumnDef<FormDataTableType>[] = [
             </DialogHeader>
             <DialogFooter className='mt-4'>
               <Button variant={"outline"} className="border border-n300">Cancel</Button>
-              {/* <Button type="submit" className="bg-r800">Delete form</Button> */}
+              <Button type="submit" className="bg-r800">Delete form</Button>
 
-              <Button type="submit" className="bg-r800" onClick={() => handleDelete(id)}>Delete form</Button>
+              {/* <Button type="submit" className="bg-r800" onClick={() => handleDelete(id)}>Delete form</Button> */}
             </DialogFooter>
           </DialogContent>
         </Dialog>
