@@ -1,8 +1,8 @@
 'use client'
 
 import React, { ReactNode } from "react"
-import { useFormContext } from "react-hook-form"
-import { FormControl, FormItem } from "@/components/ui/form"
+import { Controller, useFormContext } from "react-hook-form"
+import { FormControl, FormItem, FormMessage } from "@/components/ui/form"
 import {
   Select,
   SelectContent,
@@ -35,72 +35,94 @@ export const FormField = ({ name, label, type, options, placeholder, onValueChan
     <FormItem className="space-y-0 !p-0 !m-0 !leading-none ">
       {label && <div className="mb-2"><Label className="text-sm text-n900 font-medium !mb-5" >{label}</Label></div>}
       
-      {(type === "input" || type === "tel" || type === "email") && (
-        <FormControl className=" !leading-none w-full">
-          <Input 
-            {...control.register(name)}
-            type={type}
-            placeholder={placeholder}
-            disabled={disabled}
-            onChange={onChange}
-          />
-        </FormControl>
-      )}
+      <Controller
+        name={name}
+        control={control}
+        render={({ field, fieldState }) => {
+          // Custom onChange handler
+          const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            field.onChange(e) // Update form state
+            if (onChange) onChange(e) // Call custom onChange if provided
+          }
+        return(
+          <>
+            {(type === "input" || type === "tel" || type === "email") && (
+              <FormControl className=" !leading-none w-full">
+                <Input 
+                  {...field}
+                  type={type}
+                  placeholder={placeholder}
+                  disabled={disabled}
+                  onChange={handleChange}
+                />
+              </FormControl>
+            )}
+
+            {type === "textarea" && (
+              <FormControl>
+                <Textarea
+                  {...field}
+                  placeholder={placeholder}
+                  className="resize-none"
+                  onChange={onChange}
+                />
+              </FormControl>
+            )}
+
+            {type === "select" && options && (
+              <FormControl className="">
+                <Select 
+                  {...field}
+                  onValueChange={(value) => {
+                    setValue(name, value) // Update form value
+                    if (onValueChange) onValueChange(value) // Call the onChange handler if provided
+                  }}
+                  value={value || getValues(name)}
+                > 
+                  <SelectTrigger>
+                    <SelectValue 
+                      data-placeholder="true"
+                      className="select-trigger data-placeholder:text-red-400"
+                      placeholder={placeholder || "Select an option"} 
+                    />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-lg bg-white px-3 py-2 text-base placeholder:text-n400 focus-visible:outline-none focus-visible:border  focus-visible:border-n500 focus-visible:ring-0">
+                    {options.map((option) => (
+                      <SelectItem key={option.value} value={option.value} className="py-2">
+                        <div className="flex items-center">
+                          {option.image && (
+                            <img
+                              src={option.image}
+                              alt={option.label}
+                              width={20}
+                              height={20}
+                              className="inline-block mr-2 "
+                            />
+                          )}
+                          
+                          {option.icon && (
+                            <div className="w-6 h-6 flex items-center justify-center rounded-[2px] bg-n100 mr-3">
+                                {option.icon}
+                            </div>
+                          ) }
+                          <span className="text-base text-n900 font-normal">{option.label}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+             <FormMessage>{fieldState.error?.message}</FormMessage>
+          </>
+        )}}
+      />
+      
 
 
-      {type === "select" && options && (
-        <FormControl className="">
-          <Select 
-            onValueChange={(value) => {
-              setValue(name, value) // Update form value
-              if (onValueChange) onValueChange(value) // Call the onChange handler if provided
-            }}
-            value={value || getValues(name)}
-          > 
-            <SelectTrigger>
-              <SelectValue 
-                data-placeholder="true"
-                className="select-trigger data-placeholder:text-red-400"
-                placeholder={placeholder || "Select an option"} 
-              />
-            </SelectTrigger>
-            <SelectContent className="rounded-lg bg-white px-3 py-2 text-base placeholder:text-n400 focus-visible:outline-none focus-visible:border  focus-visible:border-n500 focus-visible:ring-0">
-              {options.map((option) => (
-                <SelectItem key={option.value} value={option.value} className="py-2">
-                  <div className="flex items-center">
-                    {option.image && (
-                      <img
-                        src={option.image}
-                        alt={option.label}
-                        width={20}
-                        height={20}
-                        className="inline-block mr-2 "
-                      />
-                    )}
-                    
-                    {option.icon && (
-                      <div className="w-6 h-6 flex items-center justify-center rounded-[2px] bg-n100 mr-3">
-                          {option.icon}
-                      </div>
-                    ) }
-                    <span className="text-base text-n900 font-normal">{option.label}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </FormControl>
-      )}
+    
 
-      {type === "textarea" && (
-        <FormControl>
-          <Textarea
-            placeholder={placeholder}
-            className="resize-none"
-            onChange={onChange}
-          />
-        </FormControl>
-      )}
+     
 
       {/* {type === 'checkbox' && (
         <Checkbox

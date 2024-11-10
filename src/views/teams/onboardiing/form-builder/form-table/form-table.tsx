@@ -125,7 +125,7 @@ const FormTable = () => {
               <Button variant="outline" className='border border-n900'>Build template</Button>
             </DialogTrigger>
             <Button asChild>
-              <Link href="/dashboard/leave/create-form">
+              <Link href="/dashboard/teams/onboarding/create-form">
                 <Plus className='mr-2' /> Create form
               </Link>
             </Button>
@@ -146,7 +146,7 @@ const FormTable = () => {
             </DialogDescription>
           </DialogHeader>
           <div className=" py-2 ">
-            <BuildTemplateModal formData={getForms! ?? null} handleDialogClose = {handleDialogClose} wait={wait}/>
+            <BuildTemplateModal formData={getForms?.data ?? []} handleDialogClose = {handleDialogClose} wait={wait}/>
           </div>
         </DialogContent>
       </Dialog>
