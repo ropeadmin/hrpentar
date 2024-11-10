@@ -1,6 +1,6 @@
 "use client";
 
-import Layout from "../../../component/employeelayout";
+// import Layout from "../../../component/employeelayout";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import MyTextField from "@/app/components/Fields/MyTextField";
@@ -42,7 +42,10 @@ const PersonalDetails: React.FC = () => {
   };
 
   return (
-    <Layout>
+    // <Layout>
+
+    // </Layout>
+    <div>
       <div className="max-w-[1200px] relative h-full">
         <div className="mt-7">
           <div>
@@ -254,7 +257,7 @@ const PersonalDetails: React.FC = () => {
               </AccordionContent>
             </AccordionItem>
             {/* EDUCATIONAL BACKGROUND */}
-            <AccordionItem value="item-2">
+            <AccordionItem value="item-3">
               <AccordionTrigger>
                 <div className="">
                   <h1 className="text-[#0f1625] text-[18px] font-semibold font-['Cabinet Grotesk'] leading-loose">
@@ -375,7 +378,7 @@ const PersonalDetails: React.FC = () => {
           </Accordion>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

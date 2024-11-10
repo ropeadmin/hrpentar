@@ -1,18 +1,24 @@
-'use client'
+"use client";
 
-import  { JSX,  Dispatch, ElementRef, ButtonHTMLAttributes, SetStateAction } from 'react';
-import './stepper.css';
+import {
+  JSX,
+  Dispatch,
+  ElementRef,
+  ButtonHTMLAttributes,
+  SetStateAction,
+} from "react";
+import "./stepper.css";
 // import CustomButton from '../../INPUTS/Buttons/CustomButton';
-import { RxCross2 } from 'react-icons/rx';
+import { RxCross2 } from "react-icons/rx";
 
 // ** UTILS
-import { cn } from '@/lib/utils';
-
+import { cn } from "@/lib/utils";
 
 interface StepperProps {
   steps?: (() => JSX.Element)[];
+  stepTitles: string[];
   currentStep: number;
-  setCurrentStep?:  Dispatch<SetStateAction<number>> | undefined
+  setCurrentStep?: Dispatch<SetStateAction<number>> | undefined;
   title: string;
   isHideStepper?: boolean;
   isCancelAndNextButton?: boolean;
@@ -22,14 +28,15 @@ interface StepperProps {
   onSubmit: () => void;
   complete: boolean;
   isLoading?: boolean;
-  backButtonText?: string
+  backButtonText?: string;
   onClose?: () => void;
   isBottomStepper?: boolean;
   className?: ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
 const Stepper: React.FC<StepperProps> = ({
-  steps = ['Step 1', 'Step 2', 'Step 3'], // Default steps
+  steps = ["Step 1", "Step 2", "Step 3"],
+  stepTitles, // Default steps
   title,
   backButtonText,
   currentStep,
@@ -47,11 +54,8 @@ const Stepper: React.FC<StepperProps> = ({
   className,
   ...otherProps
 }) => {
-
-
   const renderStepComponent = () => {
     const StepComponent = steps[currentStep - 1];
-
 
     return <StepComponent />;
   };
@@ -61,31 +65,39 @@ const Stepper: React.FC<StepperProps> = ({
     }
   };
   return (
-    <div className="flex flex-col w-full h-full ">
-      <div className='h-full grow'>
-        <div className={ isHideStepper ? "hidden" : "w-[90%] mx-auto "}>
+    <div className="flex flex-col w-full h-full relative">
+      <div className="h-full grow">
+        <div className={isHideStepper ? "hidden" : "w-[90%] mx-auto"}>
           <div className="flex justify-between">
             {steps.map((_, i) => (
               <div
                 key={i}
-                className={`step-item ${currentStep === i + 1 && 'active'} ${(
-                  i + 1 < currentStep || complete
-                ) && 'complete'}`}
+                className={`step-item ${currentStep === i + 1 && "active"} ${
+                  (i + 1 < currentStep || complete) && "complete"
+                }`}
               >
-              <div className="step">{i + 1}</div>
-                {/* <p className="text-gray-500">{step}</p> */}
-                <p className="text-gray-500 invisible">{`Step ${i + 1}`}</p>
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <div className="step">{i + 1}</div>
+                  <p className="text-black">{stepTitles[i]}</p>{" "}
+                </div>
               </div>
             ))}
           </div>
         </div>
-          <div className="w-full">
-            {/* Cancel Botton */}
-            <div className={cn('absolute right-5 top-8 w-8 h-8 bg-n100 centralize-all-col rounded-full ', className)} onClick={onClose}>
-              <RxCross2  className="text-n800"/>
-            </div>
-            {renderStepComponent()}
+        <div className="w-full">
+          {/* Cancel Botton */}
+          <div
+            className={cn(
+              "absolute right-5 top-8 w-8 h-8 bg-n100 centralize-all-col rounded-full ",
+              className
+            )}
+            onClick={onClose}
+          >
+            <RxCross2 className="text-n800" />
           </div>
+          {renderStepComponent()}
+        </div>
       </div>
 
       {/* {

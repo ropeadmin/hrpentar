@@ -1,37 +1,83 @@
-import React, { useState } from 'react';
-import Stepp from "../../../../components/custom-navigation/Stepper/Stepp";
-// import PersonalDetails from "../employee-information/component/personal-details";
-// import ContactDetails from "../employee-information/component/contact-details";
-// import PaymentDetails from "../employee-information/component/payment-details";
-// import Forms from "../employee-information/component/forms";
-// import Assets from "../employee-information/component/assets";
+"use client";
+
+import React, { useState } from "react";
+import Layout from "../../component/employeelayout";
+import Stepper from "@/components/custom-navigation/Stepper/Stepp";
+import PersonalDetails from "../employee-information/personal-details/page";
+import ContactDetails from "../employee-information/contact-details/page";
+import PaymentDetails from "../employee-information/payment-details/page";
+import Forms from "../employee-information/component/forms";
+import Assets from "../employee-information/component/assets";
 
 const StepperPage: React.FC = () => {
+  const steps = [
+    PersonalDetails as () => JSX.Element,
+    ContactDetails as () => JSX.Element,
+    PaymentDetails as () => JSX.Element,
+    Forms as () => JSX.Element,
+    Assets as () => JSX.Element,
+  ];
+
+  const stepTitles = [
+    "PersonalDetails",
+    "ContactDetails",
+    "PaymentDetails",
+    "Forms",
+    "Assets",
+  ];
+
   const [currentStep, setCurrentStep] = useState(1);
+  const [complete, setComplete] = useState(false);
 
   const handleComplete = () => {
-    alert('All steps completed');
+    setComplete(true);
+    alert("All steps completed");
   };
 
   const handleSubmit = () => {
-    console.log('Form submitted');
+    console.log("Form submitted");
   };
 
+  const handleNext = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep((prev) => prev + 1);
+    } else {
+      handleComplete();
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+  const title = stepTitles[currentStep - 1];
+
   return (
-    <Stepp
-      // steps={["PersonalDetails", "ContactDetails", "PaymentDetails", "Forms", "Assets"]}
-      title="Step-by-Step Form"
-      currentStep={currentStep}
-      setCurrentStep={setCurrentStep}
-      onComplete={handleComplete}
-      disableButton={false}
-      onSubmit={handleSubmit}
-      complete={currentStep === 5}
-      backButtonText="Back"
-      isHideStepper={false}
-      isCancelAndNextButton={true}
-      isLoading={false}
-    />
+    <Layout>
+      <div className="mt-100 relative h-full">
+        <Stepper
+          isHideStepper={false}
+          title={title}
+          steps={steps}
+          stepTitles={stepTitles}
+          currentStep={currentStep}
+          disableButton={false}
+          complete={complete}
+          onComplete={handleComplete}
+          onSubmit={() => null}
+        />
+
+        <div className="flex items-center gap-2 mt-6">
+          <button className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center" disabled={currentStep === 1} onClick={handleBack}>
+            Back
+          </button>
+          <button className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center" onClick={handleNext}>
+            {currentStep === steps.length ? "Finish" : "Next"}
+          </button>
+        </div>
+      </div>
+    </Layout>
   );
 };
 

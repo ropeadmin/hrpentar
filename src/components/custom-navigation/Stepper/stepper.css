@@ -11,11 +11,11 @@
 }
 
 .active .step {
-  @apply bg-p800 text-white text-sm;
+  @apply bg-n800 text-white text-sm;
 }
 
 .complete .step {
-  @apply bg-p800 text-white;
+  @apply bg-n800 text-white;
 }
 
 .complete p {
