@@ -26,6 +26,7 @@ import {
 import { useDeleteFormMutation } from "@/store/features/form-builder/formBuilderService";
 import { toast } from "react-toastify";
 import { DepartmentType } from "@/types/dept.type";
+import { EmployeeType } from "@/types/employee.type";
 
 // ** Type
 // import { Post } from "@/types/types";
@@ -45,7 +46,7 @@ import { DepartmentType } from "@/types/dept.type";
 // };
 
 
-export const columns: ColumnDef<DepartmentType>[] = [
+export const columns: ColumnDef<EmployeeType>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -73,49 +74,71 @@ export const columns: ColumnDef<DepartmentType>[] = [
   {
     id: "name",
     accessorKey: "name",
-    header: "Department name",
+    header: "Employee name",
     cell: ({ row }) => {
-      const deptData = row.original
-      const name: string = deptData.name || "--"
+      const empData = row.original
+      const firstname: string = empData.first_name || "--"
+      const lastName: string = empData.last_name || "--"
+      const email: string = empData.email || "--"
+
+
       // const image = postData.image || ""
-      return <div className="flex items-center space-x-4">
-        <p className="text-n900 text-base font-normal">{name}</p>
+      return (
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-slate-600 rounded-full">
+
+          </div>
+          <div>
+            <h3 className="text-base text-n900 font-medium">{`${firstname} ${lastName}`}</h3>
+            <p className="text-sm text-n600 font-normal">{email}</p>
+          </div>
+        </div>
+       
+      )
+    },
+  },
+  {
+    id: "employee_id",
+    header: "Employee ID",
+    cell: ({ row }) => {
+      const empData = row.original
+      const emp_id = empData.employe_id || "--"
+      // const image = postData.image || ""
+      return <div className="">
+        <p className="text-n900 text-base font-normal">{emp_id}</p>
       </div>
     },
   },
   {
-    id: "head_of_dept",
-    accessorKey: "head_of_dept",
-    header: "Head of department",
+    id: "title",
+    header: "Job title",
     cell: ({ row }) => {
-      const deptData = row.original
-      const head_of_dept = deptData.head_of_dept || "--"
+      const empData = row.original
+      const emp_job_title = empData.job.title || "--"
       // const image = postData.image || ""
-      return <div className="flex items-center space-x-4">
-        <p className="text-n900 text-base font-normal">{head_of_dept}</p>
+      return <div className="">
+        <p className="text-n900 text-base font-normal">{emp_job_title}</p>
       </div>
     },
   },
   {
-    accessorKey: "teams_count",
-    header: "Team",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("teams_count")}</div>
-    ),
-  },
-  {
-    accessorKey: "members_count",
-    header: "Members",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("members_count")}</div>
-    ),
+    id: "type",
+    header: "Employment type",
+    cell: ({ row }) => {
+      const empData = row.original
+      const emp_type = empData.job.type || "--"
+      // const image = postData.image || ""
+      return <div className="">
+        <p className="text-n900 text-base font-normal">{emp_type}</p>
+      </div>
+    },
   },
   {
     id: "status",
     accessorKey: "status",
-    header: "Status",
+    header: "Onboarding progress",
     cell: ({ row }) => {
-      const status = row.original.status === 'pending' ? 'pending' : 'active';
+      const status = row.original.job.status === 'pending' ? 'pending' : 'active';
 
       return (
         <div className="dropdown dropdown-end">
@@ -143,26 +166,25 @@ export const columns: ColumnDef<DepartmentType>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="space-y-1 py-3 px-2">
-              <DropdownMenuItem className="text-n600 text-base font-medium">View department</DropdownMenuItem>
-              <DropdownMenuItem className="text-n600 text-base font-medium">Rename department</DropdownMenuItem>
-              <DropdownMenuItem className="text-n600 text-base font-medium">Re-assign HOD</DropdownMenuItem>
+              <DropdownMenuItem className="text-n600 text-base font-medium">Nudge Employee</DropdownMenuItem>
+              <DropdownMenuItem className="text-n600 text-base font-medium">Review Onboarding</DropdownMenuItem>
               <DialogTrigger asChild>
                 <DropdownMenuItem>
-                  <span className="text-r800 text-base font-medium">Delete department</span>
+                  <span className="text-r800 text-base font-medium">Exit Employee</span>
                 </DropdownMenuItem>
               </DialogTrigger>
             </DropdownMenuContent>
           </DropdownMenu>
           <DialogContent className="top-[30%]">
             <DialogHeader>
-              <DialogTitle className="text-[20px] font-bold text-n900">Delete department?</DialogTitle>
+              <DialogTitle className="text-[20px] font-bold text-n900">Delete employee?</DialogTitle>
               <DialogDescription className="text-n900 text-base">
-                You are about to delete Finance from the list of departments. This action cannot be undone.              
+                You are about to delete Omotayo record from the list of employees. This action cannot be undone.              
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className='mt-4'>
               <Button variant={"outline"} className="border border-n300">Cancel</Button>
-              <Button type="submit" className="bg-r800">Delete department</Button>
+              <Button type="submit" className="bg-r800">Delete employee</Button>
 
               {/* <Button type="submit" className="bg-r800" onClick={() => handleDelete(id)}>Delete form</Button> */}
             </DialogFooter>

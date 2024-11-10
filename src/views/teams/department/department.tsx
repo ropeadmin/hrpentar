@@ -56,6 +56,30 @@ const data: DepartmentType[] = [
     teams_count: 36,
     status: "active",
   },
+  {
+    _id: "derv1ws0",
+    name: "Finance",
+    head_of_dept: "Paul Umar",
+    members_count: 5,
+    teams_count: 36,
+    status: "active",
+  },
+  {
+    _id: "5kma53ae",
+    name: "Finance",
+    head_of_dept: "Paul Umar",
+    members_count: 5,
+    teams_count: 36,
+    status: "active",
+  },
+  {
+    _id: "bhqecj4p",
+    name: "Finance",
+    head_of_dept: "Paul Umar",
+    members_count: 5,
+    teams_count: 36,
+    status: "active",
+  },
 ]
  
 
@@ -71,7 +95,7 @@ const Departments = () => {
             value={""}
             onChange={undefined}
             className="text-n500 text-sm font-medium leading-none rounded-lg bg-white border border-n300 outline-none w-[350px] pl-10 pr-4 py-[10px]"
-            placeholder="Search template"
+            placeholder="Search departments..."
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center cursor-pointer">
             <svg
@@ -100,7 +124,7 @@ const Departments = () => {
         {/* butttons */}
         <DialogTrigger>
           <Button className=' rounded-lg'>
-            <Plus className="mr-2 h-5 w-5" /> Create template
+            <Plus className="mr-2 h-5 w-5" /> Create department
           </Button>
         </DialogTrigger>
       </div>

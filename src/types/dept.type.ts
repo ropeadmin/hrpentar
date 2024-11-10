@@ -9,8 +9,9 @@ export interface Post {
 
 /** Dep */
 export interface DepartmentType {
+  _id: string;
   name: string;
-  teams_count: string;
+  teams_count: number;
   head_of_dept: string;
   members_count: number;
   status: "active" | "pending"

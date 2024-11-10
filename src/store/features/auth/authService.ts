@@ -1,28 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@/config/auth-config'
-import type { signupRequest, signupResponse } from './type'
-
-export interface AdminBusinessData {
-  id: string;
-  logo: string;
-}
-
-export interface AdminData  {
-  id?:       string
-  email?:    string
-  business: AdminBusinessData
-}
-
-export interface UserResponse {
-  data:  {accessToken: string, adminData: AdminData}
-}
-
-
-export interface LoginRequest {
-  email:    string
-  password: string
-}
-
+import type { signupResponse } from './type'
+import { LoginRequest, UserResponse } from '@/types/auth.type';
 
 export const authApi = createApi({
   baseQuery,
@@ -43,18 +22,28 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
-    // adminLogin: builder.mutation<SuperAdminUserResponse, AdminLoginRequest>({
-    //   query: (credentials) => ({
-    //     url: '/super-admin/login',
-    //     method: 'POST',
-    //     body: credentials,
-    //   }),
-    // })
+    employeeLogin: builder.mutation<UserResponse, LoginRequest>({
+      query: (credentials) => ({
+        url: '/employee/login',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+    employeeCreatePassword: builder.mutation<UserResponse, LoginRequest>({
+      query: (credentials) => ({
+        url: '/employee/create-password',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
   })
 })
 
 export const {  
  useSignupMutation,
  useAdminLoginMutation,
+ useEmployeeLoginMutation,
+ useEmployeeCreatePasswordMutation,
+ 
   
 } = authApi

@@ -58,9 +58,13 @@ export const FormField = ({ name, label, type, options, placeholder, onValueChan
             value={value || getValues(name)}
           > 
             <SelectTrigger>
-              <SelectValue placeholder={placeholder || "Select an option"} />
+              <SelectValue 
+                data-placeholder="true"
+                className="select-trigger data-placeholder:text-red-400"
+                placeholder={placeholder || "Select an option"} 
+              />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-lg bg-white px-3 py-2 text-base placeholder:text-n400 focus-visible:outline-none focus-visible:border  focus-visible:border-n500 focus-visible:ring-0">
               {options.map((option) => (
                 <SelectItem key={option.value} value={option.value} className="py-2">
                   <div className="flex items-center">
