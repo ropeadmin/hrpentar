@@ -18,6 +18,7 @@ const config: Config = {
   		colors: {
   			n50: '#FBFBFC',
   			n75: '#F9FAFB',
+  			custom_green: '#0BA259',
   			n100: '#F0F2F5',
   			n200: '#E4E8EC',
   			n300: '#D0D6DD',
@@ -43,6 +44,28 @@ const config: Config = {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
   },

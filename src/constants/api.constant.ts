@@ -28,7 +28,9 @@ export const API = {
   updateCompany: '/account/company-settings',
 
   // Tracker
-  track: '/onboard-tracker'
+  track: '/onboard-tracker',
+  switchBusiness: '/account/switch-business',
+  documents: '/account/documents'
 };
 
 export default API;
