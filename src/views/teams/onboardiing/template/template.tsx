@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import TemplateCard from './components/template-card';
@@ -13,10 +13,13 @@ import {
 } from "@/components/ui/dialog"
 import BuildTemplateModal from '../form-builder/form-table/build-template/build-template';
 import { toast } from 'react-toastify';
+import { useGetFormQuery } from '@/store/features/form-builder/formBuilderService';
 
 const Template = ({template}: {template : any}) => {
+  const [openTemplateDialog, setOpenTemplateDialog] = useState(false);
   const { data: fetchTemplateData, isLoading:  isTemplateLoading } = useGetTemplateQuery()
   const [deleteTemplate, { isLoading: isDeleteLoading, error }] = useDeleteTemplateMutation();
+  const { data: getForms, isLoading: isFormLoading } = useGetFormQuery()
 
   const handleDeleteTemplate = async (templateId: string) => {
     await deleteTemplate([templateId])
@@ -25,8 +28,11 @@ const Template = ({template}: {template : any}) => {
       toast.success('Template deleted successfully')
     })
   } 
+
+  const handleCloseTemplateDialog = () => setOpenTemplateDialog(false);
+
   return (
-    <Dialog>
+    <Dialog open={openTemplateDialog} onOpenChange={setOpenTemplateDialog}>
       <div className='flex items-center justify-between'>
         {/* Header Component */}
         <div className="relative">
@@ -90,7 +96,7 @@ const Template = ({template}: {template : any}) => {
             </DialogDescription>
           </DialogHeader>
           <div className=" py-2 ">
-            <BuildTemplateModal handleDialogClose = {() => null} />
+            <BuildTemplateModal formData={getForms?.data ?? []} handleDialogClose = {handleCloseTemplateDialog} />
           </div>
         </DialogContent>
     </Dialog>

@@ -25,11 +25,10 @@ const FormSchema = z.object({
 
 interface IBuildTemplateProps {
   handleDialogClose: () => void;
-  wait?: () => Promise<unknown>;
   formData?: FormDataTableType[];
 }
 
-const BuildTemplateModal = ({handleDialogClose, wait, formData}: IBuildTemplateProps) => {
+const BuildTemplateModal = ({handleDialogClose, formData}: IBuildTemplateProps) => {
   const [createTemplate, {isLoading}] = useCreateTemplateMutation()
   const formMethods = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -50,8 +49,6 @@ const BuildTemplateModal = ({handleDialogClose, wait, formData}: IBuildTemplateP
       console.log(error);
     }
   }
-
-  console.log(formData, wait, handleDialogClose)
 
   return (
     <div>

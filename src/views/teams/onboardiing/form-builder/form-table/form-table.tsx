@@ -39,15 +39,11 @@ import ShareTemplate from "./share-template/share-template";
 import { useGetFormQuery } from "@/store/features/form-builder/formBuilderService";
 import Link from "next/link";
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
-
 const FormTable = () => {
   const [openDialog, setOpenDialog] = useState(false);
 	const [openAlert, setOpenAlert] = useState(false);
 	const [openShareTemplate, setOpenShareTemplate] = useState(false);
   const { data: getForms, isLoading: isFormLoading } = useGetFormQuery()
-
-  console.log(getForms, "My Forms");
 
   const handleDialogClose = () => {
     setOpenAlert(true); // Show AlertDialog before actually closing the Dialog
@@ -146,7 +142,7 @@ const FormTable = () => {
             </DialogDescription>
           </DialogHeader>
           <div className=" py-2 ">
-            <BuildTemplateModal formData={getForms?.data ?? []} handleDialogClose = {handleDialogClose} wait={wait}/>
+            <BuildTemplateModal formData={getForms?.data ?? []} handleDialogClose = {handleDialogClose} />
           </div>
         </DialogContent>
       </Dialog>
