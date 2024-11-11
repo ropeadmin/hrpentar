@@ -56,7 +56,7 @@ const StepperPage: React.FC = () => {
   return (
     <Layout>
       <div className="mt-100 relative h-full">
-        <Stepper
+        {/* <Stepper
           isHideStepper={false}
           title={title}
           steps={steps}
@@ -75,7 +75,7 @@ const StepperPage: React.FC = () => {
           <button className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center" onClick={handleNext}>
             {currentStep === steps.length ? "Finish" : "Next"}
           </button>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

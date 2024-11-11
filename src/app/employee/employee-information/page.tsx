@@ -52,14 +52,14 @@ const StepperPage: React.FC = () => {
     }
   };
 
-  const StepComponent = steps[currentStep - 1];
+  // const StepComponent = steps[currentStep - 1];
   const title = stepTitles[currentStep - 1];
 
   return (
     // <Layout>
     // </Layout>
     <div>
-      <Stepper
+      {/* <Stepper
         isHideStepper={false}
         title={title}
         steps={steps}
@@ -68,9 +68,9 @@ const StepperPage: React.FC = () => {
         complete={complete}
         onComplete={handleComplete}
         onSubmit={() => null}
-      />
+      /> */}
 
-      <StepComponent />
+      {/* <StepComponent /> */}
 
       <div style={{ marginTop: "20px" }}>
         <button disabled={currentStep === 1} onClick={handleBack}>
