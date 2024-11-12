@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Layout from "../../component/employeelayout";
 import Stepper from "@/components/custom-navigation/Stepper/Stepp";
-import PersonalDetails from "../employee-information/personal-details/page";
-import ContactDetails from "../employee-information/contact-details/page";
-import PaymentDetails from "../employee-information/payment-details/page";
-import Forms from "../employee-information/component/forms";
-import Assets from "../employee-information/component/assets";
+import PersonalDetails from "./personal-details/page";
+import ContactDetails from "./contact-details/page";
+import PaymentDetails from "./payment-details/page";
+import Forms from "./form-details/page";
+import Assets from "./asset-details/page";
 
 const StepperPage: React.FC = () => {
   const steps = [
@@ -25,8 +26,10 @@ const StepperPage: React.FC = () => {
     "Forms",
     "Assets",
   ];
-
-  const [currentStep, setCurrentStep] = useState(1);
+  const params = useParams();
+  const router = useRouter();
+  const stepIndex = params.viewId;
+  const [currentStep, setCurrentStep] = useState(Number(stepIndex) || 1);
   const [complete, setComplete] = useState(false);
 
   const handleComplete = () => {
@@ -49,13 +52,22 @@ const StepperPage: React.FC = () => {
   const handleBack = () => {
     if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1);
+    } else {
+      router.push("/employee/onboarding");
     }
   };
+
   const title = stepTitles[currentStep - 1];
+
+  useEffect(() => {
+    if (stepIndex) {
+      setCurrentStep(Number(stepIndex));
+    }
+  }, [stepIndex]);
 
   return (
     <Layout>
-      <div className="mt-100 relative h-full">
+      <div className="mt-200 relative h-full bg-red-500 w-full">
         <Stepper
           isHideStepper={false}
           title={title}
@@ -68,12 +80,20 @@ const StepperPage: React.FC = () => {
           onSubmit={() => null}
         />
 
-        <div className="flex items-center gap-2 mt-6">
-          <button className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center" disabled={currentStep === 1} onClick={handleBack}>
-            Back
+        <div className="flex items-center gap-2 mt-6 justify-end">
+          <button
+            className={`rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent text-center ${
+              currentStep === 1 ? "w-[160px]" : "w-[105px]"
+            }`}
+            onClick={handleBack}
+          >
+            {currentStep === 1 ? "Onboarding Page" : "Back"}
           </button>
-          <button className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center" onClick={handleNext}>
-            {currentStep === steps.length ? "Finish" : "Next"}
+          <button
+            className="rounded-[8px] border text-[#fcfcfc] bg-[#0e1118] py-2 border-[#D0D6DD99] w-[169px] text-center"
+            onClick={handleNext}
+          >
+            {currentStep === steps.length ? "Finish" : "Save & Continue"}
           </button>
         </div>
       </div>
