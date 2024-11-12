@@ -14,13 +14,13 @@ const useAuthRedirect = ({ watch = false }: AuthRedirectOptions = {}) => {
   const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
 
   // Only watch authentication status if `watch` is true
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.replace('/dashboard');
-    } else {
-      router.replace('/auth/signin');
-    }
-  }, [isAuthenticated, router, watch]);
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     router.replace('/dashboard');
+  //   } else {
+  //     router.replace('/auth/signin');
+  //   }
+  // }, [isAuthenticated, router, watch]);
 
   return isAuthenticated;
 };

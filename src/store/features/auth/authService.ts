@@ -24,7 +24,7 @@ export const authApi = createApi({
     }),
     employeeLogin: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials) => ({
-        url: '/employee/login',
+        url: '/auth/employee/login',
         method: 'POST',
         body: credentials,
       }),

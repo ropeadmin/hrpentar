@@ -134,7 +134,7 @@ const Employees = () => {
   const [exists, setExists] = useState(null);
 
   const [activeTab, setActiveTab] = useState("all");
-  const [data, setData] = useState(emp_data);
+  const [data, setData] = useState([]);
 
 
   const handleTabClick = (key: React.SetStateAction<string>) => {
