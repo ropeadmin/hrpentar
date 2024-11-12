@@ -1,5 +1,4 @@
 "use client";
-import Layout from "../component/employeelayout";
 import OnboardComponent from "./component/onboardcomponent";
 import Image from "next/image";
 import * as Progress from "@radix-ui/react-progress";
@@ -8,7 +7,7 @@ export default function Onboarding() {
   const progressValue = 33;
 
   return (
-    <Layout>
+    <>
       <div className="mt-7">
         <div className="flex items-center gap-2">
           <h1 className="text-[#0f1625] text-[28px]  font-bold font-['Cabinet Grotesk'] leading-loose">
@@ -85,6 +84,6 @@ export default function Onboarding() {
           />
         </div>
       </div>
-    </Layout>
+    </>
   );
 }

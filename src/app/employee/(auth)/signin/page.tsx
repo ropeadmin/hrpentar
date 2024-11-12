@@ -14,7 +14,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEmployeeLoginMutation } from "@/store/features/auth/authService";
 
-export default function SignIn() {
+const EmployeeSignIn = () => {
   // useAuthRedirect();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -233,3 +233,5 @@ export default function SignIn() {
     </div>
   );
 }
+
+export default EmployeeSignIn

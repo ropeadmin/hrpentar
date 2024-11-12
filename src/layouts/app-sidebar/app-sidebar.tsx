@@ -1,5 +1,12 @@
 'use client'
 
+import Image from "next/image"
+import Link from "next/link"
+
+import { ChevronDown } from "lucide-react"
+import useCompanyState from "@/hooks/companystate.hook"
+import { adminSidebarfooterItems, adminSidebarItems } from "@/utils/sidebar-path/sidebar.path"
+
 import {
   Sidebar,
   SidebarContent,
@@ -11,178 +18,10 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { SettingsIcon, Info, ChevronDown } from "lucide-react"
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../../components/ui/collapsible"
-import Image from "next/image"
-import Link from "next/link"
-import useCompanyState from "@/hooks/companystate.hook"
 
-const items = [
-  {
-    title: "Dashboard",
-    url: "#",
-    icon: {
-      size: 15,
-      path: "/icons/dashboard.svg"
-    },
-    pending: false
-  },
-  {
-    title: "Company",
-    url: "#",
-    icon: {
-      size: 16,
-      path: "/icons/company.svg"
-    },
-    pending: false
-  },
-  {
-    title: "Teams",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/people.svg"
-    },    subItems: [
-      {
-        name: "Onboarding",
-        url: "/dashboard/teams/onboarding",
-      },
-      {
-        name: "Analytics",
-        url: "/dashboard/leave",
-      },
-      {
-        name: "Employee",
-        url: "/dashboard/teams/employee",
-      },
-      {
-        name: "Department",
-        url: "/dashboard/teams/department",
-      },
-      {
-        name: "Managers",
-        url: "/dashboard/administration",
-      },
-      {
-        name: "Requests",
-        url: "/dashboard/administration",
-      }
-    ],
-    pending: false
-  },
-  {
-    title: "Payroll",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/payroll.svg"
-    }, 
-    pending: true 
-  },
-  {
-    title: "Leave",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/leave.svg"
-    },  
-    pending: true
-  },
-  {
-    title: "Performance",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/performance.svg"
-    },
-    pending: false
-  },
-  // {
-  //   title: "Time & Attendance",
-  //   url: "#",
-  //   icon: {
-  //     size: 20,
-  //     path: "/icons/attendance.svg"
-  //   }, 
-  //   pending: true
-  // },
-  {
-    title: "Benefits",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/benefit.svg"
-    },  
-    pending: false
-  },
-  {
-    title: "Payments",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/payment.svg"
-    },  
-    pending: true
-  },
-  {
-    title: "Recruitment",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/recruitment.svg"
-    },  
-    pending: true
-  },
-  {
-    title: "Disciplinary",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/disciplinary.svg"
-    },  
-    pending: true
-  },
-  {
-    title: "Documents",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/document.svg"
-    }, 
-    pending: false
-  },
-  {
-    title: "Assets",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/asset.svg"
-    },
-    pending: false
-  },
-  {
-    title: "Reports",
-    url: "#",
-    icon: {
-      size: 20,
-      path: "/icons/report.svg"
-    },
-    pending: true
-  },
-]
 
-const footerItems = [
-  {
-    title: "Settings",
-    url: "/dashboard/settings",
-    icon: SettingsIcon,
-  },
-  {
-    title: "Help",
-    url: "/dashboard/help",
-    icon: Info,
-  }
-]
 export function AppSidebar() {
   const { company } = useCompanyState();
 
@@ -242,7 +81,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarMenu className="pb-3 pt-2 space-y-1">
          
-            {items.map((item, index) =>(
+            {adminSidebarItems.map((item, index) =>(
                <Collapsible key={index}  className="group/collapsible ">
                 <SidebarMenuItem >
                   <CollapsibleTrigger asChild className="">
@@ -287,7 +126,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter className="pb-10 px-0">
         <SidebarMenu className="space-y-1">
-          {footerItems.map((item) => (
+          {adminSidebarfooterItems.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild className="pointer-events-autohover:bg-n800 data-[state=open]:hover:bg-n800 hover:bg-n800 active:bg-n800">
                 <Link href={item.url} className="flex items-center gap-[10px]">

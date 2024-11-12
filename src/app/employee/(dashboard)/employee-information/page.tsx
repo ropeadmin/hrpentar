@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 // import Layout from "../../component/employeelayout";
 import Stepper from "@/components/custom-navigation/Stepper/Stepp";
-import PersonalDetails from "../onboarding/employee-information/personal-details/page";
-import ContactDetails from "../onboarding/employee-information/component/contact-details";
-import PaymentDetails from "../onboarding/employee-information/component/payment-details";
-import Forms from "../onboarding/employee-information/component/forms";
-import Assets from "../onboarding/employee-information/component/assets";
+import PersonalDetails from "../(dashboard)/onboarding/employee-information/personal-details/page";
+import ContactDetails from "../(dashboard)/onboarding/employee-information/component/contact-details";
+import PaymentDetails from "../(dashboard)/onboarding/employee-information/component/payment-details";
+import Forms from "../(dashboard)/onboarding/employee-information/component/forms";
+import Assets from "../(dashboard)/onboarding/employee-information/component/assets";
 
 const StepperPage: React.FC = () => {
   const steps = [
