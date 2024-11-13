@@ -560,3 +560,10 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+/* In your Tailwind CSS file */
+@layer utilities {
+  .select-trigger[data-placeholder="true"] {
+    @apply text-gray-400; /* Adjust color as needed */
+  }
+}

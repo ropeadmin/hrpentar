@@ -19,7 +19,8 @@ const useGlobalState = (): IGlobalState => {
   const isAuthenticated = !!profile?.accessToken;
 
   const logout = () => {
-    router.push('/auth/signin');
+    profile?.account?.role === "EMPLOYEE" ? router.push('/employee/signin') : router.push('/auth/signin');
+    
     dispatch(profileLogoutAction());
   };
 

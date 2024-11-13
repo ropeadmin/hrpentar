@@ -6,7 +6,7 @@ import { useState } from 'react'
 import Tabs from '@/components/custom-navigation/Tabs/Tabs'
 import SectionsSetting from './sections-setting/sections-setting';
 import { ComponentsSetting } from './components-setting/components-setting';
-import { FieldConfig, InputField } from '@/app/dashboard/leave/[create-form]/page';
+import { FieldConfig, InputField } from '@/app/dashboard/teams/onboarding/[create-form]/page';
 
 export type CustomSettingProps = {
   onFieldTypeChange: (fieldType: string) => void;

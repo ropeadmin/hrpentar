@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "@/store";
-import { AdminBusinessData, AdminData, authApi } from "./authService";
+import { authApi } from "./authService";
+import { AdminBusinessData, AdminData } from "@/types/auth.type";
 
 
 type AuthState = {

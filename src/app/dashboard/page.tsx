@@ -14,7 +14,7 @@ import GenderRatioChart from "@/views/dashboard/charts/semi-donut";
 import EtypeRatioChart from "@/views/dashboard/charts/etype-chart";
 
 export default function Dashboard() {
-  useAuthRedirect();
+  // useAuthRedirect();
   const { profile } = useGlobalState();
   const [activeTab, setActiveTab] = useState("tasks");
   const [payroll, setPayroll] = useState(null);

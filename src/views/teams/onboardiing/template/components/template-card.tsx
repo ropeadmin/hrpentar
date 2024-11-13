@@ -40,6 +40,7 @@ const TemplateCard = ({id, name, handleDeleteTemplate, isDeleteLoading}: ITempla
         <div className='mt-3'>
           <div className='flex items-center justify-between'>
             <h3 className='text-n900 text-base font-bold'>{name}</h3>
+            {/* Action for Template*/}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0 ">

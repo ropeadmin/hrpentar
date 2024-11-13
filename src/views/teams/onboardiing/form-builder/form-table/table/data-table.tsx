@@ -15,6 +15,8 @@ import {
 // ** Icons
 import { ChevronLeftIcon, Search, ChevronRightIcon } from "lucide-react"
 import { IoMdArrowDropdown, IoMdFastforward } from "react-icons/io";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+
 // ** Component
 import {
   Table,
@@ -123,7 +125,31 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {
+      <div className="w-full px-4">
+        <div className="flex items-center justify-between space-x-2 py-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className={`text-n700 text-base font-bold ${!table.getCanPreviousPage() && "cursor-wait"}`}
+          >
+            <FaArrowLeftLong size={15} className="mr-2"/>
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className={`text-n700 text-base font-bold ${!table.getCanNextPage() && "cursor-not-allowed"}`}
+          >
+            Next
+            <FaArrowRightLong size={15} className={`ml-2`}/>
+          </Button>
+        </div>
+      </div>
+      {/* {
         data && data.length > 0 && (
           <div className="flex items-center justify-end space-x-2 py-4">
             <div className="flex items-center space-x-2">
@@ -181,7 +207,7 @@ export function DataTable<TData, TValue>({
             </span>
           </div>
         )
-      }
+      } */}
 
     </div>
   )

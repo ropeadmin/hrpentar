@@ -1,7 +1,7 @@
 "use client";
 
 import MyTextField from "@/app/components/Fields/MyTextField";
-import useAuthRedirect from "@/hooks/authredirect.hook";
+// import useAuthRedirect from "@/hooks/authredirect.hook";
 import useRequest from "@/services/request.service";
 import { profileLoginAction } from "@/store/profile.slice";
 import Link from "next/link";
@@ -15,7 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useAdminLoginMutation } from "@/store/features/auth/authService";
 
 export default function SignIn() {
-  useAuthRedirect();
+  // useAuthRedirect();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
