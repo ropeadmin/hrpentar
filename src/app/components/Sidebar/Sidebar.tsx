@@ -47,6 +47,15 @@ const Sidebar = () => {
       paths: ["company"],
     },
     {
+      name: "Employee",
+      icon:
+        currentPath === "/dashboard/employee"
+          ? "/icons/company.svg"
+          : "/icons/company.svg",
+      to: "/dashboard/employee",
+      paths: ["employee"],
+    },
+    {
       name: "People",
       icon:
         currentPath === "/dashboard/people"
@@ -210,7 +219,7 @@ const Sidebar = () => {
                   {sliceText(15, profile?.business?.businessName)}
                 </h1>
                 <p className="text-[11px] font-[400] text-white truncate">
-                  {sliceText(15, profile?.business?.address.city)}
+                  {/* {sliceText(15, profile?.business?.address.city)} */}
                 </p>
               </div>
             </div>
