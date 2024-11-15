@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { profileLoginAction } from "@/store/profile.slice";
 import useGlobalState from "@/hooks/globalstate.hook";
-// import useAuthRedirect from "@/hooks/authredirect.hook";
+import useAuthRedirect from "@/hooks/authredirect.hook";
 
 export default function NewPassword() {
     const router = useRouter();

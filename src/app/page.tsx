@@ -8,8 +8,23 @@ import { FadeIn } from './components/Transitions/Transitions';
 import EmployeeSignIn from './employee/(auth)/signin/page';
 
 export default function Home() {
+  const navigate = useRouter();
+  const { isAuthenticated } = useGlobalState();
+
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     isAuthenticated ? navigate.replace('/dashboard/welcome') : navigate.replace('/employee/signin');
+  //   }, 3000);
+
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, []);
 
   return (
-    <EmployeeSignIn/>
+    <FadeIn>
+      <SplashScreen />
+    </FadeIn>
+    // <EmployeeSignIn/>
   );
 }

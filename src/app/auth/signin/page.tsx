@@ -55,7 +55,7 @@ export default function SignIn() {
               autoHideDuration: 5000,
             });
     
-            router.push("/");
+            router.push("/dashboard");
             setFormData({
               email: "",
               password: "",
