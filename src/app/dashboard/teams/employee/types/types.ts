@@ -80,4 +80,5 @@ export interface FormData {
   document: {
     template: string;
   };
+  assets: string[]
 }

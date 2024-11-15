@@ -144,12 +144,14 @@ const Employee = () => {
     document: {
       template: "",
     },
+    assets: []
   });
 
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
   const [showBenefitsSection, setShowBenefitsSection] = useState(false);
   const [error, setError] = useState("");
   const [isCalculateEnabled, setIsCalculateEnabled] = useState(false);
+  const [isSalaryCalculated, setIsSalaryCalculated] = useState(false);
 
   // Check if initial fields are filled
   useEffect(() => {
@@ -299,24 +301,6 @@ const Employee = () => {
     // You might want to open a modal or form to collect new allowance details
   };
 
-  const handleSalaryCalculation = () => {
-    // Validate all required fields are filled
-    if (
-      !formData.salary.paymentFrequency ||
-      !formData.salary.paygradeTemplate ||
-      !formData.salary.netSalary
-    ) {
-      setError("Please fill all required fields");
-      return;
-    }
-
-    // Your salary calculation logic here
-
-    // After calculation is successful:
-    // Move to next step
-    nextStep();
-  };
-
   const previousStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
@@ -394,13 +378,45 @@ const Employee = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+   const handleSalaryCalculation = () => {
+    // Validate all required fields are filled
+    if (
+      !formData.salary.paymentFrequency ||
+      !formData.salary.paygradeTemplate ||
+      !formData.salary.netSalary
+    ) {
+      setError("Please fill all required fields");
+      return;
+    }
+
+    // Your salary calculation logic here
+
+    // Mark salary as calculated
+    setIsSalaryCalculated(true);
+    setError(null);
+  };
+
+   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // For the salary calculation step (Step 5)
+    if (currentStep === 4) {
+      if (!isSalaryCalculated) {
+        setError("Please calculate the salary first");
+        return;
+      }
+    }
+
     // Save the form data or handle it as necessary
     console.log(formData);
-    // Move to the next step
+
+    // Move to the next step if not on the last step
     if (currentStep < 6) {
       nextStep();
+    } else {
+      // Handle final form submission
+      console.log("Form submitted!", formData);
+      // Add your submission logic here
     }
   };
 
