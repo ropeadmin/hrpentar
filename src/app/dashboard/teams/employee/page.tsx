@@ -1881,14 +1881,13 @@ const Employee = () => {
                 <div className="flex justify-end">
                   {currentStep === 4 ? ( // Step 5
                     <button
-                      type="submit" // Changed from submit to prevent form submission
+                      type="submit"
                       className={`py-[10px] px-[14px] rounded-[8px] text-base font-medium leading-none ${
                         isCalculateEnabled
                           ? "bg-[#0f1625] text-white"
                           : "bg-gray-200 text-gray-500 cursor-not-allowed"
                       }`}
                       disabled={!isCalculateEnabled}
-                      // onClick={handleSalaryCalculation} // We'll create this function
                     >
                       Calculate Salary
                     </button>
