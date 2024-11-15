@@ -151,7 +151,6 @@ const Employee = () => {
   const [showBenefitsSection, setShowBenefitsSection] = useState(false);
   const [error, setError] = useState("");
   const [isCalculateEnabled, setIsCalculateEnabled] = useState(false);
-  const [isSalaryCalculated, setIsSalaryCalculated] = useState(false);
 
   // Check if initial fields are filled
   useEffect(() => {
@@ -378,7 +377,9 @@ const Employee = () => {
     });
   };
 
-   const handleSalaryCalculation = () => {
+ const handleSalaryCalculation = (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent form submission
+    
     // Validate all required fields are filled
     if (
       !formData.salary.paymentFrequency ||
@@ -389,33 +390,27 @@ const Employee = () => {
       return;
     }
 
-    // Your salary calculation logic here
-
-    // Mark salary as calculated
-    setIsSalaryCalculated(true);
-    setError(null);
+    // salary calculation logic here
+    
+    // After successful calculation:
+    nextStep(); // This will move to the next step (documents)
   };
 
    const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // For the salary calculation step (Step 5)
+    
+    // If we're on the salary calculation step, don't proceed automatically
     if (currentStep === 4) {
-      if (!isSalaryCalculated) {
-        setError("Please calculate the salary first");
-        return;
-      }
+      return;
     }
-
-    // Save the form data or handle it as necessary
+    
+    // For all other steps
     console.log(formData);
-
-    // Move to the next step if not on the last step
     if (currentStep < 6) {
       nextStep();
     } else {
       // Handle final form submission
-      console.log("Form submitted!", formData);
+      console.log('Form submitted:', formData);
       // Add your submission logic here
     }
   };
@@ -449,7 +444,7 @@ const Employee = () => {
             {/* Form */}
             <form
               className="w-[100%] overflow-auto remove-scroll-bar"
-              onSubmit={handleSubmit}
+              onSubmit={currentStep === 4 ? handleSalaryCalculation : handleSubmit}
             >
               {/* step 1  */}
               {currentStep === 0 && (
@@ -1886,14 +1881,14 @@ const Employee = () => {
                 <div className="flex justify-end">
                   {currentStep === 4 ? ( // Step 5
                     <button
-                      type="button" // Changed from submit to prevent form submission
+                      type="submit" // Changed from submit to prevent form submission
                       className={`py-[10px] px-[14px] rounded-[8px] text-base font-medium leading-none ${
                         isCalculateEnabled
                           ? "bg-[#0f1625] text-white"
                           : "bg-gray-200 text-gray-500 cursor-not-allowed"
                       }`}
                       disabled={!isCalculateEnabled}
-                      onClick={handleSalaryCalculation} // We'll create this function
+                      // onClick={handleSalaryCalculation} // We'll create this function
                     >
                       Calculate Salary
                     </button>
