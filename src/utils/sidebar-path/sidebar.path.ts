@@ -144,6 +144,132 @@ export const adminSidebarItems = [
     pending: true
   },
 ]
+export const employeeSidebarItems = [
+  {
+    title: "Onboarding",
+    url: "#",
+    icon: {
+      size: 15,
+      path: "/icons/onboard.svg"
+    },
+    pending: false
+  },
+  {
+    title: "Dashboard",
+    url: "#",
+    icon: {
+      size: 15,
+      path: "/icons/dashboard.svg"
+    },
+    pending: false
+  },
+  {
+    title: "Profile",
+    url: "#",
+    icon: {
+      size: 16,
+      path: "/icons/profile.svg"
+    },
+    pending: false
+  },
+  {
+    title: "Requests",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/requestircon.svg"
+    },    subItems: [
+      {
+        name: "Onboarding",
+        url: "/dashboard/teams/onboarding",
+      },
+      {
+        name: "Analytics",
+        url: "/dashboard/leave",
+      },
+      {
+        name: "Employee",
+        url: "/dashboard/teams/employee",
+      },
+      {
+        name: "Department",
+        url: "/dashboard/teams/department",
+      },
+      {
+        name: "Managers",
+        url: "/dashboard/administration",
+      },
+      {
+        name: "Requests",
+        url: "/dashboard/administration",
+      }
+    ],
+    pending: false
+  },
+  {
+    title: "Claims",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/claims.svg"
+    }, 
+    pending: true 
+  },
+  {
+    title: "Performance",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/performanceicon.svg"
+    },  
+    pending: true
+  },
+  {
+    title: "Benefits",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/benefiticon.svg"
+    },  
+    pending: true
+  },
+  {
+    title: "Payslips",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/payslipsicon.svg"
+    },
+    pending: true
+  },
+  {
+    title: "Wallets",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/benefit.svg"
+    },  
+    pending: true
+  },
+  {
+    title: "Documents",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/document.svg"
+    }, 
+    pending: false
+  },
+  {
+    title: "Assets",
+    url: "#",
+    icon: {
+      size: 20,
+      path: "/icons/asset.svg"
+    },
+    pending: false
+  },
+]
 
 export const adminSidebarfooterItems = [
   {

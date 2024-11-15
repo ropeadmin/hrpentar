@@ -5,7 +5,7 @@ import Link from "next/link"
 
 import { ChevronDown } from "lucide-react"
 import useCompanyState from "@/hooks/companystate.hook"
-import { adminSidebarfooterItems, adminSidebarItems } from "@/utils/sidebar-path/sidebar.path"
+import { adminSidebarfooterItems, employeeSidebarItems } from "@/utils/sidebar-path/sidebar.path"
 
 import {
   Sidebar,
@@ -81,7 +81,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarMenu className="pb-3 pt-2 space-y-1">
          
-            {adminSidebarItems.map((item, index) =>(
+            {employeeSidebarItems.map((item, index) =>(
                <Collapsible key={index}  className="group/collapsible ">
                 <SidebarMenuItem >
                   <CollapsibleTrigger asChild className="">

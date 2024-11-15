@@ -3,7 +3,7 @@
 }
 
 .step-item:not(:first-child):before {
-  @apply content-[''] bg-n400 absolute w-full h-[2px] right-2/4 top-[30%] mx-2 -translate-y-2/4;
+  @apply content-[''] bg-n400 absolute w-[50%] h-[2px] right-full top-[50%] mx-2 -translate-y-2/4;
 }
 
 .step {
@@ -19,7 +19,7 @@
 }
 
 .complete p {
-  @apply text-white;
+  @apply text-green-950;
 }
 
 .complete:not(:first-child):before,

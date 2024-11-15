@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Layout from "../../component/employeelayout";
+// import Layout from "../../layout";
 import Stepper from "@/components/custom-navigation/Stepper/Stepp";
 import PersonalDetails from "./personal-details/page";
 import ContactDetails from "./contact-details/page";
@@ -54,30 +54,37 @@ const StepperPage: React.FC = () => {
   const title = stepTitles[currentStep - 1];
 
   return (
-    <Layout>
-      <div className="mt-100 relative h-full">
-        {/* <Stepper
-          isHideStepper={false}
-          title={title}
-          steps={steps}
-          stepTitles={stepTitles}
-          currentStep={currentStep}
-          disableButton={false}
-          complete={complete}
-          onComplete={handleComplete}
-          onSubmit={() => null}
-        />
+    // <Layout>
+    // </Layout>
+    <div className="mt-100 relative h-full">
+      <Stepper
+        isHideStepper={false}
+        title={title}
+        steps={steps}
+        stepTitles={stepTitles}
+        currentStep={currentStep}
+        disableButton={false}
+        complete={complete}
+        onComplete={handleComplete}
+        onSubmit={() => null}
+      />
 
-        <div className="flex items-center gap-2 mt-6">
-          <button className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center" disabled={currentStep === 1} onClick={handleBack}>
-            Back
-          </button>
-          <button className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center" onClick={handleNext}>
-            {currentStep === steps.length ? "Finish" : "Next"}
-          </button>
-        </div> */}
+      <div className="flex items-center gap-2 mt-6">
+        <button
+          className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center"
+          disabled={currentStep === 1}
+          onClick={handleBack}
+        >
+          Back
+        </button>
+        <button
+          className="rounded-[8px] border text-[#1F2937] py-2 border-[#D0D6DD99] bg-transparent w-[105px] text-center"
+          onClick={handleNext}
+        >
+          {currentStep === steps.length ? "Finish" : "Next"}
+        </button>
       </div>
-    </Layout>
+    </div>
   );
 };
 
