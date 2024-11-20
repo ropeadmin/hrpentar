@@ -31,9 +31,15 @@ const SidebarItem = ({ link, active }: SideBarItemProps) => {
             </p>
           </div>
           {![
+<<<<<<< HEAD
             "Onboarding",
             "Dashboard",
             "Company",
+=======
+            "Dashboard",
+            "Company",
+            "Employee",
+>>>>>>> employee-feature
             "Documents",
             "Assets",
             "Settings",
@@ -63,4 +69,7 @@ const SidebarItem = ({ link, active }: SideBarItemProps) => {
 };
 
 export default SidebarItem;
+<<<<<<< HEAD
 
+=======
+>>>>>>> employee-feature

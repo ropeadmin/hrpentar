@@ -29,6 +29,7 @@ const Sidebar = () => {
 
   const links: SideBarItemLink[] = [
     {
+<<<<<<< HEAD
       name: "Onboarding",
       icon:
         currentPath === "/employee/onboarding"
@@ -38,6 +39,8 @@ const Sidebar = () => {
       paths: [""],
     },
     {
+=======
+>>>>>>> employee-feature
       name: "Dashboard",
       icon:
         currentPath === "/dashboard"
@@ -56,6 +59,18 @@ const Sidebar = () => {
       paths: ["company"],
     },
     {
+<<<<<<< HEAD
+=======
+      name: "Employee",
+      icon:
+        currentPath === "/dashboard/employee"
+          ? "/icons/company.svg"
+          : "/icons/company.svg",
+      to: "/dashboard/employee",
+      paths: ["employee"],
+    },
+    {
+>>>>>>> employee-feature
       name: "People",
       icon:
         currentPath === "/dashboard/people"
@@ -219,7 +234,11 @@ const Sidebar = () => {
                   {sliceText(15, profile?.business?.businessName)}
                 </h1>
                 <p className="text-[11px] font-[400] text-white truncate">
+<<<<<<< HEAD
                   {/* {sliceText(15, profile?.business?.address?.city)} */}
+=======
+                  {/* {sliceText(15, profile?.business?.address.city)} */}
+>>>>>>> employee-feature
                 </p>
               </div>
             </div>

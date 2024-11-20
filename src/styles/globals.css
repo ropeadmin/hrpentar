@@ -532,6 +532,12 @@ body {
   border: none;
   border-radius: 8px;
 }
+
+.checkbox-red:checked {
+  background-color: red;
+  border-color: red;
+}
+
 /* 
 @layer base {
   :root {
