@@ -1083,9 +1083,9 @@ const AddEmployee = () => {
                                       | Promise<React.AwaitedReactNode>
                                       | React.Key
                                       | null
-                                      | undefined
+                                      | undefined, index
                                   ) => (
-                                    <Chip  label={value} />
+                                    <Chip key={index}  label={value} />
                                   )
                                 )}
                               </Box>

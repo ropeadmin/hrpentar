@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Layout from "../../component/employeelayout";
 import Stepper from "@/components/custom-navigation/Stepper/Stepp";
 import PersonalDetails from "./personal-details/page";
 import ContactDetails from "./contact-details/page";
@@ -54,7 +53,6 @@ const StepperPage: React.FC = () => {
   const title = stepTitles[currentStep - 1];
 
   return (
-    <Layout>
       <div className="mt-100 relative h-full">
         {/* <Stepper
           isHideStepper={false}
@@ -77,7 +75,6 @@ const StepperPage: React.FC = () => {
           </button>
         </div> */}
       </div>
-    </Layout>
   );
 };
 
