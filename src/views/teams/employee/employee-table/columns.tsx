@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { MoreVertical } from "lucide-react";
-import { FormDataTableType } from "@/store/features/form-builder/type";
 
 import {
   Dialog,
@@ -23,9 +22,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { useDeleteFormMutation } from "@/store/features/form-builder/formBuilderService";
-import { toast } from "react-toastify";
-import { DepartmentType } from "@/types/dept.type";
 import { EmployeeType } from "@/types/employee.type";
 
 // ** Type
