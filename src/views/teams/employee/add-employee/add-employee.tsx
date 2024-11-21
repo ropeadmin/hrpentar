@@ -35,6 +35,7 @@ import {
     status,
     workHours,
   } from "@/lib/employeeData";
+import { lastDayOfDecade } from "date-fns";
   
 const AddEmployee = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -426,6 +427,124 @@ const AddEmployee = () => {
         },
       }));
     };
+
+    const handleStepActions = (e: any) => {
+      e.preventDefault();
+      switch (currentStep) {
+        case 0:
+          console.log("Step 0");
+          handlePersonalDetails()
+          break;
+        case 1:
+          handleContractDetails();
+          break;
+        case 2:
+          handleJobDetails();
+          break;
+        case 3:
+          handlePaymentDetails();
+          break;
+        case 4:
+          handleSalaryComposition();
+          break;
+        case 5:
+          handleDocument();
+          break;
+        // case 6:
+        //   handleAsset();
+        //   break;
+        case 6:
+          handleFinalSubmit();
+          break;
+        default:
+          console.log("Unsupported");
+          break;
+      }
+    };
+
+    const handlePersonalDetails = () => {
+      const { firstName, lastName, nationality, middleName, dateOfBirth, email, phone, gender, maritalStatus, religion, countryOfResidence, address } = formData;
+      const personalData = {
+        firstName,
+        lastName,
+        middleName,
+        dateOfBirth,
+        email,
+        phoneNumber: phone,
+        gender,
+        maritalStatus,
+        religion,
+        countryOfResidence: nationality,
+        address: address.address,
+      }
+      console.log(personalData);
+
+      nextStep();
+    }
+
+    const handleContractDetails = () => {
+      const { contract } = formData;
+      nextStep();
+    }
+    
+    const handleJobDetails = () => {
+      nextStep();
+    }
+
+    const handlePaymentDetails = () => {
+      nextStep();
+    }
+
+    const handleSalaryComposition = () => {
+      nextStep();
+    }
+
+    const handleDocument = () => {
+      nextStep();
+    }
+
+    const handleAsset = () => {
+      nextStep();
+    }
+   
+    const handleFinalSubmit = () => {
+      const { firstName, lastName, middleName, dateOfBirth, email, phone, gender, maritalStatus, religion, countryOfResidence, address, jobDetails } = formData;
+      const finalSubmit = {
+        firstName,
+        lastName,
+        middleName,
+        dateOfBirth,
+        email,
+        phoneNumber: phone,
+        gender,
+        maritalStatus,
+        religion,
+        countryOfResidence,
+        address: address.address,
+        state: address.state,
+        salary: {
+          gross: "20,000",
+          net: "16,000",
+          pension: "1000",
+          tax: "500",
+          allowance: "12,000"
+        }, 
+        details: {
+          type: jobDetails.employmentType,
+          departments: jobDetails.department,
+          role: jobDetails.role,
+          cadre: jobDetails.jobCadre,
+          lineManager: jobDetails.reportTo,
+          branch: jobDetails.branch,
+          employeeId: jobDetails.employeeId,
+          email: jobDetails.workEmail,
+          joinData: jobDetails.startDate
+        }
+      }
+
+      console.log(finalSubmit)
+    }
+    
   
     return (
       <div>
@@ -444,8 +563,8 @@ const AddEmployee = () => {
             <div className="w-full max-w-4xl">
               {/* Form */}
               <form
+                onSubmit={handleStepActions}
                 className="w-[100%] overflow-auto remove-scroll-bar"
-                onSubmit={currentStep === 4 ? handleSalaryCalculation : handleSubmit}
               >
                 {/* step 1  */}
                 {currentStep === 0 && (
