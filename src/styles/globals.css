@@ -119,22 +119,21 @@ body {
     text-wrap: balance;
   } */
 
-  width
-  /* ::-webkit-scrollbar {
-    width: 4px;
+  ::-webkit-scrollbar {
+    width: 8px;
     height: 4px;
-    border-radius: 4px
-  } */
+    border-radius: 4px;
+  }
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: transparent;
     border-radius: 40px;
   }
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #ef0000;
+    background: #dadce0;
     border-radius: 40px;
   }
 
