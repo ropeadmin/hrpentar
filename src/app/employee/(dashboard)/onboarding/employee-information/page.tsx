@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Stepper from "@/components/custom-navigation/Stepper/Stepp";
-import PersonalDetails from "./personal-details/page";
-import ContactDetails from "./contact-details/page";
-import PaymentDetails from "./payment-details/page";
-import Forms from "./component/forms";
-import Assets from "./component/assets";
+import React, { JSX, useState } from 'react';
+import Stepper from '@/components/custom-navigation/Stepper/Stepp';
+import PersonalDetails from './personal-details/page';
+import ContactDetails from './contact-details/page';
+import PaymentDetails from './payment-details/page';
+import Forms from './component/forms';
+import Assets from './component/assets';
 
 const StepperPage: React.FC = () => {
   const steps = [
@@ -18,11 +18,11 @@ const StepperPage: React.FC = () => {
   ];
 
   const stepTitles = [
-    "PersonalDetails",
-    "ContactDetails",
-    "PaymentDetails",
-    "Forms",
-    "Assets",
+    'PersonalDetails',
+    'ContactDetails',
+    'PaymentDetails',
+    'Forms',
+    'Assets',
   ];
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -30,11 +30,11 @@ const StepperPage: React.FC = () => {
 
   const handleComplete = () => {
     setComplete(true);
-    alert("All steps completed");
+    alert('All steps completed');
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted");
+    console.log('Form submitted');
   };
 
   const handleNext = () => {
@@ -53,8 +53,8 @@ const StepperPage: React.FC = () => {
   const title = stepTitles[currentStep - 1];
 
   return (
-      <div className="mt-100 relative h-full">
-        {/* <Stepper
+    <div className="mt-100 relative h-full">
+      {/* <Stepper
           isHideStepper={false}
           title={title}
           steps={steps}
@@ -74,7 +74,7 @@ const StepperPage: React.FC = () => {
             {currentStep === steps.length ? "Finish" : "Next"}
           </button>
         </div> */}
-      </div>
+    </div>
   );
 };
 

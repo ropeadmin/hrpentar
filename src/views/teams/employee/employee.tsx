@@ -1,7 +1,7 @@
 'use client'
 
 import { ButtonBase } from "@mui/material";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { DataTable } from "./employee-table/data-table";
 import { columns } from "./employee-table/columns";
 import { Button } from '@/components/ui/button'
@@ -44,7 +44,7 @@ const Employees = () => {
   const [data, setData] = useState([]);
 
 
-  const handleTabClick = (key: React.SetStateAction<string>) => {
+  const handleTabClick = (key: SetStateAction<string>) => {
     setActiveTab(key);
   };
 

@@ -41,7 +41,8 @@
 
 @font-face {
   font-family: 'Cabinet Grotesk';
-  src: url('/fonts/CabinetGrotesk/CabinetGrotesk-Regular.otf') format('opentype');
+  src: url('/fonts/CabinetGrotesk/CabinetGrotesk-Regular.otf')
+    format('opentype');
   font-weight: 400;
   font-style: normal;
 }
@@ -62,18 +63,19 @@
 
 @font-face {
   font-family: 'Cabinet Grotesk';
-  src: url('/fonts/CabinetGrotesk/CabinetGrotesk-Extralight.otf') format('opentype');
+  src: url('/fonts/CabinetGrotesk/CabinetGrotesk-Extralight.otf')
+    format('opentype');
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Cabinet Grotesk';
-  src: url('/fonts/CabinetGrotesk/CabinetGrotesk-Extrabold.otf') format('opentype');
+  src: url('/fonts/CabinetGrotesk/CabinetGrotesk-Extrabold.otf')
+    format('opentype');
   font-weight: 800;
   font-style: normal;
 }
-
 
 body {
   font-family: 'Cabinet Grotesk', sans-serif;
@@ -83,6 +85,33 @@ body {
   display: none;
 }
 
+/* ========== Customizeed ScrollBar ========== */
+.sideBar {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #18191a #18191a;
+}
+
+.sideBar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sideBar::-webkit-scrollbar-track {
+  border: 1px solid #a8a8a8;
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+}
+
+.scrollbar::-webkit-scrollbar-track:hover {
+  background: #242526;
+}
+
+.sideBar:hover::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 23px;
+  height: 4px;
+}
 
 /* Scrollbar styling */
 @layer utilities {
@@ -105,13 +134,13 @@ body {
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #EF0000;
+    background: #ef0000;
     border-radius: 40px;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #EF0000;
+    background: #ef0000;
   }
 }
 
@@ -122,11 +151,13 @@ body {
 .auth-glass {
   /* From https://css.glass */
   border-radius: 12px;
-  background: linear-gradient(148deg, rgba(0, 0, 0, 0.16) 24.31%, rgba(255, 255, 255, 0.50) 127.58%);
+  background: linear-gradient(
+    148deg,
+    rgba(0, 0, 0, 0.16) 24.31%,
+    rgba(255, 255, 255, 0.5) 127.58%
+  );
   backdrop-filter: blur(6px);
 }
-
-
 
 /* Phone Number Style*/
 .react-international-phone-country-selector {
@@ -140,71 +171,96 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px solid var(--react-international-phone-country-selector-border-color, var(--react-international-phone-border-color, #D0D6DD));
+  border: 1px solid
+    var(
+      --react-international-phone-country-selector-border-color,
+      var(--react-international-phone-border-color, #d0d6dd)
+    );
   margin: 0;
   appearance: button;
   -webkit-appearance: button;
-  background-color: var(--react-international-phone-country-selector-background-color, var(--react-international-phone-background-color, white));
+  background-color: var(
+    --react-international-phone-country-selector-background-color,
+    var(--react-international-phone-background-color, white)
+  );
   cursor: pointer;
   text-transform: none;
-  user-select: none
+  user-select: none;
 }
 
 .react-international-phone-country-selector-button:hover {
-  background-color: var(--react-international-phone-country-selector-background-color-hover, whitesmoke)
+  background-color: var(
+    --react-international-phone-country-selector-background-color-hover,
+    whitesmoke
+  );
 }
 
 .react-international-phone-country-selector-button--hide-dropdown {
-  cursor: auto
+  cursor: auto;
 }
 
 .react-international-phone-country-selector-button--hide-dropdown:hover {
-  background-color: transparent
+  background-color: transparent;
 }
 
 .react-international-phone-country-selector-button__button-content {
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 
 .react-international-phone-country-selector-button__flag-emoji {
-  margin: 0 4px
+  margin: 0 4px;
 }
 
 .react-international-phone-country-selector-button__flag-emoji--disabled {
-  opacity: .75
+  opacity: 0.75;
 }
 
 .react-international-phone-country-selector-button__dropdown-arrow {
-  border-top: var(--react-international-phone-country-selector-arrow-size, 4px) solid var(--react-international-phone-country-selector-arrow-color, #777);
-  border-right: var(--react-international-phone-country-selector-arrow-size, 4px) solid transparent;
-  border-left: var(--react-international-phone-country-selector-arrow-size, 4px) solid transparent;
+  border-top: var(--react-international-phone-country-selector-arrow-size, 4px)
+    solid var(--react-international-phone-country-selector-arrow-color, #777);
+  border-right: var(
+      --react-international-phone-country-selector-arrow-size,
+      4px
+    )
+    solid transparent;
+  border-left: var(--react-international-phone-country-selector-arrow-size, 4px)
+    solid transparent;
   margin-right: 4px;
-  transition: all .1s ease-out
+  transition: all 0.1s ease-out;
 }
 
 .react-international-phone-country-selector-button__dropdown-arrow--active {
-  transform: rotateX(180deg)
+  transform: rotateX(180deg);
 }
 
 .react-international-phone-country-selector-button__dropdown-arrow--disabled {
-  border-top-color: var(--react-international-phone-disabled-country-selector-arrow-color, #999)
+  border-top-color: var(
+    --react-international-phone-disabled-country-selector-arrow-color,
+    #999
+  );
 }
 
 .react-international-phone-country-selector-button--disabled {
-  background-color: var(--react-international-phone-disabled-country-selector-background-color, var(--react-international-phone-disabled-background-color, whitesmoke));
-  cursor: auto
+  background-color: var(
+    --react-international-phone-disabled-country-selector-background-color,
+    var(--react-international-phone-disabled-background-color, whitesmoke)
+  );
+  cursor: auto;
 }
 
 .react-international-phone-country-selector-button--disabled:hover {
-  background-color: var(--react-international-phone-disabled-country-selector-background-color, var(--react-international-phone-disabled-background-color, whitesmoke))
+  background-color: var(
+    --react-international-phone-disabled-country-selector-background-color,
+    var(--react-international-phone-disabled-background-color, whitesmoke)
+  );
 }
 
 .react-international-phone-flag-emoji {
   width: var(--react-international-phone-flag-width, 24px);
   height: var(--react-international-phone-flag-height, 24px);
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 .react-international-phone-country-selector-dropdown {
@@ -218,18 +274,33 @@ body {
   flex-direction: column;
   padding: 4px 0;
   margin: 0;
-  background-color: var(--react-international-phone-dropdown-item-background-color, var(--react-international-phone-background-color, white));
-  box-shadow: var(--react-international-phone-dropdown-shadow, 2px 2px 16px rgba(0, 0, 0, .25));
-  color: var(--react-international-phone-dropdown-item-text-color, var(--react-international-phone-text-color, #222));
+  background-color: var(
+    --react-international-phone-dropdown-item-background-color,
+    var(--react-international-phone-background-color, white)
+  );
+  box-shadow: var(
+    --react-international-phone-dropdown-shadow,
+    2px 2px 16px rgba(0, 0, 0, 0.25)
+  );
+  color: var(
+    --react-international-phone-dropdown-item-text-color,
+    var(--react-international-phone-text-color, #222)
+  );
   list-style: none;
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 
 .react-international-phone-country-selector-dropdown__preferred-list-divider {
   height: 1px;
   border: none;
-  margin: var(--react-international-phone-dropdown-preferred-list-divider-margin, 0);
-  background: var(--react-international-phone-dropdown-preferred-list-divider-color, var(--react-international-phone-border-color, gainsboro))
+  margin: var(
+    --react-international-phone-dropdown-preferred-list-divider-margin,
+    0
+  );
+  background: var(
+    --react-international-phone-dropdown-preferred-list-divider-color,
+    var(--react-international-phone-border-color, gainsboro)
+  );
 }
 
 .react-international-phone-country-selector-dropdown__list-item {
@@ -237,11 +308,11 @@ body {
   min-height: var(--react-international-phone-dropdown-item-height, 28px);
   box-sizing: border-box;
   align-items: center;
-  padding: 2px 8px
+  padding: 2px 8px;
 }
 
 .react-international-phone-country-selector-dropdown__list-item-flag-emoji {
-  margin-right: 8px
+  margin-right: 8px;
 }
 
 .react-international-phone-country-selector-dropdown__list-item-country-name {
@@ -249,30 +320,55 @@ body {
   margin-right: 8px;
   font-size: var(--react-international-phone-dropdown-item-font-size, 14px);
   text-overflow: ellipsis;
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 .react-international-phone-country-selector-dropdown__list-item-dial-code {
   color: var(--react-international-phone-dropdown-item-dial-code-color, gray);
-  font-size: var(--react-international-phone-dropdown-item-font-size, 14px)
+  font-size: var(--react-international-phone-dropdown-item-font-size, 14px);
 }
 
 .react-international-phone-country-selector-dropdown__list-item:hover {
-  background-color: var(--react-international-phone-selected-dropdown-item-background-color, var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke));
-  cursor: pointer
+  background-color: var(
+    --react-international-phone-selected-dropdown-item-background-color,
+    var(
+      --react-international-phone-selected-dropdown-item-background-color,
+      whitesmoke
+    )
+  );
+  cursor: pointer;
 }
 
-.react-international-phone-country-selector-dropdown__list-item--selected,.react-international-phone-country-selector-dropdown__list-item--focused {
-  background-color: var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke);
-  color: var(--react-international-phone-selected-dropdown-item-text-color, var(--react-international-phone-text-color, #222))
+.react-international-phone-country-selector-dropdown__list-item--selected,
+.react-international-phone-country-selector-dropdown__list-item--focused {
+  background-color: var(
+    --react-international-phone-selected-dropdown-item-background-color,
+    whitesmoke
+  );
+  color: var(
+    --react-international-phone-selected-dropdown-item-text-color,
+    var(--react-international-phone-text-color, #222)
+  );
 }
 
-.react-international-phone-country-selector-dropdown__list-item--selected .react-international-phone-country-selector-dropdown__list-item-dial-code,.react-international-phone-country-selector-dropdown__list-item--focused .react-international-phone-country-selector-dropdown__list-item-dial-code {
-  color: var(--react-international-phone-selected-dropdown-item-dial-code-color, var(--react-international-phone-dropdown-item-dial-code-color, gray))
+.react-international-phone-country-selector-dropdown__list-item--selected
+  .react-international-phone-country-selector-dropdown__list-item-dial-code,
+.react-international-phone-country-selector-dropdown__list-item--focused
+  .react-international-phone-country-selector-dropdown__list-item-dial-code {
+  color: var(
+    --react-international-phone-selected-dropdown-item-dial-code-color,
+    var(--react-international-phone-dropdown-item-dial-code-color, gray)
+  );
 }
 
 .react-international-phone-country-selector-dropdown__list-item--focused {
-  background-color: var(--react-international-phone-selected-dropdown-item-background-color, var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke))
+  background-color: var(
+    --react-international-phone-selected-dropdown-item-background-color,
+    var(
+      --react-international-phone-selected-dropdown-item-background-color,
+      whitesmoke
+    )
+  );
 }
 
 .react-international-phone-dial-code-preview {
@@ -280,16 +376,35 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0 8px;
-  border: 1px solid var(--react-international-phone-dial-code-preview-border-color, var(--react-international-phone-border-color, gainsboro));
+  border: 1px solid
+    var(
+      --react-international-phone-dial-code-preview-border-color,
+      var(--react-international-phone-border-color, gainsboro)
+    );
   margin-right: -1px;
-  background-color: var(--react-international-phone-dial-code-preview-background-color, var(--react-international-phone-background-color, white));
-  color: var(--react-international-phone-dial-code-preview-text-color, var(--react-international-phone-text-color, #222));
-  font-size: var(--react-international-phone-dial-code-preview-font-size, var(--react-international-phone-font-size, 13px))
+  background-color: var(
+    --react-international-phone-dial-code-preview-background-color,
+    var(--react-international-phone-background-color, white)
+  );
+  color: var(
+    --react-international-phone-dial-code-preview-text-color,
+    var(--react-international-phone-text-color, #222)
+  );
+  font-size: var(
+    --react-international-phone-dial-code-preview-font-size,
+    var(--react-international-phone-font-size, 13px)
+  );
 }
 
 .react-international-phone-dial-code-preview--disabled {
-  background-color: var(--react-international-phone-dial-code-preview-disabled-background-color, var(--react-international-phone-disabled-background-color, whitesmoke));
-  color: var(--react-international-phone-dial-code-preview-disabled-text-color, var(--react-international-phone-disabled-text-color, #666))
+  background-color: var(
+    --react-international-phone-dial-code-preview-disabled-background-color,
+    var(--react-international-phone-disabled-background-color, whitesmoke)
+  );
+  color: var(
+    --react-international-phone-dial-code-preview-disabled-text-color,
+    var(--react-international-phone-disabled-text-color, #666)
+  );
 }
 
 .react-international-phone-input-container {
@@ -298,7 +413,8 @@ body {
   /* height: 44px; */
 }
 
-.react-international-phone-input-container .react-international-phone-country-selector-button {
+.react-international-phone-input-container
+  .react-international-phone-country-selector-button {
   border-radius: var(--react-international-phone-border-radius, 8px);
   margin-right: -1px;
   border-bottom-right-radius: 0;
@@ -312,39 +428,44 @@ body {
   /* height: var(--react-international-phone-height, 52px); */
   box-sizing: border-box;
   padding: 12px 8px;
-  border: 1px solid var(--react-international-phone-border-color, #D0D6DD);
+  border: 1px solid var(--react-international-phone-border-color, #d0d6dd);
   border-radius: var(--react-international-phone-border-radius, 8px);
   margin: 0;
   background-color: var(--react-international-phone-background-color, white);
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-  color: var(--react-international-phone-text-color, #0F1625);
+  color: var(--react-international-phone-text-color, #0f1625);
   font-size: var(--react-international-phone-font-size, 14px);
   width: 100%;
   line-height: 1;
 }
 
-.react-international-phone-input-container .react-international-phone-input:focus {
-  outline: none
+.react-international-phone-input-container
+  .react-international-phone-input:focus {
+  outline: none;
 }
 
-.react-international-phone-input-container .react-international-phone-input--disabled {
-  background-color: var(--react-international-phone-disabled-background-color, whitesmoke);
-  color: var(--react-international-phone-disabled-text-color, #666)
+.react-international-phone-input-container
+  .react-international-phone-input--disabled {
+  background-color: var(
+    --react-international-phone-disabled-background-color,
+    whitesmoke
+  );
+  color: var(--react-international-phone-disabled-text-color, #666);
 }
-
-
 
 .styled-country-dropdown {
   height: 35px;
 }
 
-.styled-country-dropdown label.Mui-focused {}
+.styled-country-dropdown label.Mui-focused {
+}
 
-.styled-country-dropdown .MuiInput-underline:after {}
+.styled-country-dropdown .MuiInput-underline:after {
+}
 
 .styled-country-dropdown .MuiOutlinedInput-root {
-  background: #FFF;
+  background: #fff;
   border-radius: 8px;
   transition: 0.6s;
   color: #080808;
@@ -354,7 +475,7 @@ body {
 }
 
 .styled-country-dropdown .MuiOutlinedInput-root fieldset {
-  border-color: #E3E3E3;
+  border-color: #e3e3e3;
 }
 
 .styled-country-dropdown .MuiOutlinedInput-root:hover fieldset {
@@ -363,11 +484,11 @@ body {
 
 .styled-country-dropdown .MuiOutlinedInput-root.Mui-focused fieldset {
   border: 1px solid;
-  border-color: #5CB67F;
+  border-color: #5cb67f;
 }
 
 .styled-country-dropdown::placeholder {
-  color: #8E8E8E;
+  color: #8e8e8e;
 }
 
 /* Override dropdown background and text color */
@@ -399,7 +520,6 @@ body {
   color: white !important;
 }
 
-
 .custom-flag-select {
   border-radius: 8px;
 }
@@ -418,11 +538,9 @@ body {
   border-radius: 12px;
 }
 
-
 .modal-bg {
-  background: linear-gradient(179deg, #F0F1F7 15.73%, #FFF 49.36%);
+  background: linear-gradient(179deg, #f0f1f7 15.73%, #fff 49.36%);
 }
-
 
 /* Increase specificity for slick dots */
 .slick-dots li button:before {
@@ -440,11 +558,9 @@ body {
   height: 25px !important;
 }
 
-
 .overflowHidden {
-  overflow:hidden !important;
+  overflow: hidden !important;
 }
-
 
 /* Side Bar */
 .sidebar-container {
@@ -546,8 +662,8 @@ body {
 } */
 @layer base {
   :root {
-    --sidebar-background: #0F1625;
-    --sidebar-foreground:red;
+    --sidebar-background: #0f1625;
+    --sidebar-foreground: red;
     --sidebar-primary: red;
     --sidebar-primary-foreground: red;
     --sidebar-accent: 240 4.8% 95.9%;
@@ -569,7 +685,7 @@ body {
 
 /* In your Tailwind CSS file */
 @layer utilities {
-  .select-trigger[data-placeholder="true"] {
+  .select-trigger[data-placeholder='true'] {
     @apply text-gray-400; /* Adjust color as needed */
   }
 }

@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
 // import Layout from "../../../component/employeelayout";
-import { useRef, useState } from "react";
-import Image from "next/image";
-import MyTextField from "@/app/components/Fields/MyTextField";
-import SelectGroup from "@/app/components/Fields/SelectGroup";
+import { ChangeEvent, FC, useRef, useState } from 'react';
+import Image from 'next/image';
+import MyTextField from '@/app/components/Fields/MyTextField';
+import SelectGroup from '@/app/components/Fields/SelectGroup';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
-const PersonalDetails: React.FC = () => {
+const PersonalDetails: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     setSelectedFile(file);
   };
@@ -24,16 +24,16 @@ const PersonalDetails: React.FC = () => {
   const handleRemoveFile = () => {
     setSelectedFile(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = '';
     }
   };
   const [personalDetailsForm, setPersonalDetailsForm] = useState({
-    first_name: "",
-    last_name: "",
+    first_name: '',
+    last_name: '',
   });
 
   // Function to handle input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPersonalDetailsForm({
       ...personalDetailsForm,
@@ -167,8 +167,8 @@ const PersonalDetails: React.FC = () => {
                     label="Gender"
                     placeholder="Select your gender"
                     options={[
-                      { value: "male", label: "Male" },
-                      { value: "female", label: "Female" },
+                      { value: 'male', label: 'Male' },
+                      { value: 'female', label: 'Female' },
                     ]}
                   />
                   <SelectGroup
@@ -177,8 +177,8 @@ const PersonalDetails: React.FC = () => {
                     label="Marital Status"
                     placeholder="Select marital status"
                     options={[
-                      { value: "married", label: "Married" },
-                      { value: "divorced", label: "Divorced" },
+                      { value: 'married', label: 'Married' },
+                      { value: 'divorced', label: 'Divorced' },
                     ]}
                   />
                   <SelectGroup
@@ -187,9 +187,9 @@ const PersonalDetails: React.FC = () => {
                     label="Religion"
                     placeholder="Select religion"
                     options={[
-                      { value: "christian", label: "Christian" },
-                      { value: "muslim", label: "Muslim" },
-                      { value: "trad", label: "Traditional Worshipper" },
+                      { value: 'christian', label: 'Christian' },
+                      { value: 'muslim', label: 'Muslim' },
+                      { value: 'trad', label: 'Traditional Worshipper' },
                     ]}
                   />
                   <SelectGroup
@@ -198,9 +198,9 @@ const PersonalDetails: React.FC = () => {
                     label="Nationality"
                     placeholder="Select nationality"
                     options={[
-                      { value: "nigerian", label: "Nigerian" },
-                      { value: "korean", label: "Korean" },
-                      { value: "ghanian", label: "Ghanian" },
+                      { value: 'nigerian', label: 'Nigerian' },
+                      { value: 'korean', label: 'Korean' },
+                      { value: 'ghanian', label: 'Ghanian' },
                     ]}
                   />
                 </div>
@@ -239,8 +239,8 @@ const PersonalDetails: React.FC = () => {
                     label="State"
                     placeholder="Select your state"
                     options={[
-                      { value: "male", label: "Male" },
-                      { value: "female", label: "Female" },
+                      { value: 'male', label: 'Male' },
+                      { value: 'female', label: 'Female' },
                     ]}
                   />
                   <SelectGroup
@@ -249,8 +249,8 @@ const PersonalDetails: React.FC = () => {
                     label="Country"
                     placeholder="Select your country"
                     options={[
-                      { value: "ng", label: "Nigeria" },
-                      { value: "sa", label: "South Africa" },
+                      { value: 'ng', label: 'Nigeria' },
+                      { value: 'sa', label: 'South Africa' },
                     ]}
                   />
                 </div>
@@ -273,10 +273,10 @@ const PersonalDetails: React.FC = () => {
                     label="Highest Level of Education Attained"
                     placeholder="Select your highest education attained"
                     options={[
-                      { value: "hnd", label: "Higher National Diploma" },
-                      { value: "bsc", label: "Bachelor" },
-                      { value: "msc", label: "Masters" },
-                      { value: "msc", label: "Phd" },
+                      { value: 'hnd', label: 'Higher National Diploma' },
+                      { value: 'bsc', label: 'Bachelor' },
+                      { value: 'msc', label: 'Masters' },
+                      { value: 'msc', label: 'Phd' },
                     ]}
                   />
                 </div>

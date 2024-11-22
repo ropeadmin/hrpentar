@@ -1,6 +1,6 @@
-import { Checkbox, IconButton, Menu, MenuItem } from "@mui/material";
-import Table from "./Table";
-import { Key } from "react";
+import { Key, ReactNode } from 'react';
+import { Checkbox, IconButton, Menu, MenuItem } from '@mui/material';
+import Table from './Table';
 
 const BranchTable = ({
   branches,
@@ -96,23 +96,29 @@ const BranchTable = ({
                   </div>
                 </td>
                 <td className="px-3 py-4 whitespace-nowrap">
-                <div className="flex gap-2 items-center">
-                  <p>{branch?.name}</p>
-                  {branch?.main === true && <div className="rounded-full px-[8px] py-[2px] bg-[#F9F5FF] border-[#E9D7FE] border"><p className='leading-none text-[12px] font-[700] text-[#A056FF]'>Main</p></div>}
-                </div>
-              </td>
+                  <div className="flex gap-2 items-center">
+                    <p>{branch?.name}</p>
+                    {branch?.main === true && (
+                      <div className="rounded-full px-[8px] py-[2px] bg-[#F9F5FF] border-[#E9D7FE] border">
+                        <p className="leading-none text-[12px] font-[700] text-[#A056FF]">
+                          Main
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </td>
                 <td className="px-3 py-4">{branch?.address}</td>
                 <td className="px-3 py-4">{branch?.branchId}</td>
-                <td className="px-3 py-4">{branch?.department || "-----"}</td>
-                <td className="px-3 py-4">{branch?.member || "-----"}</td>
+                <td className="px-3 py-4">{branch?.department || '-----'}</td>
+                <td className="px-3 py-4">{branch?.member || '-----'}</td>
                 <td className="px-3 py-4">
                   <div
                     className={`py-[8px] px-[8px] rounded-[8px] text-[12px] font-[700] leading-none w-fit ${
-                      branch.status === "ACTIVE"
-                        ? "bg-[#F3FBF7] text-[#0BA259]"
-                        : branch.status === "Deactivated"
-                        ? "bg-[#FFF3F3] text-[#EF0000]"
-                        : "bg-[#F0F2F5] text-[#0F1625]"
+                      branch.status === 'ACTIVE'
+                        ? 'bg-[#F3FBF7] text-[#0BA259]'
+                        : branch.status === 'Deactivated'
+                          ? 'bg-[#FFF3F3] text-[#EF0000]'
+                          : 'bg-[#F0F2F5] text-[#0F1625]'
                     }`}
                   >
                     {branch.status}
@@ -185,18 +191,18 @@ export const BranchMenu = ({
       PaperProps={{
         elevation: 0,
         sx: {
-          borderRadius: "12px",
-          overflow: "visible",
-          boxShadow: "0px 12px 12px 0px rgba(0, 0, 0, 0.05)",
+          borderRadius: '12px',
+          overflow: 'visible',
+          boxShadow: '0px 12px 12px 0px rgba(0, 0, 0, 0.05)',
           mt: 1.5,
           ml: 2.2,
-          width: "auto", // Ensure the width adjusts to content
-          maxWidth: "300px", // Optional: to limit how wide the menu can grow
-          padding: "8px 12px", // Adjust padding for better content fitting
-          whiteSpace: "nowrap", // Prevent content from wrapping to the next line
+          width: 'auto', // Ensure the width adjusts to content
+          maxWidth: '300px', // Optional: to limit how wide the menu can grow
+          padding: '8px 12px', // Adjust padding for better content fitting
+          whiteSpace: 'nowrap', // Prevent content from wrapping to the next line
         },
       }}
-      transformOrigin={{ horizontal: "right", vertical: "top" }}
+      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
     >
       {/* <BranchMenuItem onClick={onSwitch} title="Switch to" /> */}
       <BranchMenuItem onClick={onEdit} title="Edit branch" />
@@ -220,20 +226,20 @@ export const BranchMenuItem = ({
 }: {
   color?: string;
   title?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   onClick?: any;
 }) => {
   return (
-    <MenuItem sx={{ borderRadius: "10px" }} onClick={onClick}>
+    <MenuItem sx={{ borderRadius: '10px' }} onClick={onClick}>
       <div className="w-full h-[31px] flex justify-start items-center gap-[8px]">
         {/* {icon} */}
         <span
-          className={"font-[500] text-sm text-[#323B49]"}
+          className={'font-[500] text-sm text-[#323B49]'}
           style={{
             color,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
           }}
         >
           {title}

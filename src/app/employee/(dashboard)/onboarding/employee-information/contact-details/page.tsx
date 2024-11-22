@@ -1,31 +1,31 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { ChangeEvent, FC, useState } from 'react';
 // import Image from "next/image";
-import API from "@/constants/api.constant";
-import useRequest from "@/services/request.service";
-import { catchAsync } from "@/helpers/api.helper";
-import MyTextField from "@/app/components/Fields/MyTextField";
-import SelectGroup from "@/app/components/Fields/SelectGroup";
-import { useSnackbar } from "notistack";
+import API from '@/constants/api.constant';
+import useRequest from '@/services/request.service';
+import { catchAsync } from '@/helpers/api.helper';
+import MyTextField from '@/app/components/Fields/MyTextField';
+import SelectGroup from '@/app/components/Fields/SelectGroup';
+import { useSnackbar } from 'notistack';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
-const ContactDetails: React.FC = () => {
+const ContactDetails: FC = () => {
   const [personalDetailsForm, setPersonalDetailsForm] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
+    first_name: '',
+    last_name: '',
+    email: '',
   });
   const { makeRequest, isLoading } = useRequest();
   const { enqueueSnackbar } = useSnackbar();
 
   // Function to handle input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPersonalDetailsForm({
       ...personalDetailsForm,
@@ -45,12 +45,12 @@ const ContactDetails: React.FC = () => {
   const handleSubmit = async () => {
     // Check if all properties in personalDetailsForm are filled
     const isFormValid = Object.values(personalDetailsForm).every(
-      (value) => value.trim() !== ""
+      (value) => value.trim() !== ''
     );
 
     if (!isFormValid) {
-      enqueueSnackbar("Please fill all fields!", {
-        variant: "rope_snackbar",
+      enqueueSnackbar('Please fill all fields!', {
+        variant: 'rope_snackbar',
         autoHideDuration: 5000,
         error: true,
       });
@@ -60,7 +60,7 @@ const ContactDetails: React.FC = () => {
     await catchAsync(
       async () => {
         const res = await makeRequest({
-          method: "POST",
+          method: 'POST',
           url: API.register,
           data: personalDetailsForm,
         });
@@ -72,16 +72,16 @@ const ContactDetails: React.FC = () => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -186,8 +186,8 @@ const ContactDetails: React.FC = () => {
                   label="Marital Status"
                   placeholder="Select marital status"
                   options={[
-                    { value: "married", label: "Married" },
-                    { value: "divorced", label: "Divorced" },
+                    { value: 'married', label: 'Married' },
+                    { value: 'divorced', label: 'Divorced' },
                   ]}
                 />
               </div>
@@ -209,14 +209,14 @@ const ContactDetails: React.FC = () => {
             }}
             className={`${
               !isFormValid()
-                ? "bg-[#f0f2f5] text-[#a0aec0]"
-                : "bg-[#0f1625] text-white"
+                ? 'bg-[#f0f2f5] text-[#a0aec0]'
+                : 'bg-[#0f1625] text-white'
             } transition-all w-[169px] duration-150 py-[16px] px-5 rounded-[8px] text-base font-medium ${
-              isLoading || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
+              isLoading || !isFormValid() ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             disabled={!isFormValid() || isLoading}
           >
-            {isLoading ? "Please wait..." : "Save & Continue"}
+            {isLoading ? 'Please wait...' : 'Save & Continue'}
           </button>
         </div>
       </div>

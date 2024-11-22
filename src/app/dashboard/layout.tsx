@@ -1,15 +1,22 @@
-import { cookies } from "next/headers"
-import { AppSidebar } from "@/layouts/app-sidebar/app-sidebar";
-import DashboardNavbar from "@/layouts/navbar/dashboard-navbar";
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { ReactNode } from 'react';
+import { cookies } from 'next/headers';
+import { AppSidebar } from '@/layouts/app-sidebar/app-sidebar';
+import DashboardNavbar from '@/layouts/navbar/dashboard-navbar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-
-  const cookieStore = await cookies()
-  const defaultOpen = cookieStore.get("sidebar:state")?.value === "true"
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true';
 
   return (
-    <SidebarProvider defaultOpen={defaultOpen} className="flex w-full h-full relative">
+    <SidebarProvider
+      defaultOpen={defaultOpen}
+      className="flex w-full h-full relative"
+    >
       <AppSidebar />
       <div className="absolute right-0 left-0 z-10">
         <DashboardNavbar />

@@ -1,29 +1,29 @@
-"use client";
-import MyTextField from "@/app/components/Fields/MyTextField";
-import { AppModal } from "@/app/components/Modals";
-import CreateCompanyStepper from "@/app/components/Stepper/CreateCompanyStepper";
-import CompanyTable from "@/app/components/Table/CompanyTable";
-import API from "@/constants/api.constant";
-import { catchAsync } from "@/helpers/api.helper";
-import useAppTheme from "@/hooks/theme.hook";
-import useRequest from "@/services/request.service";
-import useAccountRequest from "@/services/accountRequest.service";
-import { ButtonBase, IconButton, MenuItem } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useSnackbar } from "notistack";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import useUploadsService from "@/services/uploads.service";
-import { useDropzone } from "react-dropzone";
-import { Bounce, toast } from "react-toastify";
-import { matchesQuery } from "@/helpers";
-import { sliceText } from "@/utils/formatter/formatter";
-import { profileUpdateAction } from "@/store/profile.slice";
-import useGlobalState from "@/hooks/globalstate.hook";
+'use client';
+import MyTextField from '@/app/components/Fields/MyTextField';
+import { AppModal } from '@/app/components/Modals';
+import CreateCompanyStepper from '@/app/components/Stepper/CreateCompanyStepper';
+import CompanyTable from '@/app/components/Table/CompanyTable';
+import API from '@/constants/api.constant';
+import { catchAsync } from '@/helpers/api.helper';
+import useAppTheme from '@/hooks/theme.hook';
+import useRequest from '@/services/request.service';
+import useAccountRequest from '@/services/accountRequest.service';
+import { ButtonBase, IconButton, MenuItem } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { useSnackbar } from 'notistack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import useUploadsService from '@/services/uploads.service';
+import { useDropzone } from 'react-dropzone';
+import { Bounce, toast } from 'react-toastify';
+import { matchesQuery } from '@/helpers';
+import { sliceText } from '@/utils/formatter/formatter';
+import { profileUpdateAction } from '@/store/profile.slice';
+import useGlobalState from '@/hooks/globalstate.hook';
 
 export default function Company() {
   const { isMobile } = useAppTheme();
-  const [activeTab, setActiveTab] = useState("companies");
+  const [activeTab, setActiveTab] = useState('companies');
   const [company, setCompany] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -36,7 +36,7 @@ export default function Company() {
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const {profile} = useGlobalState();
+  const { profile } = useGlobalState();
   const dispatch = useDispatch();
   const {
     makeRequest: createBusinessRequest,
@@ -60,7 +60,7 @@ export default function Company() {
     makeRequest: businessActivateRequest,
     isLoading: isLoadingBusinessActivate,
   } = useAccountRequest();
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState('');
   const [business, setBusiness] = useState<any>([]);
   const {
     uploadFiles,
@@ -128,10 +128,10 @@ export default function Company() {
 
   // On Branch View
   const handleBranchNavigation = (company: any) => {
-    localStorage.setItem("company-details", JSON.stringify(company)); // Store as string
+    localStorage.setItem('company-details', JSON.stringify(company)); // Store as string
     const formattedBusinessName = company?.businessName
       .toLowerCase() // Convert to lowercase
-      .replace(/\s+/g, "-"); // Replace spaces with dashes
+      .replace(/\s+/g, '-'); // Replace spaces with dashes
 
     router.push(`/dashboard/company/${company?._id}/branches`);
   };
@@ -141,28 +141,28 @@ export default function Company() {
     setSuccessModal(false);
     setCurrentStep(1);
     setFormData({
-      businessName: "",
-      businessRegistrationNumber: "",
-      size: "",
-      businessType: "",
-      subsidiary: "",
-      subsidiaryDetails: "",
-      companyPrefix: "",
-      industryType: "",
+      businessName: '',
+      businessRegistrationNumber: '',
+      size: '',
+      businessType: '',
+      subsidiary: '',
+      subsidiaryDetails: '',
+      companyPrefix: '',
+      industryType: '',
       address: {
-        country: "",
-        state: "",
-        address: "",
-        city: "",
-        postalCode: "",
+        country: '',
+        state: '',
+        address: '',
+        city: '',
+        postalCode: '',
       },
       director: {
-        name: "",
-        email: "",
-        country: "",
-        idCard: [""],
-        position: "",
-        signature: "",
+        name: '',
+        email: '',
+        country: '',
+        idCard: [''],
+        position: '',
+        signature: '',
       },
     });
   };
@@ -175,20 +175,20 @@ export default function Company() {
     setFormData({ ...formData, size: '' });
     const fetchedData = await getBusiness();
     setBusiness(fetchedData);
-};
+  };
 
-console.log(business);
+  console.log(business);
 
   const tabs = [
     {
-      key: "companies",
-      label: "Companies",
-      borderRadius: "6px",
+      key: 'companies',
+      label: 'Companies',
+      borderRadius: '6px',
     },
     {
-      key: "organization_chart",
-      label: "Organization chart",
-      borderRadius: "6px",
+      key: 'organization_chart',
+      label: 'Organization chart',
+      borderRadius: '6px',
     },
   ];
 
@@ -206,7 +206,7 @@ console.log(business);
       // Upload the files using the provided upload function and success callback
       await uploadFiles(files, onSuccess);
     } catch (error) {
-      console.log("File upload failed:", error);
+      console.log('File upload failed:', error);
     }
   };
 
@@ -235,8 +235,8 @@ console.log(business);
     onDrop: (acceptedFiles: File[]) =>
       handleFileUpload(acceptedFiles, uploadFiles, onFileUploadSuccess),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
-      "application/pdf": [".pdf"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
+      'application/pdf': ['.pdf'],
     },
   });
 
@@ -253,8 +253,8 @@ console.log(business);
         onSignatureUploadSuccess
       ),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
-      "application/pdf": [".pdf"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
+      'application/pdf': ['.pdf'],
     },
   });
 
@@ -263,21 +263,21 @@ console.log(business);
     catchAsync(
       async () => {
         const res = await deleteFileRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: API.upload,
           data: { key: file },
         });
 
-        const { data } = res?.data;
-        toast.success("File deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('File deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
         setUploadedDirectorIdFile(null);
@@ -287,16 +287,16 @@ console.log(business);
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -310,21 +310,21 @@ console.log(business);
     catchAsync(
       async () => {
         const res = await deleteFileRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: API.upload,
           data: { key: file },
         });
 
-        const { data } = res?.data;
-        toast.success("File deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('File deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
         setUploadedDirectorSignatureFile(null);
@@ -334,16 +334,16 @@ console.log(business);
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -353,42 +353,42 @@ console.log(business);
   };
 
   const [formData, setFormData] = useState({
-    businessName: "",
-    businessRegistrationNumber: "",
-    size: "",
-    businessType: "",
-    subsidiary: "",
-    subsidiaryDetails: "",
-    companyPrefix: "",
-    industryType: "",
+    businessName: '',
+    businessRegistrationNumber: '',
+    size: '',
+    businessType: '',
+    subsidiary: '',
+    subsidiaryDetails: '',
+    companyPrefix: '',
+    industryType: '',
     address: {
-      country: "",
-      state: "",
-      address: "",
-      city: "",
-      postalCode: "",
+      country: '',
+      state: '',
+      address: '',
+      city: '',
+      postalCode: '',
     },
     director: {
-      name: "",
-      email: "",
-      country: "",
-      idCard: [""],
-      position: "",
-      signature: "",
+      name: '',
+      email: '',
+      country: '',
+      idCard: [''],
+      position: '',
+      signature: '',
     },
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (name === "businessName") {
+    if (name === 'businessName') {
       // Update both businessName and companyPrefix
       setFormData({
         ...formData,
         businessName: value,
         companyPrefix: value.slice(0, 3).toUpperCase(),
       });
-    } else if (name === "address" || name === "postalCode") {
+    } else if (name === 'address' || name === 'postalCode') {
       // If updating address-related fields (address or postalCode)
       setFormData({
         ...formData,
@@ -397,13 +397,13 @@ console.log(business);
           [name]: value, // Update the specific field inside the address object
         },
       });
-    } else if (["directorName", "email", "position"].includes(name)) {
+    } else if (['directorName', 'email', 'position'].includes(name)) {
       // If updating fields inside the director object
       setFormData({
         ...formData,
         director: {
           ...formData.director,
-          [name === "directorName" ? "name" : name]: value, // Dynamically update director.name, director.email, or director.position
+          [name === 'directorName' ? 'name' : name]: value, // Dynamically update director.name, director.email, or director.position
         },
       });
     } else {
@@ -422,7 +422,7 @@ console.log(business);
     country: formData.address.country,
     businessType: formData.businessType,
     industryType: formData.industryType,
-    subsidiary: "Just a test sub",
+    subsidiary: 'Just a test sub',
     main: false,
     address: {
       country: formData.address.country,
@@ -452,14 +452,14 @@ console.log(business);
       catchAsync(
         async () => {
           const res = await createBusinessRequest({
-            method: "POST",
+            method: 'POST',
             url: API.createBusiness,
             data: payload, // Submit collected form data
           });
 
           const { data } = res;
 
-          if (data?.status === "SUCCESS") {
+          if (data?.status === 'SUCCESS') {
             setShowModal(false);
             setSuccessModal(true);
             getBusiness();
@@ -468,8 +468,8 @@ console.log(business);
         (error: any) => {
           // Handle error response
           enqueueSnackbar(
-            error?.response?.data?.message || "An error occurred",
-            { variant: "error" }
+            error?.response?.data?.message || 'An error occurred',
+            { variant: 'error' }
           );
         }
       );
@@ -481,27 +481,27 @@ console.log(business);
     catchAsync(
       async () => {
         const res = await businessRequest({
-          method: "GET",
+          method: 'GET',
           url: API.createBusiness,
         });
 
-        const { data } = res?.data;
+        const { data } = res?.data || {};
         setBusiness(data);
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -519,20 +519,20 @@ console.log(business);
     catchAsync(
       async () => {
         const res = await businessDeleteRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: `${API.createBusiness}?id=${selectedCompany2?._id}`,
         });
 
-        const { data } = res?.data;
-        toast.success("Company deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('Company deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
         getBusiness();
@@ -542,16 +542,16 @@ console.log(business);
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -565,21 +565,21 @@ console.log(business);
     catchAsync(
       async () => {
         const res = await businessDeactivateRequest({
-          method: "PATCH",
+          method: 'PATCH',
           url: `${API.createBusiness}/activation?id=${selectedCompany2?._id}`,
-          data: { status: "Deactivated" },
+          data: { status: 'Deactivated' },
         });
 
-        const { data } = res?.data;
-        toast.success("Company deactivated successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('Company deactivated successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
         getBusiness();
@@ -589,16 +589,16 @@ console.log(business);
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -612,21 +612,21 @@ console.log(business);
     catchAsync(
       async () => {
         const res = await businessActivateRequest({
-          method: "PATCH",
+          method: 'PATCH',
           url: `${API.createBusiness}/activation?id=${selectedCompany2?._id}`,
-          data: { status: "Active" },
+          data: { status: 'Active' },
         });
 
-        const { data } = res?.data;
-        toast.success("Company activated successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('Company activated successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
         getBusiness();
@@ -636,16 +636,16 @@ console.log(business);
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -658,7 +658,7 @@ console.log(business);
 
   // Function to handle the search input change
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchInputChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -696,52 +696,52 @@ console.log(business);
   });
 
   const companySize = [
-    "10 - 50",
-    "51 - 100",
-    "100 - 200",
-    "200 - 500",
-    "501 - above",
+    '10 - 50',
+    '51 - 100',
+    '100 - 200',
+    '200 - 500',
+    '501 - above',
   ];
 
   const businessTypes = [
-    "Limited Liability Company",
-    "Private Company",
-    "Sole Proprietorship",
-    "Small-Medium Enterprise",
-    "NGOs (Governmental)",
+    'Limited Liability Company',
+    'Private Company',
+    'Sole Proprietorship',
+    'Small-Medium Enterprise',
+    'NGOs (Governmental)',
   ];
 
-  const subsidiary = ["Yes", "No"];
+  const subsidiary = ['Yes', 'No'];
 
   const stateCityMap: any = {
     Nigeria: {
-      Lagos: ["Ikeja", "Victoria Island", "Lekki"],
-      Abuja: ["Garki", "Wuse", "Maitama"],
-      Kano: ["Kano City", "Tarauni", "Nassarawa"],
-      Kaduna: ["Kaduna South", "Kaduna North", "Giwa"],
-      Rivers: ["Port Harcourt", "Obio-Akpor", "Ikwerre"],
+      Lagos: ['Ikeja', 'Victoria Island', 'Lekki'],
+      Abuja: ['Garki', 'Wuse', 'Maitama'],
+      Kano: ['Kano City', 'Tarauni', 'Nassarawa'],
+      Kaduna: ['Kaduna South', 'Kaduna North', 'Giwa'],
+      Rivers: ['Port Harcourt', 'Obio-Akpor', 'Ikwerre'],
     },
     USA: {
-      California: ["Los Angeles", "San Francisco", "San Diego"],
-      NewYork: ["New York City", "Buffalo", "Rochester"],
-      Texas: ["Houston", "Dallas", "Austin"],
-      Florida: ["Miami", "Orlando", "Tampa"],
-      Washington: ["Seattle", "Spokane", "Tacoma"],
+      California: ['Los Angeles', 'San Francisco', 'San Diego'],
+      NewYork: ['New York City', 'Buffalo', 'Rochester'],
+      Texas: ['Houston', 'Dallas', 'Austin'],
+      Florida: ['Miami', 'Orlando', 'Tampa'],
+      Washington: ['Seattle', 'Spokane', 'Tacoma'],
     },
     // Add more countries and their states with cities here...
   };
 
   const countries = [
-    "Afghanistan",
-    "Albania",
-    "Algeria",
-    "Luxembourg",
-    "United Arab Emirates",
-    "United Kingdom",
-    "United States",
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'Luxembourg',
+    'United Arab Emirates',
+    'United Kingdom',
+    'United States',
   ];
 
-  const industryTypes = ["Finance", "Technology"];
+  const industryTypes = ['Finance', 'Technology'];
 
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -754,8 +754,8 @@ console.log(business);
       address: {
         ...formData.address,
         country: selectedCountry,
-        state: "", // Reset state when country changes
-        city: "", // Reset city when country changes
+        state: '', // Reset state when country changes
+        city: '', // Reset city when country changes
         address: formData.address.address, // Keep the existing address
       },
     });
@@ -777,7 +777,7 @@ console.log(business);
       address: {
         ...formData.address,
         state: selectedState,
-        city: "", // Reset city when state changes
+        city: '', // Reset city when state changes
         address: formData.address.address, // Keep the existing address
       },
     });
@@ -800,7 +800,6 @@ console.log(business);
   const [businessMenuOpen, setBusinessMenuOpen] = useState<Array<boolean>>([]);
   const [anchorElTip, setAnchorElTip] = useState(null);
 
-
   const handleOpen = (event: any, id: number) => {
     event.preventDefault(); // Prevent the default action (e.g., following a link)
     event.stopPropagation(); // Stop the event from propagating further
@@ -821,22 +820,22 @@ console.log(business);
     setAnchorElTip(null);
   };
 
-
-
   // State for selected business ID and details
   const [selectedBusinessId, setSelectedBusinessId] = useState('');
-  const [selectedBusinessDetails, setSelectedBusinessDetails] = useState<any>(null);
+  const [selectedBusinessDetails, setSelectedBusinessDetails] =
+    useState<any>(null);
 
   // Handle dropdown change
-  const handleSwitchChange = (event: { target: { value: any; }; }) => {
+  const handleSwitchChange = (event: { target: { value: any } }) => {
     const selectedId = event.target.value;
     setSelectedBusinessId(selectedId);
 
     // Find and set the full business details based on selected ID
-    const selectedBusiness = business.find((b: { _id: any; }) => b._id === selectedId);
+    const selectedBusiness = business.find(
+      (b: { _id: any }) => b._id === selectedId
+    );
     setSelectedBusinessDetails(selectedBusiness);
   };
-
 
   const handleSwitchConfirmOpen = () => {
     setSwitchCompanyConfirmModal(true);
@@ -853,31 +852,31 @@ console.log(business);
     catchAsync(
       async () => {
         const res = await businessSwitchRequest({
-          method: "GET",
+          method: 'GET',
           url: `${API.switchBusiness}?business=${selectedBusinessId}`,
         });
 
-        const { data } = res?.data;
+        const { data } = res?.data || {};
         dispatch(profileUpdateAction(data));
         setSwitchCompanyModal(false);
         setSelectedBusinessId('');
-        setSelectedBusinessDetails(null)
-        setSwitchCompanyConfirmModal(false)
+        setSelectedBusinessDetails(null);
+        setSwitchCompanyConfirmModal(false);
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -885,10 +884,6 @@ console.log(business);
       }
     );
   };
-
-
-  
-
 
   return (
     <div>
@@ -909,10 +904,10 @@ console.log(business);
             <div
               className={`py-2 px-3 cursor-pointer transform transition duration-500 ease-in-out`}
               style={{
-                backgroundColor: activeTab === tab.key ? "#F0F2F5" : "#FBFBFC",
-                color: activeTab === tab.key ? "#0F1625" : "#687588",
+                backgroundColor: activeTab === tab.key ? '#F0F2F5' : '#FBFBFC',
+                color: activeTab === tab.key ? '#0F1625' : '#687588',
                 borderRadius: tab.borderRadius,
-                fontWeight: activeTab === tab.key ? "500" : "500",
+                fontWeight: activeTab === tab.key ? '500' : '500',
                 // border:
                 //   activeTab === tab.key
                 //     ? "0.5px solid #E4E8EC"
@@ -1070,13 +1065,13 @@ console.log(business);
         open={showModal}
         handleClose={() => setShowModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "20px 20px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '20px 20px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1342,11 +1337,11 @@ console.log(business);
                     <div className="bg-[#F9FAFB] flex gap-3 items-center w-full rounded-[6px] py-[10px] px-[14px]">
                       <img
                         src={
-                          uploadedDirectorIdFileName.includes("png")
-                            ? "/icons/png-icon.svg"
-                            : uploadedDirectorIdFileName.includes("pdf")
-                            ? "/icons/pdf-icon.svg"
-                            : "/icons/pdf-icon.svg"
+                          uploadedDirectorIdFileName.includes('png')
+                            ? '/icons/png-icon.svg'
+                            : uploadedDirectorIdFileName.includes('pdf')
+                              ? '/icons/pdf-icon.svg'
+                              : '/icons/pdf-icon.svg'
                         }
                         alt=""
                         width={20}
@@ -1369,7 +1364,7 @@ console.log(business);
                     <div
                       {...getRootProps()}
                       className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
-                        isDragActive ? "bg-gray-100" : ""
+                        isDragActive ? 'bg-gray-100' : ''
                       }`}
                     >
                       <input {...getInputProps()} />
@@ -1402,11 +1397,11 @@ console.log(business);
                     <div className="bg-[#F9FAFB] flex gap-3 items-center w-full rounded-[6px] py-[10px] px-[14px]">
                       <img
                         src={
-                          uploadedDirectorSignatureFileName.includes("png")
-                            ? "/icons/png-icon.svg"
-                            : uploadedDirectorSignatureFileName.includes("pdf")
-                            ? "/icons/pdf-icon.svg"
-                            : "/icons/pdf-icon.svg"
+                          uploadedDirectorSignatureFileName.includes('png')
+                            ? '/icons/png-icon.svg'
+                            : uploadedDirectorSignatureFileName.includes('pdf')
+                              ? '/icons/pdf-icon.svg'
+                              : '/icons/pdf-icon.svg'
                         }
                         alt=""
                         width={20}
@@ -1431,7 +1426,7 @@ console.log(business);
                     <div
                       {...getSignatureRootProps()}
                       className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
-                        isDragActive ? "bg-gray-100" : ""
+                        isDragActive ? 'bg-gray-100' : ''
                       }`}
                     >
                       <input {...getSignatureInputProps()} />
@@ -1470,7 +1465,7 @@ console.log(business);
               type="submit"
               className="text-white bg-[#0f1625] py-[10px] px-[14px] rounded-[8px] text-base font-medium leading-none"
             >
-              {currentStep === 3 ? "Create Company" : "Save & Continue"}
+              {currentStep === 3 ? 'Create Company' : 'Save & Continue'}
             </button>
           </div>
         </form>
@@ -1481,13 +1476,13 @@ console.log(business);
         open={successModal}
         handleClose={handleCloseSuccessModal}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 35px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "512px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 35px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '512px'}`,
         }}
       >
         <div className="w-full flex justify-end">
@@ -1510,7 +1505,7 @@ console.log(business);
             <p className="text-[#0F1625] text-[16px] font-[400] mt-2 leading-tight">
               <span className="font-[700]">{formData.businessName}</span> has
               been added to your list of companies. Kindly switch companies to
-              gain access and complete KYC in settings.{" "}
+              gain access and complete KYC in settings.{' '}
             </p>
           </div>
         </div>
@@ -1538,13 +1533,13 @@ console.log(business);
         open={switchCompanyModal}
         handleClose={() => setSwitchCompanyModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1568,22 +1563,22 @@ console.log(business);
         </div>
 
         <MyTextField
-        id="switchCompany"
-        name="switchCompany"
-        label="Switch company"
-        placeholder=""
-        type="text"
-        value={selectedBusinessId}
-        onChange={handleSwitchChange}
-        select
-        required
-      >
-        {business.map((b: any, i: React.Key | null | undefined) => (
-          <MenuItem key={i} value={b._id}>
-            {b.businessName}
-          </MenuItem>
-        ))}
-      </MyTextField>
+          id="switchCompany"
+          name="switchCompany"
+          label="Switch company"
+          placeholder=""
+          type="text"
+          value={selectedBusinessId}
+          onChange={handleSwitchChange}
+          select
+          required
+        >
+          {business.map((b: any, i: React.Key | null | undefined) => (
+            <MenuItem key={i} value={b._id}>
+              {b.businessName}
+            </MenuItem>
+          ))}
+        </MyTextField>
         <div className="flex items-center justify-end gap-3 w-full mt-3">
           <button
             type="button"
@@ -1607,13 +1602,13 @@ console.log(business);
         open={switchCompanyConfirmModal}
         handleClose={handleSwitchConfirmClose}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1631,10 +1626,13 @@ console.log(business);
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to make a switch from{" "}
-          <span className="font-[700]">{profile?.business?.businessName}</span> to{" "}
-          <span className="font-[700]">{selectedBusinessDetails?.businessName}</span>. Click “Switch
-          company” to confirm this action.
+          You are about to make a switch from{' '}
+          <span className="font-[700]">{profile?.business?.businessName}</span>{' '}
+          to{' '}
+          <span className="font-[700]">
+            {selectedBusinessDetails?.businessName}
+          </span>
+          . Click “Switch company” to confirm this action.
         </p>
 
         <div className="flex items-center justify-end gap-3 w-full mt-3">
@@ -1660,13 +1658,13 @@ console.log(business);
         open={deactivateCompanyModal}
         handleClose={handleCloseDeactivateModal}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1687,10 +1685,10 @@ console.log(business);
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to deactivate{" "}
+          You are about to deactivate{' '}
           <span className="font-[700]">
-            {selectedCompany2?.businessName || "-----"}
-          </span>{" "}
+            {selectedCompany2?.businessName || '-----'}
+          </span>{' '}
           from your companies. Once deactivated, this company would no longer be
           active
         </p>
@@ -1709,8 +1707,8 @@ console.log(business);
             onClick={deactivateBusiness}
           >
             {isLoadingBusinessDeactivate
-              ? "Please wait..."
-              : "Deactivate company"}
+              ? 'Please wait...'
+              : 'Deactivate company'}
           </button>
         </div>
       </AppModal>
@@ -1720,13 +1718,13 @@ console.log(business);
         open={activateCompanyModal}
         handleClose={handleCloseActivateModal}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1747,10 +1745,10 @@ console.log(business);
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to Activate{" "}
+          You are about to Activate{' '}
           <span className="font-[700]">
-            {selectedCompany2?.businessName || "-----"}
-          </span>{" "}
+            {selectedCompany2?.businessName || '-----'}
+          </span>{' '}
           . Once Activated, this company would be visible
         </p>
 
@@ -1767,7 +1765,7 @@ console.log(business);
             className="text-white bg-[#0BA259] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             onClick={activateBusiness}
           >
-            {isLoadingBusinessActivate ? "Please wait..." : "Activate company"}
+            {isLoadingBusinessActivate ? 'Please wait...' : 'Activate company'}
           </button>
         </div>
       </AppModal>
@@ -1777,13 +1775,13 @@ console.log(business);
         open={deleteCompanyModal}
         handleClose={handleCloseDeleteModal}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1804,10 +1802,10 @@ console.log(business);
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to delete{" "}
+          You are about to delete{' '}
           <span className="font-[700]">
-            {selectedCompany2?.businessName || "-----"}
-          </span>{" "}
+            {selectedCompany2?.businessName || '-----'}
+          </span>{' '}
           from your companies. Once deleted, all data would be wiped and no
           longer accessible. This action cannot be undone.
         </p>
@@ -1825,7 +1823,7 @@ console.log(business);
             className="text-white bg-[#EF0000] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             onClick={deleteBusiness}
           >
-            {isLoadingBusinessDelete ? "Please wait..." : "Delete company"}
+            {isLoadingBusinessDelete ? 'Please wait...' : 'Delete company'}
           </button>
         </div>
       </AppModal>

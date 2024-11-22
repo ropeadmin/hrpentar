@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
 import { IconButton, alpha } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import styled from '@mui/material/styles/styled';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -12,15 +12,15 @@ const StyledTextField = styled(TextField)({
   '& label.Mui-focused': {},
   '& .MuiInput-underline:after': {},
   '& .MuiOutlinedInput-root': {
-    'background': '#FFF',
-    'borderRadius': '8px',
-    'transition': '.6s',
-    'color': '#0F1625',
-    'fontSize': '16px',
-    'fontWeight': '400',
-    'fontFamily': 'Cabinet Grotesk',
-    'padding': '2px 2px 2px 2px',
-    'lineHeight': '1',
+    background: '#FFF',
+    borderRadius: '8px',
+    transition: '.6s',
+    color: '#0F1625',
+    fontSize: '16px',
+    fontWeight: '400',
+    fontFamily: 'Cabinet Grotesk',
+    padding: '2px 2px 2px 2px',
+    lineHeight: '1',
 
     '& fieldset': {
       borderColor: '#D0D6DD',
@@ -46,11 +46,11 @@ interface MyTextFieldProps {
   label?: string;
   placeholder: string;
   error?: string | any;
-  leadingIcon?: React.ReactNode;
+  leadingIcon?: ReactNode;
   optional?: boolean;
   multiline?: boolean;
   onLeadingClick?: () => void;
-  suffixIcon?: React.ReactNode;
+  suffixIcon?: ReactNode;
   onSuffixIconClick?: () => void;
   [key: string]: any;
 }
@@ -72,14 +72,14 @@ const MyTextField = ({
   const [obscured, setObscured] = useState<boolean>(true);
 
   const renderPrefix = () => (
-    <IconButton size='small' onClick={onLeadingClick}>
+    <IconButton size="small" onClick={onLeadingClick}>
       {leadingIcon}
     </IconButton>
   );
 
   const renderSuffix = () => (
     <IconButton
-      size='small'
+      size="small"
       onClick={onSuffixIconClick}
       disabled={!onSuffixIconClick}
     >
@@ -89,31 +89,31 @@ const MyTextField = ({
 
   const renderVisibilityIcons = () => (
     <IconButton
-      size='small'
+      size="small"
       onClick={() => {
         setObscured((prev) => !prev);
       }}
     >
       {obscured ? (
-        <VisibilityOffOutlinedIcon fontSize='small' htmlColor='#8E8E8E' />
+        <VisibilityOffOutlinedIcon fontSize="small" htmlColor="#8E8E8E" />
       ) : (
-        <VisibilityOutlinedIcon fontSize='small' htmlColor='#8E8E8E' />
+        <VisibilityOutlinedIcon fontSize="small" htmlColor="#8E8E8E" />
       )}
     </IconButton>
   );
 
   return (
     <div
-      className='w-full'
+      className="w-full"
       style={{
         marginBottom: 0,
       }}
     >
       {label && (
-        <h3 className='text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]'>
+        <h3 className="text-[3.5vw] sm:text-[14px] font-[500] mb-[5px] text-[#0F1625]">
           <span>{label}</span>{' '}
           {optional && (
-            <span className='text-odi-lite text-[12.5px] font-[200]'>
+            <span className="text-odi-lite text-[12.5px] font-[200]">
               (optional)
             </span>
           )}
@@ -128,8 +128,8 @@ const MyTextField = ({
           endAdornment: isObscured
             ? renderVisibilityIcons()
             : suffixIcon // if theres a suffix icon
-            ? renderSuffix()
-            : null,
+              ? renderSuffix()
+              : null,
         }}
         type={!obscured ? 'text' : type}
         inputProps={others}

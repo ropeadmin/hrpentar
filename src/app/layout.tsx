@@ -1,40 +1,36 @@
-import type { Metadata } from 'next'
-import { Onest } from 'next/font/google'
+import { ReactNode, Suspense } from 'react'; // Import Suspense from React
+import type { Metadata } from 'next';
+// import { Onest } from 'next/font/google'
 import Head from 'next/head';
-import { ReduxProvider } from './components/redux/provider'
+import { ReduxProvider } from './components/redux/provider';
 import AppSnackBarProvider from './components/SnackBars/SnackBars';
-import '../styles/globals.css'
-import { Suspense } from 'react'; // Import Suspense from React
+import '../styles/globals.css';
 import SplashScreen from './components/SplashScreen/SplashScreen';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const onest = Onest({ subsets: ["latin"] });
+// const onest = Onest({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PentaHR",
-  description: "PentaHR",
-  keywords: "PentaHR",
+  title: 'PentaHR',
+  description: 'PentaHR',
+  keywords: 'PentaHR',
   openGraph: {
-    title: "",
-    description: "",
-    url: "",
-    siteName: "PentaHR",
+    title: '',
+    description: '',
+    url: '',
+    siteName: 'PentaHR',
     images: [
       {
-        url: "",
-        alt: "",
+        url: '',
+        alt: '',
       },
     ],
-    type: "website",
+    type: 'website',
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <Head>
@@ -43,9 +39,7 @@ export default function RootLayout({
       <body>
         <AppSnackBarProvider>
           <ReduxProvider>
-            <Suspense fallback={<SplashScreen />}>
-              {children}
-            </Suspense>
+            <Suspense fallback={<SplashScreen />}>{children}</Suspense>
             <ToastContainer
               position="top-right"
               autoClose={500}
@@ -62,5 +56,5 @@ export default function RootLayout({
         </AppSnackBarProvider>
       </body>
     </html>
-  )
+  );
 }

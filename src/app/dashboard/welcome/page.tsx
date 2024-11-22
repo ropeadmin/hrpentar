@@ -1,15 +1,16 @@
-"use client";
-import Banner from "@/app/components/Banner/Banner";
-import { AppModal } from "@/app/components/Modals";
-import API from "@/constants/api.constant";
-import { catchAsync } from "@/helpers/api.helper";
+'use client';
+
+import { useEffect, useState } from 'react';
+import Banner from '@/app/components/Banner/Banner';
+import { AppModal } from '@/app/components/Modals';
+import API from '@/constants/api.constant';
+import { catchAsync } from '@/helpers/api.helper';
 // import useAuthRedirect from "@/hooks/authredirect.hook";
 // import useAppTheme from "@/hooks/theme.hook";
-import useRequest from "@/services/request.service";
-import { ButtonBase } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
+import useRequest from '@/services/request.service';
+import { ButtonBase } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { useSnackbar } from 'notistack';
 
 export default function Welcome() {
   const { makeRequest, isLoading } = useRequest();
@@ -28,39 +29,39 @@ export default function Welcome() {
   // Get Started Steps
   const steps: any = [
     {
-      header: "Complete your company profile",
-      title: "Fill in company information and customize account. ",
-      actionTitle: "Continue setup",
-      action: "/dashboard/settings",
-      completedKey: "completeCompanyProfile",
+      header: 'Complete your company profile',
+      title: 'Fill in company information and customize account. ',
+      actionTitle: 'Continue setup',
+      action: '/dashboard/settings',
+      completedKey: 'completeCompanyProfile',
     },
     {
-      header: "Submit documents for background checks and verification",
-      title: "Upload required documents needed to verify your business.",
-      actionTitle: "Submit documents",
-      action: "/dashboard/settings",
-      completedKey: "backgroundCheck",
+      header: 'Submit documents for background checks and verification',
+      title: 'Upload required documents needed to verify your business.',
+      actionTitle: 'Submit documents',
+      action: '/dashboard/settings',
+      completedKey: 'backgroundCheck',
     },
     {
-      header: "Setup organizations chart and directory",
-      title: "Build your company’s internal structure.",
-      actionTitle: "Setup organization",
-      action: "/",
-      completedKey: "organizationChart",
+      header: 'Setup organizations chart and directory',
+      title: 'Build your company’s internal structure.',
+      actionTitle: 'Setup organization',
+      action: '/',
+      completedKey: 'organizationChart',
     },
     {
-      header: "Onboard your success team",
-      title: "Create departments and add team members.",
-      actionTitle: "Create teams",
-      action: "/",
-      completedKey: "onboardTeam",
+      header: 'Onboard your success team',
+      title: 'Create departments and add team members.',
+      actionTitle: 'Create teams',
+      action: '/',
+      completedKey: 'onboardTeam',
     },
     {
-      header: "Make your first payment",
-      title: "Activate payroll and benefits.",
-      actionTitle: "Run payroll",
-      action: "/",
-      completedKey: "firstPayment",
+      header: 'Make your first payment',
+      title: 'Activate payroll and benefits.',
+      actionTitle: 'Run payroll',
+      action: '/',
+      completedKey: 'firstPayment',
     },
   ];
 
@@ -69,52 +70,52 @@ export default function Welcome() {
   }
   const stepFeatures = [
     {
-      icon: "/icons/upgrade.svg",
-      header: "Upgrade to standard plan",
-      title: "Subscribe to get access to more features.",
-      actionTitle: "Upgrade plan",
-      action: "",
+      icon: '/icons/upgrade.svg',
+      header: 'Upgrade to standard plan',
+      title: 'Subscribe to get access to more features.',
+      actionTitle: 'Upgrade plan',
+      action: '',
     },
     {
-      icon: "/icons/support.svg",
-      header: "Help & Support",
-      title: "Step by step platform guide on PentaHR.",
-      actionTitle: "Read articles",
-      action: "",
+      icon: '/icons/support.svg',
+      header: 'Help & Support',
+      title: 'Step by step platform guide on PentaHR.',
+      actionTitle: 'Read articles',
+      action: '',
     },
     {
-      icon: "/icons/tour.svg",
-      header: "App tour guide",
-      title: "An interactive tour to learn the basics  of our app.",
-      actionTitle: "Take tour",
-      action: "",
+      icon: '/icons/tour.svg',
+      header: 'App tour guide',
+      title: 'An interactive tour to learn the basics  of our app.',
+      actionTitle: 'Take tour',
+      action: '',
     },
   ];
 
   const welcomeTips = [
     {
-      image: "/icons/image-1.svg",
-      header: "Welcome onboard!",
+      image: '/icons/image-1.svg',
+      header: 'Welcome onboard!',
       title:
-        "Manage employees, optimize employee performance,  streamline recruitment, etc.",
+        'Manage employees, optimize employee performance,  streamline recruitment, etc.',
     },
     {
-      image: "/icons/image-2.svg",
-      header: "AI powered productivity",
+      image: '/icons/image-2.svg',
+      header: 'AI powered productivity',
       title:
-        "Get work done fast with AISA, Pentahr’s AI assistant tailored to your role.",
+        'Get work done fast with AISA, Pentahr’s AI assistant tailored to your role.',
     },
     {
-      image: "/icons/image-3.svg",
-      header: "Integrations",
+      image: '/icons/image-3.svg',
+      header: 'Integrations',
       title:
-        "Connect all your apps, zoom, skype, jira, github, excel, slack, etc.",
+        'Connect all your apps, zoom, skype, jira, github, excel, slack, etc.',
     },
     {
-      image: "/icons/image-4.svg",
-      header: "Manage payments",
+      image: '/icons/image-4.svg',
+      header: 'Manage payments',
       title:
-        "Run payroll and benefits, report an expense, raise invoices, etc...",
+        'Run payroll and benefits, report an expense, raise invoices, etc...',
     },
   ];
 
@@ -143,11 +144,11 @@ export default function Welcome() {
     catchAsync(
       async () => {
         const res = await makeRequest({
-          method: "GET",
+          method: 'GET',
           url: API.track,
         });
 
-        const { data } = res?.data;
+        const { data } = res?.data || {};
         if (data) {
           setOnboardingStatus({
             completeCompanyProfile: data.completeCompanyProfile,
@@ -162,10 +163,10 @@ export default function Welcome() {
       (error: any) => {
         const response = error?.response;
         const message =
-          response?.data?.data?.message || "An error occurred during sign up";
+          response?.data?.data?.message || 'An error occurred during sign up';
 
         enqueueSnackbar(message, {
-          variant: "rope_snackbar",
+          variant: 'rope_snackbar',
           autoHideDuration: 5000,
           error: true,
         });
@@ -249,8 +250,8 @@ export default function Welcome() {
                       <h1
                         className={`text-[16px] font-[700] ${
                           onboardingStatus[step.completedKey] === 1
-                            ? "text-gray-400 line-through"
-                            : "text-[#1F2937]"
+                            ? 'text-gray-400 line-through'
+                            : 'text-[#1F2937]'
                         }`}
                       >
                         {step.header}
@@ -258,8 +259,8 @@ export default function Welcome() {
                       <p
                         className={`text-[14px] font-[400] ${
                           onboardingStatus[step.completedKey] === 1
-                            ? "text-gray-400 line-through"
-                            : "text-[#323B49]"
+                            ? 'text-gray-400 line-through'
+                            : 'text-[#323B49]'
                         }`}
                       >
                         {step.title}
@@ -270,8 +271,8 @@ export default function Welcome() {
                     onClick={() => navigate.push(step.action)}
                     className={`px-[14px] py-[8px] rounded-[8px] border border-[#D0D6DD] leading-none text-[14px] font-[500] ${
                       onboardingStatus[step.completedKey] === 1
-                        ? "text-gray-400 line-through"
-                        : "text-[#1F2937]"
+                        ? 'text-gray-400 line-through'
+                        : 'text-[#1F2937]'
                     }`}
                   >
                     {step.actionTitle}
@@ -334,11 +335,11 @@ export default function Welcome() {
         handleClose={handleClose}
         style={{
           backgroundImage:
-            "linear-gradient(179deg, #F0F1F7 15.73%, #FFF 49.36%)",
-          padding: "30px",
-          position: "relative",
-          height: "auto",
-          width: "500px",
+            'linear-gradient(179deg, #F0F1F7 15.73%, #FFF 49.36%)',
+          padding: '30px',
+          position: 'relative',
+          height: 'auto',
+          width: '500px',
         }}
       >
         <div className="w-full flex justify-end">
@@ -366,7 +367,7 @@ export default function Welcome() {
             <div
               key={index}
               className={`w-[6px] h-[6px] rounded-full ${
-                modalIndex === index ? "bg-[#EF0000]" : "bg-[#E4E8EC]"
+                modalIndex === index ? 'bg-[#EF0000]' : 'bg-[#E4E8EC]'
               }`}
             ></div>
           ))}
@@ -403,7 +404,7 @@ export default function Welcome() {
             onClick={handleNext}
             className="px-[16px] py-[10px] rounded-[8px] border border-transparent leading-none text-[14px] font-[500] text-white bg-[#0F1625]"
           >
-            {modalIndex === welcomeTips.length - 1 ? "Finish" : "Continue"}
+            {modalIndex === welcomeTips.length - 1 ? 'Finish' : 'Continue'}
           </button>
         </div>
       </AppModal>

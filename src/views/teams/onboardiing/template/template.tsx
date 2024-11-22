@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import TemplateCard from './components/template-card';
-import { useDeleteTemplateMutation, useGetTemplateQuery } from '@/store/features/template/templateService';
+import {
+  useDeleteTemplateMutation,
+  useGetTemplateQuery,
+} from '@/store/features/template/templateService';
 import {
   Dialog,
   DialogContent,
@@ -10,36 +13,37 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog';
 import BuildTemplateModal from '../form-builder/form-table/build-template/build-template';
 import { toast } from 'react-toastify';
 import { useGetFormQuery } from '@/store/features/form-builder/formBuilderService';
 
-const Template = ({template}: {template : any}) => {
+const Template = () => {
   const [openTemplateDialog, setOpenTemplateDialog] = useState(false);
-  const { data: fetchTemplateData, isLoading:  isTemplateLoading } = useGetTemplateQuery()
-  const [deleteTemplate, { isLoading: isDeleteLoading, error }] = useDeleteTemplateMutation();
-  const { data: getForms, isLoading: isFormLoading } = useGetFormQuery()
+  const { data: fetchTemplateData } = useGetTemplateQuery();
+  const [deleteTemplate, { isLoading: isDeleteLoading }] =
+    useDeleteTemplateMutation();
+  const { data: getForms } = useGetFormQuery();
 
   const handleDeleteTemplate = async (templateId: string) => {
     await deleteTemplate([templateId])
-    .unwrap()
-    .then((res) => {
-      toast.success('Template deleted successfully')
-    })
-  } 
+      .unwrap()
+      .then(() => {
+        toast.success('Template deleted successfully');
+      });
+  };
 
   const handleCloseTemplateDialog = () => setOpenTemplateDialog(false);
 
   return (
     <Dialog open={openTemplateDialog} onOpenChange={setOpenTemplateDialog}>
-      <div className='flex items-center justify-between'>
+      <div className="flex items-center justify-between">
         {/* Header Component */}
         <div className="relative">
           <input
             type="text"
             id=""
-            value={""}
+            value={''}
             onChange={undefined}
             className="text-n500 text-sm font-medium leading-none rounded-lg bg-white border border-n300 outline-none w-[350px] pl-10 pr-4 py-[10px]"
             placeholder="Search template"
@@ -70,37 +74,46 @@ const Template = ({template}: {template : any}) => {
         </div>
         {/* butttons */}
         <DialogTrigger>
-          <Button className='mt-5 rounded-lg'>
+          <Button className="mt-5 rounded-lg">
             <Plus className="mr-2 h-5 w-5" /> Create template
           </Button>
         </DialogTrigger>
       </div>
 
       {/*  */}
-      <div className='mt-10 flex items-center space-x-5'>
-        {
-          fetchTemplateData?.data.map((item, index: number) => (
-            <TemplateCard id={item._id} name={item.name} handleDeleteTemplate={handleDeleteTemplate} isDeleteLoading={isDeleteLoading} key={index}  />
-          ))
-        }
+      <div className="mt-10 flex items-center space-x-5">
+        {fetchTemplateData?.data.map((item, index: number) => (
+          <TemplateCard
+            id={item._id}
+            name={item.name}
+            handleDeleteTemplate={handleDeleteTemplate}
+            isDeleteLoading={isDeleteLoading}
+            key={index}
+          />
+        ))}
         {/* <TemplateCard />
         <TemplateCard />
         <TemplateCard /> */}
       </div>
-       {/* Build Template Modal */}
-       <DialogContent className='max-w-[544px]'>
-          <DialogHeader>
-            <DialogTitle className="text-n900 text-2xl">Build onboarding template</DialogTitle>
-            <DialogDescription className="text-n900 text-sm">
-              Setup new template.
-            </DialogDescription>
-          </DialogHeader>
-          <div className=" py-2 ">
-            <BuildTemplateModal formData={getForms?.data ?? []} handleDialogClose = {handleCloseTemplateDialog} />
-          </div>
-        </DialogContent>
+      {/* Build Template Modal */}
+      <DialogContent className="max-w-[544px]">
+        <DialogHeader>
+          <DialogTitle className="text-n900 text-2xl">
+            Build onboarding template
+          </DialogTitle>
+          <DialogDescription className="text-n900 text-sm">
+            Setup new template.
+          </DialogDescription>
+        </DialogHeader>
+        <div className=" py-2 ">
+          <BuildTemplateModal
+            formData={getForms?.data ?? []}
+            handleDialogClose={handleCloseTemplateDialog}
+          />
+        </div>
+      </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default Template
+export default Template;

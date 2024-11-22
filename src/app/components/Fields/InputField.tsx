@@ -1,4 +1,5 @@
-import { FieldError } from "react-hook-form";
+import { InputHTMLAttributes } from 'react';
+import { FieldError } from 'react-hook-form';
 
 type InputFieldProps = {
   label: string;
@@ -8,12 +9,12 @@ type InputFieldProps = {
   defaultValue?: string;
   error?: FieldError;
   hidden?: boolean;
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  inputProps?: InputHTMLAttributes<HTMLInputElement>;
 };
 
 const InputField = ({
   label,
-  type = "text",
+  type = 'text',
   register,
   name,
   defaultValue,
@@ -22,7 +23,7 @@ const InputField = ({
   inputProps,
 }: InputFieldProps) => {
   return (
-    <div className={hidden ? "hidden" : "flex flex-col gap-2 w-full md:w-1/4"}>
+    <div className={hidden ? 'hidden' : 'flex flex-col gap-2 w-full md:w-1/4'}>
       <label className="text-xs text-gray-500" htmlFor="">
         {label}
       </label>

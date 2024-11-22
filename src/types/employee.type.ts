@@ -35,6 +35,37 @@ interface SalaryFormData {
   };
 }
 
+export interface IEmployeeRequestProps {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  dateOfBirth: string; // ISO 8601 date string
+  email: string;
+  country: string;
+  maritalStatus: string;
+  gender: string;
+  details: {
+    type: string;
+    department: string;
+    role: string;
+    cadre: string;
+    lineManager: string;
+    branch: string;
+    employeeId: string;
+    email: string;
+    joinDate: string; // ISO 8601 date string
+  };
+  salary: {
+    gross: string; // Currency formatted string
+    net: string; // Currency formatted string
+    pension: string; // Currency formatted string
+    tax: string; // Currency formatted string
+    allowance: string; // Currency formatted string
+  };
+  state: string;
+  address: string;
+}
+
 export interface FormData {
   firstName: string;
   lastName: string;
@@ -52,7 +83,7 @@ export interface FormData {
     state: string;
     address: string;
     city: string;
-    postalCode: string;
+    postalCode?: string;
   };
   education: {
     educationLevel: string;
@@ -98,3 +129,4 @@ export interface FormData {
   };
   assets: string[]
 }
+
