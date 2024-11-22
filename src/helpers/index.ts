@@ -1,20 +1,20 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
-export const isEmpty = (string: string) => string === "";
+export const isEmpty = (string: string) => string === '';
 
 export const parseUrl = (link: string) =>
-  link.endsWith("/") ? link : `${link}/`;
+  link.endsWith('/') ? link : `${link}/`;
 
 export const isBaseUrl = (value: string) =>
-  value.endsWith("https://") || value.endsWith("http://");
+  value.endsWith('https://') || value.endsWith('http://');
 
 export const convertImageToBase64 = async (file: File): Promise<string> =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
       const dataUrl = reader.result as string;
-      const base64String = dataUrl.split(",")[1];
+      const base64String = dataUrl.split(',')[1];
       resolve(base64String);
     };
     reader.onerror = reject;
@@ -28,7 +28,7 @@ export const convertUrlToBase64 = async (url: string): Promise<string> => {
     const reader = new FileReader();
     reader.onload = () => {
       const dataUrl = reader.result as string;
-      const base64String = dataUrl.split(",")[1];
+      const base64String = dataUrl.split(',')[1];
       resolve(base64String);
     };
     reader.onerror = reject;
@@ -37,18 +37,18 @@ export const convertUrlToBase64 = async (url: string): Promise<string> => {
 };
 
 export const goToLink = (link: string) => {
-  const a = document.createElement("a");
+  const a = document.createElement('a');
   a.href = link;
   // a.target = '_blank';
-  a.rel = "noopener nonreferrer";
+  a.rel = 'noopener nonreferrer';
   a.click();
 };
 
 export const goToLinkNewTab = (link: string) => {
-  const a = document.createElement("a");
-  a.target = "_blank";
+  const a = document.createElement('a');
+  a.target = '_blank';
   a.href = link;
-  a.rel = "noopener nonreferrer";
+  a.rel = 'noopener nonreferrer';
   a.click();
 };
 
@@ -70,13 +70,13 @@ export const sanitiseFormData = (values: { [x: string]: any }) => {
 
 export const getEventImage = (images: string[]) => {
   const defaultImage =
-    "https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+    'https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
   return (
     images.find(
       (image) =>
-        image.startsWith("http://res.cloudinary.com") ||
-        image.startsWith("https://res.cloudinary.com")
+        image.startsWith('http://res.cloudinary.com') ||
+        image.startsWith('https://res.cloudinary.com')
     ) || defaultImage
   );
 };
@@ -120,10 +120,10 @@ export const parseJson = (value: any) => {
     const previewArray = JSON.parse(value);
     return previewArray[0];
   } catch (error) {
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
       return value;
     } else {
-      return "";
+      return '';
     }
   }
 };
@@ -135,8 +135,8 @@ export const copyToClipboard = (text: any) => {
       toast.success(`Copied to clipboard!`);
     })
     .catch((err) => {
-      console.error("Failed to copy:", err);
-      toast.error("Failed to copy");
+      console.error('Failed to copy:', err);
+      toast.error('Failed to copy');
     });
 };
 
@@ -144,11 +144,11 @@ export const slugify = (text: any) => {
   return text
     .toString()
     .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-")
-    .replace(/^-+/, "")
-    .replace(/-+$/, "");
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
 };
 
 export const sumArr = (arr: any[], key: string | number) => {
@@ -165,18 +165,17 @@ export const toTitleCase = (str: string) => {
 };
 
 export function obfuscateEmail(email: string) {
-  const [localPart, domain] = email.split("@");
+  const [localPart, domain] = email.split('@');
 
   if (localPart.length <= 4) {
     return email; // If the local part is too short, return the email as is
   }
 
   const visiblePart = localPart.slice(0, 4);
-  const maskedPart = "*".repeat(localPart.length - 4);
+  const maskedPart = '*'.repeat(localPart.length - 4);
 
   return `${visiblePart}${maskedPart}@${domain}`;
 }
-
 
 export function formatCurrency(amount: number, currency = 'NGN') {
   return new Intl.NumberFormat('en-US', {
@@ -188,7 +187,6 @@ export function formatCurrency(amount: number, currency = 'NGN') {
   }).format(amount);
 }
 
-
 /**
  * Extracts the first initials from first and last names.
  * @param firstName - The first name of the user.
@@ -198,10 +196,10 @@ export function formatCurrency(amount: number, currency = 'NGN') {
 export const getInitials = (firstName?: string, lastName?: string): string => {
   const firstInitial = firstName?.charAt(0).toUpperCase() || '';
   const lastInitial = lastName?.charAt(0).toUpperCase() || '';
-  
+
   return `${firstInitial}${lastInitial}`;
 };
 
- // Helper function to check if a string includes the search query
+// Helper function to check if a string includes the search query
 export const matchesQuery = (value: string | undefined, query: string) =>
   value?.toLowerCase().includes(query.toLowerCase());

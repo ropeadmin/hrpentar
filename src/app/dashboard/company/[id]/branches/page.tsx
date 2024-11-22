@@ -1,28 +1,28 @@
-"use client";
-import MyTextField from "@/app/components/Fields/MyTextField";
-import { AppModal } from "@/app/components/Modals";
-import BranchTable from "@/app/components/Table/BranchTable";
-import API from "@/constants/api.constant";
-import { catchAsync } from "@/helpers/api.helper";
-import useAppTheme from "@/hooks/theme.hook";
-import useAccountRequest from "@/services/accountRequest.service";
-import { ButtonBase, IconButton, MenuItem } from "@mui/material";
-import { usePathname, useRouter } from "next/navigation";
-import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { matchesQuery } from "@/helpers";
-import { Bounce, toast } from "react-toastify";
+'use client';
+import MyTextField from '@/app/components/Fields/MyTextField';
+import { AppModal } from '@/app/components/Modals';
+import BranchTable from '@/app/components/Table/BranchTable';
+import API from '@/constants/api.constant';
+import { catchAsync } from '@/helpers/api.helper';
+import useAppTheme from '@/hooks/theme.hook';
+import useAccountRequest from '@/services/accountRequest.service';
+import { ButtonBase, IconButton, MenuItem } from '@mui/material';
+import { usePathname, useRouter } from 'next/navigation';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { matchesQuery } from '@/helpers';
+import { Bounce, toast } from 'react-toastify';
 
 export default function Branches() {
   const { isMobile } = useAppTheme();
-  const [activeTab, setActiveTab] = useState("companies");
+  const [activeTab, setActiveTab] = useState('companies');
   const [company, setCompany] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -70,12 +70,12 @@ export default function Branches() {
   };
 
   const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    state: "",
-    country: "",
-    lga: "",
-    postalCode: "",
+    name: '',
+    address: '',
+    state: '',
+    country: '',
+    lga: '',
+    postalCode: '',
   });
 
   const handleClose = () => {
@@ -116,7 +116,7 @@ export default function Branches() {
   };
 
   useEffect(() => {
-    const storedCompany = localStorage.getItem("company-details");
+    const storedCompany = localStorage.getItem('company-details');
     if (storedCompany) {
       setCompanyDetails(JSON.parse(storedCompany)); // Parse the string back to an object
     }
@@ -130,7 +130,7 @@ export default function Branches() {
   }, [companyDetails]);
 
   // Extract the ID from the pathname
-  const businessId = pathname.split("/").slice(-2)[0];
+  const businessId = pathname.split('/').slice(-2)[0];
 
   // Ensure hooks are called before any early returns
   useEffect(() => {
@@ -141,21 +141,21 @@ export default function Branches() {
 
   // You can still handle the invalid `businessId` scenario after hooks
   if (!businessId) {
-    console.error("ID is missing from the URL.");
+    console.error('ID is missing from the URL.');
     // Optionally, redirect or show an error message instead of returning null
     return <div>Error: Business ID is missing</div>; // Or a redirect to another page
   }
 
   const tabs = [
     {
-      key: "companies",
-      label: "Companies",
-      borderRadius: "6px",
+      key: 'companies',
+      label: 'Companies',
+      borderRadius: '6px',
     },
     {
-      key: "organization_chart",
-      label: "Organization chart",
-      borderRadius: "6px",
+      key: 'organization_chart',
+      label: 'Organization chart',
+      borderRadius: '6px',
     },
   ];
 
@@ -186,25 +186,25 @@ export default function Branches() {
     catchAsync(
       async () => {
         const res = await createBranchRequest({
-          method: "POST",
+          method: 'POST',
           url: API.branch,
           data: payload,
         });
 
         const { data } = res;
 
-        if (data?.status === "SUCCESS") {
+        if (data?.status === 'SUCCESS') {
           setShowModal(false);
           setSuccessModal(true);
           setBranches(data);
           getBranches();
           setFormData({
-            name: "",
-            address: "",
-            state: "",
-            country: "",
-            lga: "",
-            postalCode: "",
+            name: '',
+            address: '',
+            state: '',
+            country: '',
+            lga: '',
+            postalCode: '',
           });
         }
       },
@@ -212,16 +212,16 @@ export default function Branches() {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -249,24 +249,24 @@ export default function Branches() {
     catchAsync(
       async () => {
         const res = await updateBranchRequest({
-          method: "PATCH",
+          method: 'PATCH',
           url: `${API.branch}/${businessId}/${branchId}`, // Use branchId to target the branch
           data: payload,
         });
 
         const { data } = res;
 
-        if (data?.status === "SUCCESS") {
+        if (data?.status === 'SUCCESS') {
           setEditModal(false);
-          toast.success("Branch updated successfully.", {
-            position: "top-right",
+          toast.success('Branch updated successfully.', {
+            position: 'top-right',
             autoClose: 5000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "colored",
+            theme: 'colored',
             transition: Bounce,
           });
           getBranches();
@@ -277,16 +277,16 @@ export default function Branches() {
         if (response) {
           enqueueSnackbar(
             response?.data?.data?.message ||
-              "An error occurred during branch update",
+              'An error occurred during branch update',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -300,27 +300,27 @@ export default function Branches() {
     catchAsync(
       async () => {
         const res = await getBranchRequest({
-          method: "GET",
+          method: 'GET',
           url: `${API.branch}?business=${businessId}`,
         });
 
-        const { data } = res?.data;
+        const { data } = res?.data || {};
         setBranches(data);
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -334,20 +334,20 @@ export default function Branches() {
     catchAsync(
       async () => {
         const res = await deleteBranchRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: `${API.branch}?ids[]=${selectedBranch2?._id}`,
         });
 
-        const { data } = res?.data;
-        toast.success("Branch deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('Branch deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
         getBranches();
@@ -357,16 +357,16 @@ export default function Branches() {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -380,20 +380,20 @@ export default function Branches() {
     catchAsync(
       async () => {
         const res = await defaultBranchRequest({
-          method: "POST",
+          method: 'POST',
           url: `${API.branch}/${businessId}/main/${selectedBranchForDefault?._id}`,
         });
 
-        const { data } = res?.data;
-        toast.success("Default branch set successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('Default branch set successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
       },
@@ -401,16 +401,16 @@ export default function Branches() {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -419,19 +419,19 @@ export default function Branches() {
     );
   };
 
-  const state = ["Lagos", "Abuja"];
+  const state = ['Lagos', 'Abuja'];
 
   const businessTypes = [
-    "Limited Liability Company",
-    "Private Company",
-    "Sole Proprietorship",
-    "Small-Medium Enterprise",
-    "NGOs (Governmental)",
+    'Limited Liability Company',
+    'Private Company',
+    'Sole Proprietorship',
+    'Small-Medium Enterprise',
+    'NGOs (Governmental)',
   ];
 
-  const subsidiary = ["Yes", "No"];
+  const subsidiary = ['Yes', 'No'];
 
-  const countries = ["Afghanistan", "Albania"];
+  const countries = ['Afghanistan', 'Albania'];
 
   const handleSearchInputChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -456,7 +456,7 @@ export default function Branches() {
     <div>
       <div>
         <h1 className="text-[28px] font-[700] text-[#0F1625]">
-          {storedCompany?.businessName || "-----"} branches
+          {storedCompany?.businessName || '-----'} branches
         </h1>
         <p className="text-[14px] font-[400] text-[#323B49]">
           Manage companies, branches and organization chart.
@@ -473,10 +473,10 @@ export default function Branches() {
             <div
               className={`py-2 px-3 cursor-pointer transform transition duration-500 ease-in-out`}
               style={{
-                backgroundColor: activeTab === tab.key ? "#F0F2F5" : "#FBFBFC",
-                color: activeTab === tab.key ? "#0F1625" : "#687588",
+                backgroundColor: activeTab === tab.key ? '#F0F2F5' : '#FBFBFC',
+                color: activeTab === tab.key ? '#0F1625' : '#687588',
                 borderRadius: tab.borderRadius,
-                fontWeight: activeTab === tab.key ? "500" : "500",
+                fontWeight: activeTab === tab.key ? '500' : '500',
                 // border:
                 //   activeTab === tab.key
                 //     ? "0.5px solid #E4E8EC"
@@ -604,11 +604,11 @@ export default function Branches() {
         open={showModal}
         handleClose={() => setShowModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "20px 20px"}`,
-          position: "relative",
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '20px 20px'}`,
+          position: 'relative',
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -713,7 +713,7 @@ export default function Branches() {
           className="text-white bg-[#0f1625] min-w-full py-[14px] rounded-[8px] text-base font-medium mt-3 leading-none"
           onClick={createBranch}
         >
-          {isLoadingCreateBranch ? "Please wait..." : "Create branch"}
+          {isLoadingCreateBranch ? 'Please wait...' : 'Create branch'}
         </button>
       </AppModal>
 
@@ -722,11 +722,11 @@ export default function Branches() {
         open={editModal}
         handleClose={() => setEditModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "20px 20px"}`,
-          position: "relative",
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '20px 20px'}`,
+          position: 'relative',
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -826,7 +826,7 @@ export default function Branches() {
           className="text-white bg-[#0f1625] min-w-full py-[14px] rounded-[8px] text-base font-medium mt-3 leading-none"
           onClick={updateBranch}
         >
-          {isLoadingUpdateBranch ? "Please wait..." : "Save changes"}
+          {isLoadingUpdateBranch ? 'Please wait...' : 'Save changes'}
         </button>
       </AppModal>
 
@@ -835,13 +835,13 @@ export default function Branches() {
         open={successModal}
         handleClose={() => setSuccessModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 35px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "512px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 35px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '512px'}`,
         }}
       >
         <div className="w-full flex justify-end">
@@ -863,7 +863,7 @@ export default function Branches() {
             </h1>
             <p className="text-[#0F1625] text-[16px] font-[400] mt-2 leading-tight">
               <span className="font-[700]">{formData.name}</span> has been added
-              to your list of branches for{" "}
+              to your list of branches for{' '}
               <span className="font-[700]">{storedCompany?.businessName}</span>.
               You can now add employees to this branch.
             </p>
@@ -892,13 +892,13 @@ export default function Branches() {
         open={confirmModal}
         handleClose={() => setConfirmModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -916,8 +916,8 @@ export default function Branches() {
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to make a{" "}
-          <span className="font-[700]">Lekki Phase 1</span> the head office for{" "}
+          You are about to make a{' '}
+          <span className="font-[700]">Lekki Phase 1</span> the head office for{' '}
           <span className="font-[700]">MacTay Consulting</span>. Click “Make
           head office” to confirm this action.
         </p>
@@ -944,13 +944,13 @@ export default function Branches() {
         open={switchCompanyModal}
         handleClose={() => setSwitchCompanyModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -979,7 +979,7 @@ export default function Branches() {
           label="Switch company"
           placeholder=""
           type="text"
-          value={""}
+          value={''}
           onChange={handleChange}
           select
           required
@@ -1012,13 +1012,13 @@ export default function Branches() {
         open={switchCompanyConfirmModal}
         handleClose={() => setSwitchCompanyConfirmModal(false)}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1036,8 +1036,8 @@ export default function Branches() {
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to make a switch from{" "}
-          <span className="font-[700]">MacTay Consulting</span> to{" "}
+          You are about to make a switch from{' '}
+          <span className="font-[700]">MacTay Consulting</span> to{' '}
           <span className="font-[700]">Rope Africa</span>. Click “Switch
           company” to confirm this action.
         </p>
@@ -1179,13 +1179,13 @@ export default function Branches() {
         open={deleteBranchModal}
         handleClose={handleCloseDeleteModal}
         style={{
-          backgroundColor: "#ffffff",
-          padding: `${isMobile ? "20px 20px" : "30px 32px"}`,
-          position: "relative",
-          maxHeight: `${isMobile ? "auto" : "90vh"}`,
-          minHeight: `${isMobile ? "auto" : "auto"}`,
-          height: `${isMobile ? "auto" : "auto"}`,
-          width: `${isMobile ? "85%" : "544px"}`,
+          backgroundColor: '#ffffff',
+          padding: `${isMobile ? '20px 20px' : '30px 32px'}`,
+          position: 'relative',
+          maxHeight: `${isMobile ? 'auto' : '90vh'}`,
+          minHeight: `${isMobile ? 'auto' : 'auto'}`,
+          height: `${isMobile ? 'auto' : 'auto'}`,
+          width: `${isMobile ? '85%' : '544px'}`,
         }}
       >
         <div className="flex justify-between items-start w-full">
@@ -1206,8 +1206,8 @@ export default function Branches() {
         </div>
 
         <p className="text-[16px] font-[400] text-[#0F1625]">
-          You are about to delete{" "}
-          <span className="font-[700]">{selectedBranch2?.name || "-----"}</span>{" "}
+          You are about to delete{' '}
+          <span className="font-[700]">{selectedBranch2?.name || '-----'}</span>{' '}
           from your branches. Once deleted, all data would be wiped and no
           longer accessible. This action cannot be undone.
         </p>
@@ -1225,7 +1225,7 @@ export default function Branches() {
             className="text-white bg-[#EF0000] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             onClick={deleteBranch}
           >
-            {isLoadingDeleteBranch ? "Please wait..." : "Delete branch"}
+            {isLoadingDeleteBranch ? 'Please wait...' : 'Delete branch'}
           </button>
         </div>
       </AppModal>

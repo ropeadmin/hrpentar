@@ -1,23 +1,21 @@
-import React from "react";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import IconButton from "@mui/material/IconButton";
-import useAppTheme from "@/hooks/theme.hook";
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import useAppTheme from '@/hooks/theme.hook';
 
-
-interface Drawer {
-  children: React.ReactNode;
+interface DrawerProps {
+  children: ReactNode;
   drawer: boolean;
-  toggleDrawer: React.Dispatch<React.SetStateAction<boolean>>;
-  anchor?: "right" | "left" | "top" | "bottom";
+  toggleDrawer: Dispatch<SetStateAction<boolean>>;
+  anchor?: 'right' | 'left' | 'top' | 'bottom';
 }
 
-const Drawer: React.FC<Drawer> = ({
+const Drawer: FC<DrawerProps> = ({
   children,
   drawer,
   toggleDrawer,
   anchor,
 }) => {
-    const isMobile = useAppTheme();
+  const isMobile = useAppTheme();
 
   return (
     <>
@@ -29,9 +27,9 @@ const Drawer: React.FC<Drawer> = ({
         PaperProps={{
           sx: {
             // width: { sm: "50%", md: "50%", lg: "100%" },
-            width: `${isMobile ? "450px" : "30%"}`,
-            overflowY: "hidden",
-            padding: "24px"
+            width: `${isMobile ? '450px' : '30%'}`,
+            overflowY: 'hidden',
+            padding: '24px',
           },
         }}
       >

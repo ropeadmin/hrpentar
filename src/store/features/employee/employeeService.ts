@@ -1,23 +1,25 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
-import { baseQuery } from '@/config/auth-config'
-import { LoginRequest, UserResponse } from '@/types/auth.type';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQuery } from '@/config/auth-config';
+import { IEmployeeRequestProps } from '@/types/employee.type';
 
-export const authApi = createApi({
+export const employeeApi = createApi({
   baseQuery,
-  tagTypes: ["Employee"],
+  tagTypes: ['Employee'],
   endpoints: (builder) => ({
-    addEmployee: builder.mutation<any, LoginRequest>(
-    {
+    addEmployee: builder.mutation<any, IEmployeeRequestProps>({
       query: (credentials) => ({
-        url: '/auth/admins/sign-up',
+        url: '/auth/employee/create',
         method: 'POST',
         body: credentials,
       }),
     }),
-    })
-})
+    getEmployees: builder.query<any, void>({
+      query: () => ({
+        url: '/auth/employees',
+        method: 'GET',
+      }),
+    }),
+  }),
+});
 
-export const {  
-    useAddEmployeeMutation
-  
-} = authApi
+export const { useAddEmployeeMutation } = employeeApi;

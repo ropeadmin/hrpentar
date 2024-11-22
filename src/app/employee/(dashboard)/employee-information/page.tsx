@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import { FC, JSX, useState } from 'react';
 // import Layout from "../../component/employeelayout";
-import Stepper from "@/components/custom-navigation/Stepper/Stepp";
-import PersonalDetails from "../onboarding/employee-information/personal-details/page";
-import ContactDetails from "../onboarding/employee-information/component/contact-details";
-import PaymentDetails from "../onboarding/employee-information/component/payment-details";
-import Forms from "../onboarding/employee-information/component/forms";
-import Assets from "../onboarding/employee-information/component/assets";
+import Stepper from '@/components/custom-navigation/Stepper/Stepp';
+import PersonalDetails from '../onboarding/employee-information/personal-details/page';
+import ContactDetails from '../onboarding/employee-information/component/contact-details';
+import PaymentDetails from '../onboarding/employee-information/component/payment-details';
+import Forms from '../onboarding/employee-information/component/forms';
+import Assets from '../onboarding/employee-information/component/assets';
 
-const StepperPage: React.FC = () => {
+const StepperPage: FC = () => {
   const steps = [
     PersonalDetails as () => JSX.Element,
     ContactDetails as () => JSX.Element,
@@ -19,11 +19,11 @@ const StepperPage: React.FC = () => {
   ];
 
   const stepTitles = [
-    "PersonalDetails",
-    "ContactDetails",
-    "PaymentDetails",
-    "Forms",
-    "Assets",
+    'PersonalDetails',
+    'ContactDetails',
+    'PaymentDetails',
+    'Forms',
+    'Assets',
   ];
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -31,11 +31,11 @@ const StepperPage: React.FC = () => {
 
   const handleComplete = () => {
     setComplete(true);
-    alert("All steps completed");
+    alert('All steps completed');
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted");
+    console.log('Form submitted');
   };
 
   const handleNext = () => {
@@ -72,12 +72,12 @@ const StepperPage: React.FC = () => {
 
       {/* <StepComponent /> */}
 
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: '20px' }}>
         <button disabled={currentStep === 1} onClick={handleBack}>
           Back
         </button>
         <button onClick={handleNext}>
-          {currentStep === steps.length ? "Finish" : "Next"}
+          {currentStep === steps.length ? 'Finish' : 'Next'}
         </button>
       </div>
     </div>

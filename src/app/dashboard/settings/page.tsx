@@ -1,25 +1,25 @@
-"use client";
-import MyTextField from "@/app/components/Fields/MyTextField";
-import BusinessProofModal from "@/app/components/Modals/Document/BusinessProofModal";
-import CacModal from "@/app/components/Modals/Document/CacModal";
-import TaxModal from "@/app/components/Modals/Document/TaxModal";
-import API from "@/constants/api.constant";
-import { catchAsync } from "@/helpers/api.helper";
-import useGlobalState from "@/hooks/globalstate.hook";
-import useRequest from "@/services/request.service";
-import useAccountRequest from "@/services/accountRequest.service";
-import useUploadsService from "@/services/uploads.service";
-import { ButtonBase, IconButton, MenuItem } from "@mui/material";
-import { useSnackbar } from "notistack";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { Bounce, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { ChromePicker } from "react-color";
-import { profileLoginAction, profileUpdateAction } from "@/store/profile.slice";
+'use client';
+import MyTextField from '@/app/components/Fields/MyTextField';
+import BusinessProofModal from '@/app/components/Modals/Document/BusinessProofModal';
+import CacModal from '@/app/components/Modals/Document/CacModal';
+import TaxModal from '@/app/components/Modals/Document/TaxModal';
+import API from '@/constants/api.constant';
+import { catchAsync } from '@/helpers/api.helper';
+import useGlobalState from '@/hooks/globalstate.hook';
+import useRequest from '@/services/request.service';
+import useAccountRequest from '@/services/accountRequest.service';
+import useUploadsService from '@/services/uploads.service';
+import { ButtonBase, IconButton, MenuItem } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { Bounce, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { ChromePicker } from 'react-color';
+import { profileUpdateAction } from '@/store/profile.slice';
 
 export default function Settings() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState('profile');
   const [companyInfo, setCompanyInfo] = useState<boolean>(false);
   const [companyAddress, setCompanyAddress] = useState<boolean>(false);
   const [companyDirector, setCompanyDirector] = useState<boolean>(false);
@@ -30,26 +30,21 @@ export default function Settings() {
   const [selectedThumbImage, setSelectedThumbImage] = useState<any>(null);
   const [businessProofDocumentModal, setBusinessProofDocumentModal] =
     useState<boolean>(false);
-  const [uploadedAvatar, setUploadedAvatar] = useState("");
-  const [uploadedAvatarName, setUploadedAvatarName] = useState("");
-  const [uploadedLogo, setUploadedLogo] = useState("");
-  const [uploadedLogoName, setUploadedLogoName] = useState("");
-  const [uploadedCacDocument, setUploadedCacDocument] = useState("");
-  const [uploadedCacDocumentName, setUploadedCacDocumentName] = useState("");
-  const [uploadedCacDocument2, setUploadedCacDocument2] = useState("");
-  const [uploadedCacDocumentName2, setUploadedCacDocumentName2] = useState("");
-  const [uploadedTaxDocument, setUploadedTaxDocument] = useState("");
-  const [uploadedTaxDocumentName, setUploadedTaxDocumentName] = useState("");
-  const [uploadedBusinessDocument, setUploadedBusinessDocument] = useState("");
+  const [uploadedAvatar, setUploadedAvatar] = useState('');
+  const [uploadedAvatarName, setUploadedAvatarName] = useState('');
+  const [uploadedLogo, setUploadedLogo] = useState('');
+  const [uploadedLogoName, setUploadedLogoName] = useState('');
+  const [uploadedCacDocument, setUploadedCacDocument] = useState('');
+  const [uploadedCacDocumentName, setUploadedCacDocumentName] = useState('');
+  const [uploadedCacDocument2, setUploadedCacDocument2] = useState('');
+  const [uploadedCacDocumentName2, setUploadedCacDocumentName2] = useState('');
+  const [uploadedTaxDocument, setUploadedTaxDocument] = useState('');
+  const [uploadedTaxDocumentName, setUploadedTaxDocumentName] = useState('');
+  const [uploadedBusinessDocument, setUploadedBusinessDocument] = useState('');
   const [uploadedBusinessDocumentName, setUploadedBusinessDocumentName] =
-    useState("");
-  const [uploadedDirectorSignatureFile, setUploadedDirectorSignatureFile] =
-    useState("");
-  const [
-    uploadedDirectorSignatureFileName,
-    setUploadedDirectorSignatureFileName,
-  ] = useState("");
-  const [domainName, setDomainName] = useState("");
+    useState('');
+
+  const [domainName, setDomainName] = useState('');
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { profile } = useGlobalState();
@@ -88,43 +83,43 @@ export default function Settings() {
     // Convert input to lowercase, replace spaces with dashes, and remove special characters
     const formattedName = e.target.value
       .toLowerCase()
-      .replace(/\s+/g, "-") // Replace spaces with dashes
-      .replace(/[^a-z0-9-]/g, ""); // Remove special characters
+      .replace(/\s+/g, '-') // Replace spaces with dashes
+      .replace(/[^a-z0-9-]/g, ''); // Remove special characters
 
     setDomainName(formattedName);
   };
 
   const [formData, setFormData] = useState({
-    businessName: "",
-    registrationNumber: "",
-    size: "",
-    businessType: "",
-    subsidiary: "",
-    subsidiaryDetails: "",
-    companyPrefix: "",
-    industryType: "",
+    businessName: '',
+    registrationNumber: '',
+    size: '',
+    businessType: '',
+    subsidiary: '',
+    subsidiaryDetails: '',
+    companyPrefix: '',
+    industryType: '',
     address: {
-      country: "",
-      state: "",
-      address: "",
-      city: "",
-      postalCode: "",
+      country: '',
+      state: '',
+      address: '',
+      city: '',
+      postalCode: '',
     },
     director: {
-      name: "",
-      email: "",
-      country: "",
-      idCard: [""],
-      position: "",
-      signature: "",
+      name: '',
+      email: '',
+      country: '',
+      idCard: [''],
+      position: '',
+      signature: '',
     },
   });
 
   const [profileFormData, setProfileFormData] = useState({
-    firstName: "",
-    lastName: "",
-    title: "",
-    phoneNumber: "",
+    firstName: '',
+    lastName: '',
+    title: '',
+    phoneNumber: '',
     photo: uploadedAvatar,
   });
 
@@ -133,7 +128,7 @@ export default function Settings() {
     registrationNumber: profile?.business?.registrationNumber,
     size: profile?.business?.size,
     businessType: profile?.business?.businessType,
-    subsidiary: "Just a test sub",
+    subsidiary: 'Just a test sub',
     subsidiaryDetails: profile?.business?.subsidiaryDetails,
     companyPrefix: profile?.business?.prefix,
     industryType: profile?.business?.industryType,
@@ -195,7 +190,7 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await makeProfileRequest({
-          method: "PATCH",
+          method: 'PATCH',
           url: API.updateAccountProfile,
           data: profilePayload,
         });
@@ -203,33 +198,33 @@ export default function Settings() {
         const { data } = res.data;
         dispatch(profileUpdateAction({ account: data }));
 
-        enqueueSnackbar("Profile updated successfully!", {
-          variant: "rope_snackbar",
+        enqueueSnackbar('Profile updated successfully!', {
+          variant: 'rope_snackbar',
           autoHideDuration: 5000,
         });
 
         setProfileFormData({
-          firstName: "",
-          lastName: "",
-          title: "",
-          phoneNumber: "",
-          photo: "",
+          firstName: '',
+          lastName: '',
+          title: '',
+          phoneNumber: '',
+          photo: '',
         });
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -242,7 +237,7 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await makeCompanyRequest({
-          method: "PATCH",
+          method: 'PATCH',
           url: `${API.createBusiness}?id=${profile?.business?._id}`,
           data: companyFormData,
         });
@@ -255,8 +250,8 @@ export default function Settings() {
         };
         dispatch(profileUpdateAction({ business: combinedData }));
 
-        enqueueSnackbar("Company updated successfully!", {
-          variant: "rope_snackbar",
+        enqueueSnackbar('Company updated successfully!', {
+          variant: 'rope_snackbar',
           autoHideDuration: 5000,
         });
 
@@ -265,7 +260,7 @@ export default function Settings() {
           registrationNumber: profile?.business?.registrationNumber,
           size: profile?.business?.size,
           businessType: profile?.business?.businessType,
-          subsidiary: "Just a test sub",
+          subsidiary: 'Just a test sub',
           subsidiaryDetails: profile?.business?.subsidiaryDetails,
           companyPrefix: profile?.business?.prefix,
           industryType: profile?.business?.industryType,
@@ -290,16 +285,16 @@ export default function Settings() {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -316,8 +311,8 @@ export default function Settings() {
       address: {
         ...formData.address,
         country: selectedCountry,
-        state: "", // Reset state when country changes
-        city: "", // Reset city when country changes
+        state: '', // Reset state when country changes
+        city: '', // Reset city when country changes
         address: formData.address.address, // Keep the existing address
       },
     });
@@ -339,7 +334,7 @@ export default function Settings() {
       address: {
         ...formData.address,
         state: selectedState,
-        city: "", // Reset city when state changes
+        city: '', // Reset city when state changes
         address: formData.address.address, // Keep the existing address
       },
     });
@@ -353,49 +348,49 @@ export default function Settings() {
 
   const tabs = [
     {
-      key: "profile",
-      label: "Profile",
-      borderRadius: "6px",
+      key: 'profile',
+      label: 'Profile',
+      borderRadius: '6px',
     },
     {
-      key: "company",
-      label: "Company",
-      borderRadius: "6px",
+      key: 'company',
+      label: 'Company',
+      borderRadius: '6px',
     },
     {
-      key: "documents",
-      label: "Documents",
-      borderRadius: "6px",
+      key: 'documents',
+      label: 'Documents',
+      borderRadius: '6px',
     },
     {
-      key: "users",
-      label: "Users",
-      borderRadius: "6px",
+      key: 'users',
+      label: 'Users',
+      borderRadius: '6px',
     },
     {
-      key: "Plans",
-      label: "Plans",
-      borderRadius: "6px",
+      key: 'Plans',
+      label: 'Plans',
+      borderRadius: '6px',
     },
     {
-      key: "billings",
-      label: "Billings",
-      borderRadius: "6px",
+      key: 'billings',
+      label: 'Billings',
+      borderRadius: '6px',
     },
     {
-      key: "notifications",
-      label: "Notifications",
-      borderRadius: "6px",
+      key: 'notifications',
+      label: 'Notifications',
+      borderRadius: '6px',
     },
     {
-      key: "security",
-      label: "Security",
-      borderRadius: "6px",
+      key: 'security',
+      label: 'Security',
+      borderRadius: '6px',
     },
     {
-      key: "integrations",
-      label: "Integrations",
-      borderRadius: "6px",
+      key: 'integrations',
+      label: 'Integrations',
+      borderRadius: '6px',
     },
   ];
 
@@ -404,18 +399,18 @@ export default function Settings() {
   };
 
   const colors = [
-    "#08B8F7",
-    "#0085FF",
-    "#615EF0",
-    "#543682",
-    "#FFDD55",
-    "#E29B38",
-    "#10782D",
-    "#FF543E",
-    "#DC1B21",
+    '#08B8F7',
+    '#0085FF',
+    '#615EF0',
+    '#543682',
+    '#FFDD55',
+    '#E29B38',
+    '#10782D',
+    '#FF543E',
+    '#DC1B21',
   ];
 
-  const [selectedColor, setSelectedColor] = useState("#000000"); // Default custom color
+  const [selectedColor, setSelectedColor] = useState('#000000'); // Default custom color
   const [showColorPicker, setShowColorPicker] = useState(false); // Toggle color picker visibility
 
   // Handle preset color click
@@ -432,11 +427,11 @@ export default function Settings() {
   const thumbnail = [
     {
       image:
-        "https://res.cloudinary.com/dtuims4ku/image/upload/v1729836393/375shots_so_3_tqje1r.png",
+        'https://res.cloudinary.com/dtuims4ku/image/upload/v1729836393/375shots_so_3_tqje1r.png',
     },
     {
       image:
-        "https://res.cloudinary.com/dtuims4ku/image/upload/v1729836393/375shots_so_4_epypdn.png",
+        'https://res.cloudinary.com/dtuims4ku/image/upload/v1729836393/375shots_so_4_epypdn.png',
     },
   ];
 
@@ -445,238 +440,237 @@ export default function Settings() {
   };
 
   const companySize = [
-    "10 - 50",
-    "51 - 100",
-    "100 - 200",
-    "200 - 500",
-    "501 - above",
+    '10 - 50',
+    '51 - 100',
+    '100 - 200',
+    '200 - 500',
+    '501 - above',
   ];
 
   const businessTypes = [
-    "Limited Liability Company",
-    "Private Company",
-    "Sole Proprietorship",
-    "Small-Medium Enterprise",
-    "NGOs (Governmental)",
+    'Limited Liability Company',
+    'Private Company',
+    'Sole Proprietorship',
+    'Small-Medium Enterprise',
+    'NGOs (Governmental)',
   ];
 
   const countries = [
-    "Afghanistan",
-    "Albania",
-    "Algeria",
-    "Andorra",
-    "Angola",
-    "Antigua and Barbuda",
-    "Argentina",
-    "Armenia",
-    "Aruba",
-    "Australia",
-    "Austria",
-    "Azerbaijan",
-    "Bahamas",
-    "Bahrain",
-    "Bangladesh",
-    "Barbados",
-    "Belarus",
-    "Belgium",
-    "Belize",
-    "Benin",
-    "Bermuda",
-    "Bhutan",
-    "Bolivia",
-    "Bosnia and Herzegovina",
-    "Botswana",
-    "Brazil",
-    "Brunei",
-    "Bulgaria",
-    "Burkina Faso",
-    "Burundi",
-    "Cambodia",
-    "Cameroon",
-    "Canada",
-    "Cape Verde",
-    "Cayman Islands",
-    "Central African Republic",
-    "Chad",
-    "Chile",
-    "China",
-    "Colombia",
-    "Comoros",
-    "Congo",
-    "Costa Rica",
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'Andorra',
+    'Angola',
+    'Antigua and Barbuda',
+    'Argentina',
+    'Armenia',
+    'Aruba',
+    'Australia',
+    'Austria',
+    'Azerbaijan',
+    'Bahamas',
+    'Bahrain',
+    'Bangladesh',
+    'Barbados',
+    'Belarus',
+    'Belgium',
+    'Belize',
+    'Benin',
+    'Bermuda',
+    'Bhutan',
+    'Bolivia',
+    'Bosnia and Herzegovina',
+    'Botswana',
+    'Brazil',
+    'Brunei',
+    'Bulgaria',
+    'Burkina Faso',
+    'Burundi',
+    'Cambodia',
+    'Cameroon',
+    'Canada',
+    'Cape Verde',
+    'Cayman Islands',
+    'Central African Republic',
+    'Chad',
+    'Chile',
+    'China',
+    'Colombia',
+    'Comoros',
+    'Congo',
+    'Costa Rica',
     "Cote d'Ivoire",
-    "Croatia",
-    "Cuba",
-    "Cyprus",
-    "Czech Republic",
-    "Democratic Republic of the Congo",
-    "Denmark",
-    "Djibouti",
-    "Dominica",
-    "Dominican Republic",
-    "Ecuador",
-    "Egypt",
-    "El Salvador",
-    "Equatorial Guinea",
-    "Eritrea",
-    "Estonia",
-    "Eswatini",
-    "Ethiopia",
-    "Fiji",
-    "Finland",
-    "France",
-    "Gabon",
-    "Gambia",
-    "Georgia",
-    "Germany",
-    "Ghana",
-    "Greece",
-    "Grenada",
-    "Guatemala",
-    "Guinea",
-    "Guinea-Bissau",
-    "Guyana",
-    "Haiti",
-    "Honduras",
-    "Hungary",
-    "Iceland",
-    "India",
-    "Indonesia",
-    "Iran",
-    "Iraq",
-    "Ireland",
-    "Israel",
-    "Italy",
-    "Jamaica",
-    "Japan",
-    "Jordan",
-    "Kazakhstan",
-    "Kenya",
-    "Kiribati",
-    "Kuwait",
-    "Kyrgyzstan",
-    "Laos",
-    "Latvia",
-    "Lebanon",
-    "Lesotho",
-    "Liberia",
-    "Libya",
-    "Liechtenstein",
-    "Lithuania",
-    "Luxembourg",
-    "Madagascar",
-    "Malawi",
-    "Malaysia",
-    "Maldives",
-    "Mali",
-    "Malta",
-    "Marshall Islands",
-    "Mauritania",
-    "Mauritius",
-    "Mexico",
-    "Micronesia",
-    "Moldova",
-    "Monaco",
-    "Mongolia",
-    "Montenegro",
-    "Morocco",
-    "Mozambique",
-    "Myanmar",
-    "Namibia",
-    "Nauru",
-    "Nepal",
-    "Netherlands",
-    "New Zealand",
-    "Nicaragua",
-    "Niger",
-    "Nigeria",
-    "North Korea",
-    "North Macedonia",
-    "Norway",
-    "Oman",
-    "Pakistan",
-    "Palau",
-    "Panama",
-    "Papua New Guinea",
-    "Paraguay",
-    "Peru",
-    "Philippines",
-    "Poland",
-    "Portugal",
-    "Qatar",
-    "Romania",
-    "Russia",
-    "Rwanda",
-    "Saint Kitts and Nevis",
-    "Saint Lucia",
-    "Saint Vincent and the Grenadines",
-    "Samoa",
-    "San Marino",
-    "Sao Tome and Principe",
-    "Saudi Arabia",
-    "Senegal",
-    "Serbia",
-    "Seychelles",
-    "Sierra Leone",
-    "Singapore",
-    "Slovakia",
-    "Slovenia",
-    "Solomon Islands",
-    "Somalia",
-    "South Africa",
-    "South Korea",
-    "South Sudan",
-    "Spain",
-    "Sri Lanka",
-    "Sudan",
-    "Suriname",
-    "Sweden",
-    "Switzerland",
-    "Syria",
-    "Tajikistan",
-    "Tanzania",
-    "Thailand",
-    "Timor-Leste",
-    "Togo",
-    "Tonga",
-    "Trinidad and Tobago",
-    "Tunisia",
-    "Turkey",
-    "Turkmenistan",
-    "Tuvalu",
-    "Uganda",
-    "Ukraine",
-    "United Arab Emirates",
-    "United Kingdom",
-    "United States",
-    "Uruguay",
-    "Uzbekistan",
-    "Vanuatu",
-    "Vatican City",
-    "Venezuela",
-    "Vietnam",
-    "Yemen",
-    "Zambia",
-    "Zimbabwe",
+    'Croatia',
+    'Cuba',
+    'Cyprus',
+    'Czech Republic',
+    'Democratic Republic of the Congo',
+    'Denmark',
+    'Djibouti',
+    'Dominica',
+    'Dominican Republic',
+    'Ecuador',
+    'Egypt',
+    'El Salvador',
+    'Equatorial Guinea',
+    'Eritrea',
+    'Estonia',
+    'Eswatini',
+    'Ethiopia',
+    'Fiji',
+    'Finland',
+    'France',
+    'Gabon',
+    'Gambia',
+    'Georgia',
+    'Germany',
+    'Ghana',
+    'Greece',
+    'Grenada',
+    'Guatemala',
+    'Guinea',
+    'Guinea-Bissau',
+    'Guyana',
+    'Haiti',
+    'Honduras',
+    'Hungary',
+    'Iceland',
+    'India',
+    'Indonesia',
+    'Iran',
+    'Iraq',
+    'Ireland',
+    'Israel',
+    'Italy',
+    'Jamaica',
+    'Japan',
+    'Jordan',
+    'Kazakhstan',
+    'Kenya',
+    'Kiribati',
+    'Kuwait',
+    'Kyrgyzstan',
+    'Laos',
+    'Latvia',
+    'Lebanon',
+    'Lesotho',
+    'Liberia',
+    'Libya',
+    'Liechtenstein',
+    'Lithuania',
+    'Luxembourg',
+    'Madagascar',
+    'Malawi',
+    'Malaysia',
+    'Maldives',
+    'Mali',
+    'Malta',
+    'Marshall Islands',
+    'Mauritania',
+    'Mauritius',
+    'Mexico',
+    'Micronesia',
+    'Moldova',
+    'Monaco',
+    'Mongolia',
+    'Montenegro',
+    'Morocco',
+    'Mozambique',
+    'Myanmar',
+    'Namibia',
+    'Nauru',
+    'Nepal',
+    'Netherlands',
+    'New Zealand',
+    'Nicaragua',
+    'Niger',
+    'Nigeria',
+    'North Korea',
+    'North Macedonia',
+    'Norway',
+    'Oman',
+    'Pakistan',
+    'Palau',
+    'Panama',
+    'Papua New Guinea',
+    'Paraguay',
+    'Peru',
+    'Philippines',
+    'Poland',
+    'Portugal',
+    'Qatar',
+    'Romania',
+    'Russia',
+    'Rwanda',
+    'Saint Kitts and Nevis',
+    'Saint Lucia',
+    'Saint Vincent and the Grenadines',
+    'Samoa',
+    'San Marino',
+    'Sao Tome and Principe',
+    'Saudi Arabia',
+    'Senegal',
+    'Serbia',
+    'Seychelles',
+    'Sierra Leone',
+    'Singapore',
+    'Slovakia',
+    'Slovenia',
+    'Solomon Islands',
+    'Somalia',
+    'South Africa',
+    'South Korea',
+    'South Sudan',
+    'Spain',
+    'Sri Lanka',
+    'Sudan',
+    'Suriname',
+    'Sweden',
+    'Switzerland',
+    'Syria',
+    'Tajikistan',
+    'Tanzania',
+    'Thailand',
+    'Timor-Leste',
+    'Togo',
+    'Tonga',
+    'Trinidad and Tobago',
+    'Tunisia',
+    'Turkey',
+    'Turkmenistan',
+    'Tuvalu',
+    'Uganda',
+    'Ukraine',
+    'United Arab Emirates',
+    'United Kingdom',
+    'United States',
+    'Uruguay',
+    'Uzbekistan',
+    'Vanuatu',
+    'Vatican City',
+    'Venezuela',
+    'Vietnam',
+    'Yemen',
+    'Zambia',
+    'Zimbabwe',
   ];
 
-
-  const industryTypes = ["Finance", "Technology"];
+  const industryTypes = ['Finance', 'Technology'];
 
   const stateCityMap: any = {
     Nigeria: {
-      Lagos: ["Ikeja", "Victoria Island", "Lekki"],
-      Abuja: ["Garki", "Wuse", "Maitama"],
-      Kano: ["Kano City", "Tarauni", "Nassarawa"],
-      Kaduna: ["Kaduna South", "Kaduna North", "Giwa"],
-      Rivers: ["Port Harcourt", "Obio-Akpor", "Ikwerre"],
+      Lagos: ['Ikeja', 'Victoria Island', 'Lekki'],
+      Abuja: ['Garki', 'Wuse', 'Maitama'],
+      Kano: ['Kano City', 'Tarauni', 'Nassarawa'],
+      Kaduna: ['Kaduna South', 'Kaduna North', 'Giwa'],
+      Rivers: ['Port Harcourt', 'Obio-Akpor', 'Ikwerre'],
     },
     USA: {
-      California: ["Los Angeles", "San Francisco", "San Diego"],
-      NewYork: ["New York City", "Buffalo", "Rochester"],
-      Texas: ["Houston", "Dallas", "Austin"],
-      Florida: ["Miami", "Orlando", "Tampa"],
-      Washington: ["Seattle", "Spokane", "Tacoma"],
+      California: ['Los Angeles', 'San Francisco', 'San Diego'],
+      NewYork: ['New York City', 'Buffalo', 'Rochester'],
+      Texas: ['Houston', 'Dallas', 'Austin'],
+      Florida: ['Miami', 'Orlando', 'Tampa'],
+      Washington: ['Seattle', 'Spokane', 'Tacoma'],
     },
     // Add more countries and their states with cities here...
   };
@@ -692,7 +686,7 @@ export default function Settings() {
       // Upload the files using the provided upload function and success callback
       await uploadFiles(files, onSuccess);
     } catch (error) {
-      console.log("File upload failed:", error);
+      console.log('File upload failed:', error);
     }
   };
 
@@ -756,7 +750,7 @@ export default function Settings() {
     onDrop: (acceptedFiles: File[]) =>
       handleFileUpload(acceptedFiles, uploadFiles, onFileUploadSuccess),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
     },
   });
 
@@ -769,7 +763,7 @@ export default function Settings() {
     onDrop: (acceptedFiles: File[]) =>
       handleFileUpload(acceptedFiles, uploadLogoFiles, onLogoUploadSuccess),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
     },
   });
 
@@ -786,7 +780,7 @@ export default function Settings() {
         onCacDocumentUploadSuccess
       ),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
     },
   });
 
@@ -803,7 +797,7 @@ export default function Settings() {
         onCacDocument2UploadSuccess
       ),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
     },
   });
 
@@ -816,7 +810,7 @@ export default function Settings() {
     onDrop: (acceptedFiles: File[]) =>
       handleFileUpload(acceptedFiles, uploadLogoFiles, onTaxUploadSuccess),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
     },
   });
 
@@ -829,7 +823,7 @@ export default function Settings() {
     onDrop: (acceptedFiles: File[]) =>
       handleFileUpload(acceptedFiles, uploadLogoFiles, onBusinessUploadSuccess),
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
+      'image/*': ['.png', '.jpg', '.jpeg'],
     },
   });
 
@@ -838,40 +832,40 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await deleteFileRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: API.upload,
           data: { key: file },
         });
 
-        const { data } = res?.data;
-        toast.success("File deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('File deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
-        setUploadedAvatar("");
-        setUploadedAvatarName("");
+        setUploadedAvatar('');
+        setUploadedAvatarName('');
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -885,40 +879,40 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await deleteFileRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: API.upload,
           data: { key: file },
         });
 
-        const { data } = res?.data;
-        toast.success("File deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('File deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
-        setUploadedCacDocument("");
-        setUploadedCacDocumentName("");
+        setUploadedCacDocument('');
+        setUploadedCacDocumentName('');
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -932,40 +926,40 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await deleteFileRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: API.upload,
           data: { key: file },
         });
 
-        const { data } = res?.data;
-        toast.success("File deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('File deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
-        setUploadedCacDocument2("");
-        setUploadedCacDocumentName2("");
+        setUploadedCacDocument2('');
+        setUploadedCacDocumentName2('');
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -979,40 +973,40 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await deleteFileRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: API.upload,
           data: { key: file },
         });
 
-        const { data } = res?.data;
-        toast.success("File deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('File deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
-        setUploadedTaxDocument("");
-        setUploadedTaxDocumentName("");
+        setUploadedTaxDocument('');
+        setUploadedTaxDocumentName('');
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -1026,40 +1020,40 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await deleteFileRequest({
-          method: "DELETE",
+          method: 'DELETE',
           url: API.upload,
           data: { key: file },
         });
 
-        const { data } = res?.data;
-        toast.success("File deleted successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('File deleted successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
-        setUploadedBusinessDocument("");
-        setUploadedBusinessDocumentName("");
+        setUploadedBusinessDocument('');
+        setUploadedBusinessDocumentName('');
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -1070,34 +1064,34 @@ export default function Settings() {
 
   const documents = [
     {
-      header: "CAC Documents",
+      header: 'CAC Documents',
       title:
-        "Certificate of incorporation, Memorandum & Article of Association",
+        'Certificate of incorporation, Memorandum & Article of Association',
       action: () => setCacDocumentModal(true),
     },
     {
-      header: "Tax Documents",
-      title: "Tax identification",
+      header: 'Tax Documents',
+      title: 'Tax identification',
       action: () => setTaxDocumentModal(true),
     },
     {
-      header: "Pension Documents",
-      title: "Pension registration",
+      header: 'Pension Documents',
+      title: 'Pension registration',
       action: () => {},
     },
     {
-      header: "NHIS Documents",
-      title: "Health insurance",
+      header: 'NHIS Documents',
+      title: 'Health insurance',
       action: () => {},
     },
     {
-      header: "Business Proof of Address",
-      title: "Utility bills or lease agreement",
+      header: 'Business Proof of Address',
+      title: 'Utility bills or lease agreement',
       action: () => setBusinessProofDocumentModal(true),
     },
     {
-      header: "NSITF Documents",
-      title: "Nigerian Social Insurance Trust Fund",
+      header: 'NSITF Documents',
+      title: 'Nigerian Social Insurance Trust Fund',
       action: () => {},
     },
   ];
@@ -1114,7 +1108,7 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await makeCompanyRequest({
-          method: "PATCH",
+          method: 'PATCH',
           url: API.updateCompany,
           data: companySettingsPayload,
         });
@@ -1127,29 +1121,29 @@ export default function Settings() {
         };
         dispatch(profileUpdateAction({ business: combinedData }));
 
-        enqueueSnackbar("Company updated successfully!", {
-          variant: "rope_snackbar",
+        enqueueSnackbar('Company updated successfully!', {
+          variant: 'rope_snackbar',
           autoHideDuration: 5000,
         });
-        setSelectedColor("#000000");
-        setUploadedLogo("");
+        setSelectedColor('#000000');
+        setUploadedLogo('');
         setSelectedThumbImage(null);
-        setDomainName("");
+        setDomainName('');
       },
       (error: any) => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -1174,31 +1168,31 @@ export default function Settings() {
     catchAsync(
       async () => {
         const res = await makeDocumentRequest({
-          method: "POST",
+          method: 'POST',
           url: API.documents,
           data: payload,
         });
 
-        const { data } = res?.data;
-        toast.success("Documents Uploaded successfully.", {
-          position: "top-right",
+        const { data } = res?.data || {};
+        toast.success('Documents Uploaded successfully.', {
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "colored",
+          theme: 'colored',
           transition: Bounce,
         });
-        setUploadedCacDocument("");
-        setUploadedCacDocumentName("");
-        setUploadedCacDocument2("");
-        setUploadedCacDocumentName2("");
-        setUploadedTaxDocument("");
-        setUploadedTaxDocumentName("");
-        setUploadedBusinessDocument("");
-        setUploadedBusinessDocumentName("");
+        setUploadedCacDocument('');
+        setUploadedCacDocumentName('');
+        setUploadedCacDocument2('');
+        setUploadedCacDocumentName2('');
+        setUploadedTaxDocument('');
+        setUploadedTaxDocumentName('');
+        setUploadedBusinessDocument('');
+        setUploadedBusinessDocumentName('');
         setCacDocumentModal(false);
         setTaxDocumentModal(false);
         setBusinessProofDocumentModal(false);
@@ -1207,16 +1201,16 @@ export default function Settings() {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -1242,10 +1236,10 @@ export default function Settings() {
             <div
               className={`py-2 px-3 cursor-pointer transform transition duration-500 ease-in-out`}
               style={{
-                backgroundColor: activeTab === tab.key ? "#F0F2F5" : "#FBFBFC",
-                color: activeTab === tab.key ? "#0F1625" : "#687588",
+                backgroundColor: activeTab === tab.key ? '#F0F2F5' : '#FBFBFC',
+                color: activeTab === tab.key ? '#0F1625' : '#687588',
                 borderRadius: tab.borderRadius,
-                fontWeight: activeTab === tab.key ? "500" : "500",
+                fontWeight: activeTab === tab.key ? '500' : '500',
                 // border:
                 //   activeTab === tab.key
                 //     ? "0.5px solid #E4E8EC"
@@ -1259,7 +1253,7 @@ export default function Settings() {
       </div>
 
       {/* Tab Content */}
-      {activeTab === "profile" && (
+      {activeTab === 'profile' && (
         <>
           <div className="mt-5">
             <h1 className="text-[18px] font-[700] text-[#0F1625]">
@@ -1376,7 +1370,7 @@ export default function Settings() {
                 type="button"
                 className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
               >
-                {isLoadingProfile ? "Please wait..." : "Save changes"}
+                {isLoadingProfile ? 'Please wait...' : 'Save changes'}
               </button>
             </div>
           </div>
@@ -1384,7 +1378,7 @@ export default function Settings() {
       )}
 
       {/* Companies */}
-      {activeTab === "company" && (
+      {activeTab === 'company' && (
         <>
           <div className="mt-5">
             <h1 className="text-[18px] font-[700] text-[#0F1625]">
@@ -1418,7 +1412,9 @@ export default function Settings() {
                   </div>
                 ) : (
                   <div className="rounded-full w-[80px] h-[80px] shadow bg-white flex justify-center items-center">
-                    <p className="text-[24px] font-[700] text-[#A0AEC0]">Logo</p>
+                    <p className="text-[24px] font-[700] text-[#A0AEC0]">
+                      Logo
+                    </p>
                   </div>
                 )}
                 <div>
@@ -1591,8 +1587,8 @@ export default function Settings() {
                     onClick={() => handleThumbnailClick(item.image)}
                     className={`w-full rounded-[10px] cursor-pointer ${
                       selectedThumbImage === item.image
-                        ? "border-2 border-[#FF543E]"
-                        : "border border-transparent"
+                        ? 'border-2 border-[#FF543E]'
+                        : 'border border-transparent'
                     }`}
                   >
                     <img
@@ -1619,7 +1615,7 @@ export default function Settings() {
                 type="button"
                 className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
               >
-                {isLoadingCompany ? "Please wait..." : "Save changes"}
+                {isLoadingCompany ? 'Please wait...' : 'Save changes'}
               </button>
             </div>
           </div>
@@ -1982,7 +1978,7 @@ export default function Settings() {
                     <div
                       {...getRootProps()}
                       className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
-                        isDragActive ? "bg-gray-100" : ""
+                        isDragActive ? 'bg-gray-100' : ''
                       }`}
                     >
                       <input {...getInputProps()} />
@@ -2010,7 +2006,7 @@ export default function Settings() {
                     <div
                       {...getRootProps()}
                       className={`w-full rounded-[8px] border border-[#D0D6DD] flex justify-center items-center gap-2 py-[10px] cursor-pointer ${
-                        isDragActive ? "bg-gray-100" : ""
+                        isDragActive ? 'bg-gray-100' : ''
                       }`}
                     >
                       <input {...getInputProps()} />
@@ -2075,14 +2071,14 @@ export default function Settings() {
               type="button"
               className="text-white bg-[#0f1625] py-[10px] px-[16px] rounded-[8px] text-base font-medium leading-none"
             >
-              {isLoadingCompany ? "Please wait..." : "Save changes"}
+              {isLoadingCompany ? 'Please wait...' : 'Save changes'}
             </button>
           </div>
         </>
       )}
 
       {/* Documents Tab Content*/}
-      {activeTab === "documents" && (
+      {activeTab === 'documents' && (
         <div>
           <div className="mt-5">
             <h1 className="text-[18px] font-[700] text-[#0F1625]">
