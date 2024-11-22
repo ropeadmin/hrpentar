@@ -15,7 +15,7 @@ import CreateEmployeeStepper from '@/app/components/Stepper/CreateEmployeeSteppe
 import MyTextField from '@/app/components/Fields/MyTextField';
 import { Box, Chip, IconButton, MenuItem } from '@mui/material';
 import Image from 'next/image';
-import { AlertTriangle, ChevronDown, Plus } from 'lucide-react';
+import { AlertTriangle, ChevronDown, Loader2, Plus } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import useUploadsService from '@/services/uploads.service';
 import { FormData } from '@/types/employee.type';
@@ -47,6 +47,7 @@ import {
 } from '@/lib/employeeData';
 import { useAddEmployeeMutation } from '@/store/features/employee/employeeService';
 import { toast } from 'react-toastify';
+import { Button } from '@/components/ui/button';
 
 const AddEmployee = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -159,7 +160,7 @@ const AddEmployee = () => {
     },
     assets: [],
   });
-  const [addEmployee, { isLoading: isLoadingEmployee }] =
+  const [addEmployee, { isLoading: isCreateEmployeeLoading }] =
     useAddEmployeeMutation();
 
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
@@ -465,7 +466,6 @@ const AddEmployee = () => {
       gender,
       maritalStatus,
       religion,
-      countryOfResidence,
       address,
     } = formData;
     const personalData = {
@@ -519,7 +519,6 @@ const AddEmployee = () => {
       gender,
       maritalStatus,
       religion,
-      countryOfResidence,
       address,
       jobDetails,
     } = formData;
@@ -560,11 +559,13 @@ const AddEmployee = () => {
     try {
       await addEmployee(finalSubmit)
         .unwrap()
-        .then(() => {
-          toast.success('Employee created successfully');
+        .then((res) => {
+          res?.status === 'SUCCESS' &&
+            toast.success('Employee created successfully');
         });
-    } catch (error) {
-      toast.error('Error creating employee');
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.data?.data?.message || 'Error creating employee');
     }
   };
 
@@ -2034,14 +2035,17 @@ const AddEmployee = () => {
                       Calculate Salary
                     </button>
                   ) : (
-                    <button
+                    <Button
                       type="submit"
                       className="text-white bg-[#0f1625] py-[10px] px-[14px] rounded-[8px] text-base font-medium leading-none"
                     >
+                      {isCreateEmployeeLoading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
                       {currentStep === 6
                         ? 'Create Employee'
                         : 'Save & Continue'}
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>
