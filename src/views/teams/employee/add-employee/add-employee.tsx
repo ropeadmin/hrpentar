@@ -522,6 +522,7 @@ const AddEmployee = () => {
       address,
       jobDetails,
     } = formData;
+
     const finalSubmit = {
       firstName,
       lastName,

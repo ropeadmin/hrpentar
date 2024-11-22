@@ -1,15 +1,14 @@
-'use client'
+'use client';
 
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog';
 import CreateDepartment from './create-department/create-department';
 import { DepartmentType } from '@/types/dept.type';
 import { DataTable } from './department-table/data-table';
@@ -17,82 +16,81 @@ import { columns } from './department-table/columns';
 
 const data: DepartmentType[] = [
   {
-    _id: "m5gr84i9",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: 'm5gr84i9',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
   {
-    _id: "3u1reuv4",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: '3u1reuv4',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
   {
-    _id: "derv1ws0",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: 'derv1ws0',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
   {
-    _id: "5kma53ae",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: '5kma53ae',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
   {
-    _id: "bhqecj4p",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: 'bhqecj4p',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
   {
-    _id: "derv1ws0",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: 'derv1ws0',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
   {
-    _id: "5kma53ae",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: '5kma53ae',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
   {
-    _id: "bhqecj4p",
-    name: "Finance",
-    head_of_dept: "Paul Umar",
+    _id: 'bhqecj4p',
+    name: 'Finance',
+    head_of_dept: 'Paul Umar',
     members_count: 5,
     teams_count: 36,
-    status: "active",
+    status: 'active',
   },
-]
- 
+];
 
 const Departments = () => {
   return (
     <Dialog>
-      <div className='flex items-center justify-between mb-6 mt-8'>
+      <div className="flex items-center justify-between mb-6 mt-8">
         {/* Header Component */}
         <div className="relative">
           <input
             type="text"
             id=""
-            value={""}
+            value={''}
             onChange={undefined}
             className="text-n500 text-sm font-medium leading-none rounded-lg bg-white border border-n300 outline-none w-[350px] pl-10 pr-4 py-[10px]"
             placeholder="Search departments..."
@@ -123,7 +121,7 @@ const Departments = () => {
         </div>
         {/* butttons */}
         <DialogTrigger>
-          <Button className=' rounded-lg'>
+          <Button className=" rounded-lg">
             <Plus className="mr-2 h-5 w-5" /> Create department
           </Button>
         </DialogTrigger>
@@ -137,9 +135,9 @@ const Departments = () => {
       </DialogContent>
 
       {/*  */}
-      <DataTable columns={columns} data={data}/>
+      <DataTable columns={columns} data={data} />
     </Dialog>
-  )
-}
+  );
+};
 
-export default Departments
+export default Departments;
