@@ -519,7 +519,6 @@ const AddEmployee = () => {
       gender,
       maritalStatus,
       religion,
-      countryOfResidence,
       address,
       jobDetails,
     } = formData;
@@ -560,11 +559,13 @@ const AddEmployee = () => {
     try {
       await addEmployee(finalSubmit)
         .unwrap()
-        .then(() => {
-          toast.success('Employee created successfully');
+        .then((res) => {
+          res?.status === 'SUCCESS' &&
+            toast.success('Employee created successfully');
         });
-    } catch (error) {
-      toast.error('Error creating employee');
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.data?.data?.message || 'Error creating employee');
     }
   };
 

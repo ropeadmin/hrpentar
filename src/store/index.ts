@@ -6,6 +6,7 @@ import { authApi } from './features/auth/authService';
 import authReducer from './features/auth/authSlice';
 import { formBuilderApi } from './features/form-builder/formBuilderService';
 import { templateApi } from './features/template/templateService';
+import { employeeApi } from './features/employee/employeeService';
 
 export const store = configureStore({
   reducer: {
@@ -14,13 +15,14 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [formBuilderApi.reducerPath]: formBuilderApi.reducer,
     [templateApi.reducerPath]: templateApi.reducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
     authSlice: authReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const authApiMiddleware = authApi.middleware;
     const formBuilderApiMiddleware = formBuilderApi.middleware;
     const templateApiMiddleware = templateApi.middleware;
-    // const dashboardApiMiddleware = dashboardApi.middleware;
+    const employeeApiMiddleware = employeeApi.middleware;
     // const employeeApiMiddleware = employeeApi.middleware;
     // const departmentApiMiddleware = departmentApi.middleware;
     // const transactionApiMiddleware = transactionApi.middleware;
@@ -32,14 +34,14 @@ export const store = configureStore({
       .concat(authApiMiddleware)
       .concat(formBuilderApiMiddleware)
       .concat(templateApiMiddleware)
-      // .concat(transactionApiMiddleware)
-      // .concat(employeeApiMiddleware)
-      // .concat(departmentApiMiddleware)
-      // .concat(payrollApiMiddleware)
-      // .concat(miscellaneousApiMiddleware)
-      // .concat(settingApiMiddleware)
-      // .concat(uploadApiMiddleware)
-      // .concat(dummyMiscellaneousApiMiddleware);
+      .concat(employeeApiMiddleware);
+    // .concat(employeeApiMiddleware)
+    // .concat(departmentApiMiddleware)
+    // .concat(payrollApiMiddleware)
+    // .concat(miscellaneousApiMiddleware)
+    // .concat(settingApiMiddleware)
+    // .concat(uploadApiMiddleware)
+    // .concat(dummyMiscellaneousApiMiddleware);
   },
 });
 
