@@ -1,17 +1,20 @@
-"use client";
-import OnboardComponent from "./component/onboardcomponent";
-import Image from "next/image";
-import * as Progress from "@radix-ui/react-progress";
+'use client';
+
+import OnboardComponent from './component/onboardcomponent';
+import Image from 'next/image';
+import * as Progress from '@radix-ui/react-progress';
+import { useAppSelector } from '@/hooks/useRedux';
 
 export default function Onboarding() {
   const progressValue = 33;
+  const profile = useAppSelector((state) => state.profile);
 
   return (
     <>
       <div className="mt-7">
         <div className="flex items-center gap-2">
           <h1 className="text-[#0f1625] text-[28px]  font-bold font-['Cabinet Grotesk'] leading-loose">
-            Welcome, Olayemi
+            Welcome, {profile?.account?.firstName}
           </h1>
           <Image src="/icons/party.svg" alt="" width={24} height={24} />
         </div>
@@ -43,7 +46,12 @@ export default function Onboarding() {
             <div className="w-[100px] bg-[#f8f8f8] rounded-full h-[4px] overflow-hidden">
               <Progress.Root className="h-[4px]" value={progressValue}>
                 <Progress.Indicator
-                  className="bg-[#0BA259] w-full h-full" style={{ transition: "transform 660ms cubic-bezier(0.65, 0, 0.35, 1)", transform: `translateX(-${100 - progressValue}%)` }}
+                  className="bg-[#0BA259] w-full h-full"
+                  style={{
+                    transition:
+                      'transform 660ms cubic-bezier(0.65, 0, 0.35, 1)',
+                    transform: `translateX(-${100 - progressValue}%)`,
+                  }}
                 />
               </Progress.Root>
             </div>
@@ -57,30 +65,35 @@ export default function Onboarding() {
             infoIcon="/icons/one.svg"
             infoTitle="Personal Details"
             infoSubtitle="Fill in your basic information and contact details"
+            stepIndex={1}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/two.svg"
             infoTitle="Contact details"
             infoSubtitle="Provide your contacts in case of emergency."
+            stepIndex={2}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/three.svg"
             infoTitle="Payment details"
             infoSubtitle="Input your preferred bank information and options."
+            stepIndex={3}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/four.svg"
             infoTitle="Documents"
             infoSubtitle="Upload required documents needed to complete your registration."
+            stepIndex={4}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/five.svg"
             infoTitle="Assets"
             infoSubtitle="Collect your employee requirements and packages."
+            stepIndex={5}
           />
         </div>
       </div>

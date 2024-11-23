@@ -1,6 +1,5 @@
 'use client';
 
-// import Layout from "../../../component/employeelayout";
 import { ChangeEvent, FC, useState } from 'react';
 // import Image from "next/image";
 import API from '@/constants/api.constant';
@@ -92,66 +91,56 @@ const ContactDetails: FC = () => {
   };
 
   return (
-    <div className="max-w-[1200px] relative h-full">
+    <div className="max-w-[1200px] relative h-100vh">
       <div className="mt-7">
         <div>
           <h1 className="text-[#0f1625] text-[28px] font-bold font-['Cabinet Grotesk'] leading-loose">
-            Payment details
+            Contact details
           </h1>
         </div>
         <div>
           <span className="text-[#323B49] text-base font-normal font-['Cabinet Grotesk'] leading-tight">
-            This information will be used as your salary account, please make
-            sure to fill the correct details.
+            This information is needed in case of emergency, please make sure to
+            fill the correct details.
           </span>
         </div>
       </div>
       <div>
-        {/* ACCOUNT DETAILS */}
+        {/* PERSONAL DETAILS */}
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>
               <div className="mt-8">
                 <h1 className="text-[#0f1625] text-[18px] font-semibold font-['Cabinet Grotesk'] leading-loose">
-                  Payment details
+                  Emergency contact
                 </h1>
               </div>
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-2 gap-4">
                 <MyTextField
-                  id="account_number"
-                  name="account_number"
-                  label="Account number"
-                  placeholder="Enter account number"
+                  id="first_name"
+                  name="first_name"
+                  label="First name"
+                  placeholder="Enter first name"
                   type="text"
                   onChange={handleChange}
                 />
                 <MyTextField
-                  id="account_name"
-                  name="account_name"
-                  label="Account name"
-                  placeholder="Enter account name"
+                  id="last_name"
+                  name="last_name"
+                  label="Last name"
+                  placeholder="Enter last name"
                   type="text"
                   onChange={handleChange}
                 />
                 <MyTextField
-                  id="bank_name"
-                  name="bank_name"
-                  label="Bank name"
-                  placeholder="Enter bank name"
+                  id="phone_number"
+                  name="phone_number"
+                  label="Phone number"
+                  placeholder="Enter phone number"
                   type="text"
                   onChange={handleChange}
-                />
-                <SelectGroup
-                  id="payment_method"
-                  name="payment_method"
-                  label="Payment Method"
-                  placeholder="Select payment methods"
-                  options={[
-                    { value: 'bank', label: 'Bank Transfer' },
-                    { value: 'crypto', label: 'Crypto' },
-                  ]}
                 />
               </div>
             </AccordionContent>
@@ -161,67 +150,50 @@ const ContactDetails: FC = () => {
             <AccordionTrigger>
               <div className="">
                 <h1 className="text-[#0f1625] text-[18px] font-semibold font-['Cabinet Grotesk'] leading-loose">
-                  Tax & Pension details
+                  Next of Kin
                 </h1>
               </div>
             </AccordionTrigger>
             <AccordionContent>
               <div className="grid grid-cols-2 gap-4">
                 <MyTextField
-                  id="pendion_number"
-                  name="pension_number"
-                  label="Pension number"
-                  placeholder="Enter pension number"
+                  id="first_name"
+                  name="first_name"
+                  label="First name"
+                  placeholder="Enter first name"
                   type="text"
                   onChange={handleChange}
                 />
                 <MyTextField
-                  id="tax_id"
-                  name="pax_id"
-                  label="Tax ID number"
-                  placeholder="Enter Tax ID name"
+                  id="last_name"
+                  name="last_name"
+                  label="Last name"
+                  placeholder="Enter last name"
+                  type="text"
+                  onChange={handleChange}
+                />
+                <MyTextField
+                  id="phone_number"
+                  name="phone_number"
+                  label="Phone number"
+                  placeholder="Enter phone number"
                   type="text"
                   onChange={handleChange}
                 />
                 <SelectGroup
-                  id="pension_provider"
-                  name="pension_provider"
-                  label="Pendion provider"
-                  placeholder="Select pension provider"
+                  id="marital_status"
+                  name="marital_status"
+                  label="Marital Status"
+                  placeholder="Select marital status"
                   options={[
-                    { value: 'mansard', label: 'Mansard' },
-                    { value: 'stanbic', label: 'Stanbic IBTC' },
+                    { value: 'married', label: 'Married' },
+                    { value: 'divorced', label: 'Divorced' },
                   ]}
                 />
               </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </div>
-      <div className="absolute bottom-0 right-0 w-[290px] flex items-center justify-end gap-4 p-4">
-        <div>
-          <button className="rounded-[8px] border text-[#1F2937] py-4 border-[#D0D6DD99] bg-transparent w-[105px] text-center">
-            Cancel
-          </button>
-        </div>
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              handleSubmit();
-            }}
-            className={`${
-              !isFormValid()
-                ? 'bg-[#f0f2f5] text-[#a0aec0]'
-                : 'bg-[#0f1625] text-white'
-            } transition-all w-[169px] duration-150 py-[16px] px-5 rounded-[8px] text-base font-medium ${
-              isLoading || !isFormValid() ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            disabled={!isFormValid() || isLoading}
-          >
-            {isLoading ? 'Please wait...' : 'Save & Continue'}
-          </button>
-        </div>
       </div>
     </div>
   );

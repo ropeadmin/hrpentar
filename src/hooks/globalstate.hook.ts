@@ -1,9 +1,7 @@
 import { useAppSelector } from '@/store';
 import { profileLogoutAction, ProfileState } from '@/store/profile.slice';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
-
 
 interface IGlobalState {
   profile: ProfileState;
@@ -14,13 +12,16 @@ interface IGlobalState {
 const useGlobalState = (): IGlobalState => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { enqueueSnackbar } = useSnackbar();
-  const profile = useAppSelector((state: { profile: any; }) => state.profile) as ProfileState;
+  const profile = useAppSelector(
+    (state: { profile: any }) => state.profile
+  ) as ProfileState;
   const isAuthenticated = !!profile?.accessToken;
 
   const logout = () => {
-    profile?.account?.role === "EMPLOYEE" ? router.push('/employee/signin') : router.push('/auth/signin');
-    
+    profile?.account?.role === 'EMPLOYEE'
+      ? router.push('/employee/signin')
+      : router.push('/auth/signin');
+
     dispatch(profileLogoutAction());
   };
 

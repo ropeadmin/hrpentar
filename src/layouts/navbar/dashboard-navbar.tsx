@@ -1,17 +1,16 @@
-"use client";
-import React, { useState } from "react";
-import { getSubPathName } from "@/utils";
-import useGlobalState from "@/hooks/globalstate.hook";
-import useAppTheme from "@/hooks/theme.hook";
-import { useRouter } from "next/navigation";
-import { ButtonBase } from "@mui/material";
-import { getInitials } from "@/helpers";
-import { FadeIn } from "../../app/components/Transitions/Transitions";
+'use client';
+import { useState } from 'react';
+import Image from 'next/image';
+import useGlobalState from '@/hooks/globalstate.hook';
+import useAppTheme from '@/hooks/theme.hook';
+import { useRouter } from 'next/navigation';
+import { ButtonBase } from '@mui/material';
+import { getInitials } from '@/helpers';
+import { FadeIn } from '../../app/components/Transitions/Transitions';
 
 export default function DashboardNavbar() {
   const router = useRouter();
-  const subpath = getSubPathName();
-  const { profile, logout, isAuthenticated } = useGlobalState();
+  const { profile, logout } = useGlobalState();
   const { isMobile } = useAppTheme();
   const [nav, setNav] = useState(false);
   const [notification, setNotification] = useState([]);
@@ -20,51 +19,51 @@ export default function DashboardNavbar() {
   const links = [
     {
       id: 1,
-      link: "Home",
-      href: "/dashboard",
+      link: 'Home',
+      href: '/dashboard',
     },
     {
       id: 2,
-      link: "View store",
-      href: "/dashboard/store",
+      link: 'View store',
+      href: '/dashboard/store',
     },
     {
       id: 3,
-      link: "Transactions",
-      href: "/dashboard/transaction",
+      link: 'Transactions',
+      href: '/dashboard/transaction',
     },
     {
       id: 4,
-      link: "Order history",
-      href: "/dashboard/order-history",
+      link: 'Order history',
+      href: '/dashboard/order-history',
     },
     {
       id: 5,
-      link: "Notifications",
-      href: "/dashboard/notification",
+      link: 'Notifications',
+      href: '/dashboard/notification',
     },
     {
       id: 5,
-      link: "Settings",
-      href: "/dashboard/settings",
+      link: 'Settings',
+      href: '/dashboard/settings',
     },
   ];
 
   const profileDropdown = [
     {
-      icon: "/icons/my-profile.svg",
-      title: "My profile",
-      path: "",
+      icon: '/icons/my-profile.svg',
+      title: 'My profile',
+      path: '',
     },
     {
-      icon: "/icons/switch-user.svg",
-      title: "Switch user",
-      path: "",
+      icon: '/icons/switch-user.svg',
+      title: 'Switch user',
+      path: '',
     },
   ];
 
-  const firstName = profile?.account?.firstName || "----";
-  const lastName = profile?.account?.lastName || "----";
+  const firstName = profile?.account?.firstName || '----';
+  const lastName = profile?.account?.lastName || '----';
   const initials = getInitials(firstName, lastName);
 
   return (
@@ -79,7 +78,7 @@ export default function DashboardNavbar() {
                 <input
                   type="text"
                   id=""
-                  value={""}
+                  value={''}
                   onChange={undefined}
                   className="text-[#687588] text-[14px] font-[500] leading-none rounded-[8px] bg-[#F9FAFB] border border-[#F0F2F5] outline-none w-[350px] pl-10 pr-4 py-[10px]"
                   placeholder="Search people, teams, business..."
@@ -111,14 +110,14 @@ export default function DashboardNavbar() {
 
               <ButtonBase
                 sx={{
-                  borderRadius: "8px",
-                  "&:active": {
-                    backgroundColor: "#FEF0F0", // Change to your desired color
+                  borderRadius: '8px',
+                  '&:active': {
+                    backgroundColor: '#FEF0F0', // Change to your desired color
                   },
                 }}
               >
                 <div className="w-[40px] h-[40px] rounded-[8px] bg-[#F9FAFB] flex justify-center items-center">
-                  <img
+                  <Image
                     src="/icons/bell.svg"
                     alt="Notification-bell"
                     className="relative"
@@ -126,8 +125,9 @@ export default function DashboardNavbar() {
                     height={20}
                   />
                   {notification.length > 0 && (
-                    <img
+                    <Image
                       src="/icons/red-dot.svg"
+                      alt="red dot"
                       className="absolute right-[10px] top-2"
                       width={10}
                       height={10}
@@ -146,21 +146,24 @@ export default function DashboardNavbar() {
                 >
                   <div className="flex gap-2 items-center">
                     <div className="w-[45px] h-[45px] rounded-full">
-                      <img
+                      <Image
                         className="h-full w-full rounded-full object-cover object-center"
                         src={
-                          profile?.account?.avatar || profile?.account?.photo ||
-                          `https://ui-avatars.com/api/?name=${profile?.firstName}+${profile?.lastName}&rounded=true&size=128`
+                          profile?.account?.avatar ||
+                          profile?.account?.photo ||
+                          `https://ui-avatars.com/api/?name=${firstName}+${lastName}&rounded=true&size=128`
                         }
                         alt=""
+                        width={45}
+                        height={45}
                       />
                     </div>
                     <div>
                       <h1 className="text-[16px] font-[700] text-[#1F2937]">
-                        {firstName + " " + lastName}
+                        {firstName + ' ' + lastName}
                       </h1>
                       <p className="text-[12px] font-[500] text-[#687588] leading-none">
-                        {profile?.account?.role || "-----"}
+                        {profile?.account?.role || '-----'}
                       </p>
                     </div>
                   </div>
@@ -186,7 +189,7 @@ export default function DashboardNavbar() {
                           key={i}
                           className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#F9FAFB] transition-all ease-in-out duration-300"
                         >
-                          <img src={icon} alt="" width={17} />
+                          <Image src={icon} alt="" width={17} height={17} />
                           <p className="text-[#323B49] text-[16px] font-[500] leading-none">
                             {title}
                           </p>
@@ -196,7 +199,12 @@ export default function DashboardNavbar() {
                         className="w-full px-2 py-3 rounded-[8px] flex gap-3 items-center cursor-pointer hover:bg-[#ff414109] transition-all ease-in-out duration-300"
                         onClick={logout}
                       >
-                        <img src="/icons/logout.svg" alt="" width={17} />
+                        <Image
+                          src="/icons/logout.svg"
+                          alt=""
+                          width={17}
+                          height={17}
+                        />
                         <p className="text-[#EF0000] text-[16px] font-[500] leading-none">
                           Logout
                         </p>

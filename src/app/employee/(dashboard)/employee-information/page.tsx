@@ -2,19 +2,19 @@
 
 import { FC, JSX, useState } from 'react';
 // import Layout from "../../component/employeelayout";
-import Stepper from '@/components/custom-navigation/Stepper/Stepp';
-import PersonalDetails from '../onboarding/employee-information/personal-details/page';
-import ContactDetails from '../onboarding/employee-information/component/contact-details';
-import PaymentDetails from '../onboarding/employee-information/component/payment-details';
-import Forms from '../onboarding/employee-information/component/forms';
-import Assets from '../onboarding/employee-information/component/assets';
+// import Stepper from '@/components/custom-navigation/Stepper/Stepp';
+import PersonalDetails from '../onboarding/[profile]/component/personal-details';
+import ContactDetails from '../onboarding/[profile]/component/contact-details';
+import PaymentDetails from '../onboarding/[profile]/component/payment-details';
+import forms from '../onboarding/[profile]/component/forms';
+import Assets from '../onboarding/[profile]/component/assets';
 
 const StepperPage: FC = () => {
   const steps = [
     PersonalDetails as () => JSX.Element,
     ContactDetails as () => JSX.Element,
     PaymentDetails as () => JSX.Element,
-    Forms as () => JSX.Element,
+    forms as () => JSX.Element,
     Assets as () => JSX.Element,
   ];
 
