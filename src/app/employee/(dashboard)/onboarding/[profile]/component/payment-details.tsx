@@ -16,7 +16,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-const ContactDetails: FC = () => {
+const PaymentDetails: React.FC = () => {
   const [personalDetailsForm, setPersonalDetailsForm] = useState({
     first_name: '',
     last_name: '',
@@ -227,4 +227,4 @@ const ContactDetails: FC = () => {
   );
 };
 
-export default ContactDetails;
+export default PaymentDetails;

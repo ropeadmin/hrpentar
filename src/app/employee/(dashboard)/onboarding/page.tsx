@@ -57,30 +57,35 @@ export default function Onboarding() {
             infoIcon="/icons/one.svg"
             infoTitle="Personal Details"
             infoSubtitle="Fill in your basic information and contact details"
+            stepIndex={1}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/two.svg"
             infoTitle="Contact details"
             infoSubtitle="Provide your contacts in case of emergency."
+            stepIndex={2}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/three.svg"
             infoTitle="Payment details"
             infoSubtitle="Input your preferred bank information and options."
+            stepIndex={3}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/four.svg"
             infoTitle="Documents"
             infoSubtitle="Upload required documents needed to complete your registration."
+            stepIndex={4}
           />
           <hr className="mt-6" />
           <OnboardComponent
             infoIcon="/icons/five.svg"
             infoTitle="Assets"
             infoSubtitle="Collect your employee requirements and packages."
+            stepIndex={5}
           />
         </div>
       </div>
