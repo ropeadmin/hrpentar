@@ -139,7 +139,7 @@ body {
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #ef0000;
+    background: #dadce0;
   }
 }
 

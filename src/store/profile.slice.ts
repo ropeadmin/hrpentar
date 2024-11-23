@@ -30,6 +30,13 @@ export interface ProfileState {
   username?: string;
   accessToken?: string;
   refreshToken?: string;
+  account: {
+    role: 'EMPLOYEE' | 'ADMIN';
+    firstName: string;
+    lastName: string;
+    avatar: string;
+    photo: string;
+  };
   subscription?: any;
   createdAt?: string;
   [key: string]: any;
@@ -41,12 +48,8 @@ interface IProfileLoginAction {
   [key: string]: any;
 }
 
-const initialState: any = {
-  ...((getItem(profileStorageKey) || {}) as any),
-};
-
-const initialUserState: any = {
-  ...((getItem(userStorageKey) || {}) as any),
+const initialState = {
+  ...((getItem(profileStorageKey) || {}) as ProfileState),
 };
 
 export const profileSlice = createSlice({
@@ -57,10 +60,9 @@ export const profileSlice = createSlice({
       saveItem(profileStorageKey, { ...state, ...action.payload });
       return { ...state, ...action.payload };
     },
-    profileLogoutAction: (state) => {
+    profileLogoutAction: () => {
       deleteItem(profileStorageKey);
-      // location.reload();
-      return {};
+      return;
     },
     profileUpdateAction: (state, action) => {
       saveItem(profileStorageKey, { ...state, ...action.payload });
@@ -74,6 +76,11 @@ export const profileSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { profileLoginAction, profileLogoutAction, profileUpdateAction, profileUserAction } = profileSlice.actions;
+export const {
+  profileLoginAction,
+  profileLogoutAction,
+  profileUpdateAction,
+  profileUserAction,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;
