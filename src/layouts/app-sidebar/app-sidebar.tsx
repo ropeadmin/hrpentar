@@ -31,6 +31,8 @@ export function AppSidebar() {
   const { company } = useCompanyState();
   const profile = useAppSelector((state) => state.profile);
 
+  const isAdmin = profile?.account?.role !== 'EMPLOYEE' ? true : false;
+
   const sidebarList =
     profile?.account?.role === 'EMPLOYEE'
       ? employeeSidebarItems
@@ -46,46 +48,64 @@ export function AppSidebar() {
           <Image src="/pentaHR.svg" alt="logo" width={100} height={100} />
         </Link>
 
-        <div className="bg-[#182434] w-full rounded-[10px]  px-[10px] py-2 flex justify-between items-center mt-5">
-          <div className="flex items-center">
-            <Image
-              src="/icons/logomark.svg"
-              alt="company-logo"
-              width={36}
-              height={36}
-            />
-            <div className="">
-              <h1 className="font-[500] text-[13px] text-white">
-                {company?.data?.businessName}
-              </h1>
-              <p className="text-[11px] font-[400] text-white">
-                {company?.data?.address.city}
-              </p>
+        {isAdmin ? (
+          <div className="bg-[#182434] w-full rounded-[10px]  px-[10px] py-2 flex justify-between items-center mt-5">
+            <div className="flex items-center">
+              <Image
+                src="/icons/logomark.svg"
+                alt="company-logo"
+                width={36}
+                height={36}
+              />
+              <div className="">
+                <h1 className="font-[500] text-[13px] text-white">
+                  {company?.data?.businessName}
+                </h1>
+                <p className="text-[11px] font-[400] text-white">
+                  {company?.data?.address.city}
+                </p>
+              </div>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="14"
+              viewBox="0 0 12 14"
+              fill="none"
+            >
+              <path
+                d="M1 8.66675L5.35982 12.2999C5.66592 12.555 5.81897 12.6826 6 12.6826C6.18102 12.6826 6.33408 12.555 6.64018 12.2999L11 8.66675"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M1 5.3335L5.35982 1.70032C5.66592 1.44523 5.81897 1.31768 6 1.31768C6.18102 1.31768 6.33408 1.44523 6.64018 1.70032L11 5.3335"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        ) : (
+          <div className="w-full py-2 flex justify-between items-center mt-5">
+            <div className="flex items-center space-x-2">
+              <Image
+                src="/icons/logomark.svg"
+                alt="company-logo"
+                width={36}
+                height={36}
+              />
+              <div className="">
+                <h1 className="font-[500] text-[13px] text-white">
+                  MacTay Consulting
+                </h1>
+              </div>
             </div>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="14"
-            viewBox="0 0 12 14"
-            fill="none"
-          >
-            <path
-              d="M1 8.66675L5.35982 12.2999C5.66592 12.555 5.81897 12.6826 6 12.6826C6.18102 12.6826 6.33408 12.555 6.64018 12.2999L11 8.66675"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M1 5.3335L5.35982 1.70032C5.66592 1.44523 5.81897 1.31768 6 1.31768C6.18102 1.31768 6.33408 1.44523 6.64018 1.70032L11 5.3335"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
+        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu className="pb-3 pt-2 space-y-1">

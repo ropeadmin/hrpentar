@@ -16,7 +16,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-const PaymentDetails: React.FC = () => {
+const PaymentDetails: FC = () => {
   const [personalDetailsForm, setPersonalDetailsForm] = useState({
     first_name: '',
     last_name: '',

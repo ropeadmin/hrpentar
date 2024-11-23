@@ -1,32 +1,32 @@
-"use client";
+'use client';
 
 // import Layout from "../../../component/employeelayout";
-import { useState } from "react";
+import { ChangeEvent, FC, useState } from 'react';
 // import Image from "next/image";
-import API from "@/constants/api.constant";
-import useRequest from "@/services/request.service";
-import { catchAsync } from "@/helpers/api.helper";
-import MyTextField from "@/app/components/Fields/MyTextField";
-import SelectGroup from "@/app/components/Fields/SelectGroup";
-import { useSnackbar } from "notistack";
+import API from '@/constants/api.constant';
+import useRequest from '@/services/request.service';
+import { catchAsync } from '@/helpers/api.helper';
+import MyTextField from '@/app/components/Fields/MyTextField';
+import SelectGroup from '@/app/components/Fields/SelectGroup';
+import { useSnackbar } from 'notistack';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
-const PaymentDetails: React.FC = () => {
+const PaymentDetails: FC = () => {
   const [personalDetailsForm, setPersonalDetailsForm] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
+    first_name: '',
+    last_name: '',
+    email: '',
   });
   const { makeRequest, isLoading } = useRequest();
   const { enqueueSnackbar } = useSnackbar();
 
   // Function to handle input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPersonalDetailsForm({
       ...personalDetailsForm,
@@ -46,12 +46,12 @@ const PaymentDetails: React.FC = () => {
   const handleSubmit = async () => {
     // Check if all properties in personalDetailsForm are filled
     const isFormValid = Object.values(personalDetailsForm).every(
-      (value) => value.trim() !== ""
+      (value) => value.trim() !== ''
     );
 
     if (!isFormValid) {
-      enqueueSnackbar("Please fill all fields!", {
-        variant: "rope_snackbar",
+      enqueueSnackbar('Please fill all fields!', {
+        variant: 'rope_snackbar',
         autoHideDuration: 5000,
         error: true,
       });
@@ -61,7 +61,7 @@ const PaymentDetails: React.FC = () => {
     await catchAsync(
       async () => {
         const res = await makeRequest({
-          method: "POST",
+          method: 'POST',
           url: API.register,
           data: personalDetailsForm,
         });
@@ -73,16 +73,16 @@ const PaymentDetails: React.FC = () => {
         const response = error?.response;
         if (response) {
           enqueueSnackbar(
-            response?.data?.data?.message || "An error occurred during sign up",
+            response?.data?.data?.message || 'An error occurred during sign up',
             {
-              variant: "rope_snackbar",
+              variant: 'rope_snackbar',
               autoHideDuration: 5000,
               error: true,
             }
           );
         } else {
-          enqueueSnackbar("A network error occurred!", {
-            variant: "rope_snackbar",
+          enqueueSnackbar('A network error occurred!', {
+            variant: 'rope_snackbar',
             autoHideDuration: 5000,
             error: true,
           });
@@ -149,8 +149,8 @@ const PaymentDetails: React.FC = () => {
                   label="Payment Method"
                   placeholder="Select payment methods"
                   options={[
-                    { value: "bank", label: "Bank Transfer" },
-                    { value: "crypto", label: "Crypto" },
+                    { value: 'bank', label: 'Bank Transfer' },
+                    { value: 'crypto', label: 'Crypto' },
                   ]}
                 />
               </div>
@@ -189,8 +189,8 @@ const PaymentDetails: React.FC = () => {
                   label="Pendion provider"
                   placeholder="Select pension provider"
                   options={[
-                    { value: "mansard", label: "Mansard" },
-                    { value: "stanbic", label: "Stanbic IBTC" },
+                    { value: 'mansard', label: 'Mansard' },
+                    { value: 'stanbic', label: 'Stanbic IBTC' },
                   ]}
                 />
               </div>

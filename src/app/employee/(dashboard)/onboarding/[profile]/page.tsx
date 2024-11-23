@@ -1,6 +1,6 @@
 'use client';
 
-import React, { JSX, useState } from 'react';
+import { FC, JSX, useState } from 'react';
 // import Layout from "../../layout";
 import Stepper from '@/components/custom-navigation/Stepper/Stepp';
 import PersonalDetails from './personal-details/page';
@@ -9,7 +9,7 @@ import PaymentDetails from './payment-details/page';
 import Forms from './component/forms';
 import Assets from './component/assets';
 
-const StepperPage: React.FC = () => {
+const StepperPage: FC = () => {
   const steps = [
     PersonalDetails as () => JSX.Element,
     ContactDetails as () => JSX.Element,

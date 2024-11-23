@@ -34,6 +34,7 @@ export interface ProfileState {
     role: 'EMPLOYEE' | 'ADMIN';
     firstName: string;
     lastName: string;
+    email: string;
     avatar: string;
     photo: string;
   };

@@ -1,6 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { FC } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface OnboardComponentProps {
   infoIcon: any;
@@ -9,7 +9,12 @@ interface OnboardComponentProps {
   stepIndex: number;
 }
 
-const OnboardComponent: React.FC<OnboardComponentProps> = ({ infoIcon, infoTitle, infoSubtitle, stepIndex }) => {
+const OnboardComponent: FC<OnboardComponentProps> = ({
+  infoIcon,
+  infoTitle,
+  infoSubtitle,
+  stepIndex,
+}) => {
   return (
     <div className="mt-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -23,7 +28,10 @@ const OnboardComponent: React.FC<OnboardComponentProps> = ({ infoIcon, infoTitle
           </div>
         </div>
       </div>
-      <Link className="text-[#1F2937] pt-2 pb-2 pr-3.5 pl-3.5 border-[0.5px] border-[#D0D6DD] rounded-[8px]" href={`/employee/onboarding/${stepIndex}`}>
+      <Link
+        className="text-[#1F2937] pt-2 pb-2 pr-3.5 pl-3.5 border-[0.5px] border-[#D0D6DD] rounded-[8px]"
+        href={`/employee/onboarding/${stepIndex}`}
+      >
         View
       </Link>
     </div>
@@ -31,4 +39,3 @@ const OnboardComponent: React.FC<OnboardComponentProps> = ({ infoIcon, infoTitle
 };
 
 export default OnboardComponent;
-

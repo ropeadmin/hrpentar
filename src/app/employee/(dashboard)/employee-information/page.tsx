@@ -2,7 +2,7 @@
 
 import { FC, JSX, useState } from 'react';
 // import Layout from "../../component/employeelayout";
-import Stepper from '@/components/custom-navigation/Stepper/Stepp';
+// import Stepper from '@/components/custom-navigation/Stepper/Stepp';
 import PersonalDetails from '../onboarding/[profile]/component/personal-details';
 import ContactDetails from '../onboarding/[profile]/component/contact-details';
 import PaymentDetails from '../onboarding/[profile]/component/payment-details';
